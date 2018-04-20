@@ -1,0 +1,48 @@
+
+\begin{centering}
+
+$ $
+
+\vspace{2.0 cm}
+
+\LARGE
+
+{\bf Convolutional Neural Nets with Template-Based Data Augmentation for Functional Lung Imaging 
+Segmentation}
+
+\vspace{2.0 cm}
+
+\normalsize
+
+Nicholas J. Tustison$^1$,
+Zixuan Lin$^1$,
+Talissa A. Altes$^2$,
+Jaime F. Mata$^1$,
+John P. Mugler III$^1$, and
+Kun Qing$^1$
+
+
+
+\vspace{0.25 cm}
+
+\small
+
+$^1$Department of Radiology and Medical Imaging, University of Virginia, Charlottesville, VA
+
+$^2$Department of Radiology, University of Missouri, Columbia, MO
+
+\end{centering}
+
+\vspace{4.2 cm}
+
+\small
+
+Corresponding author: \
+Nicholas J. Tustison \
+ntustison@virginia.edu
+
+\noindent\rule{4cm}{0.4pt}
+
+\newpage
+
+\normalsize
