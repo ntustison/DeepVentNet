@@ -1,1 +1,1 @@
-# VentilationSegmentationComparison
+# DeepVentNet
