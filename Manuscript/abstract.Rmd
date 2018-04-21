@@ -1,4 +1,34 @@
 
+
+__Rationale and Objectives:__  We propose an automated segmentation pipeline
+based on deep learning for ventilation-based quantification which improves on 
+previous methods in terms of robustness and computational efficiency.  The 
+large data requirements for the proposed framework is made possible by a novel 
+template-based data augmentation strategy.
+
+__Materials and Methods:__ Convolutional neural net (i.e., U-net) models were 
+generated using a custom multilabel Dice metric loss function and a novel 
+template-based data augmentation strategy.  Development occurred within 
+_ANTsRNet_---a growing repository of well-known deep learning architectures first
+introduced here.  Training (including template generation
+and data augmentation) employed $500$ images.  Evaluation was performed on the
+remaining 1?? images through comparison with a previously reported 
+automated segmentation algorithm based on Gaussian mixture modelling with Markov
+Random field (MRF) spatial priors.
+
+__Results:__
+
+
+__Conclusions:__ The proposed deep learning framework yielded comparable results as 
+the MRF-based algorithm.  Such an approach reduces computational time without 
+sacrificing accuracy.  
+
+__Key Words:__  Advanced Normalization Tools, ANTsRNet, hyperpolarized gas imaging, 
+neural networks, U-net
+
+
+<!--
+
 __Abstract__
 
 Probing lung function under a variety of conditions and/or pathologies
@@ -23,6 +53,8 @@ of _ANTsRNet_---a growing repository of well-known deep learning architectures
 which interfaces with the Advanced Normalization Tools package and the R 
 statistical project.
 
-_Keywords:_  Advanced Normalization Tools, ANTsRNet, hyperpolarized gas imaging, Markov random fields, neural networks, U-net
+-->
+
+
 
 \clearpage
