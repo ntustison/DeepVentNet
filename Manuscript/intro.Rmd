@@ -1,3 +1,24 @@
 
 # Introduction
 
+Probing lung function under a variety of conditions and/or pathologies
+has been significantly facilitated by the use of hyperpolarized gas
+imaging and corresponding quantitative image analysis methodologies. 
+Such computational techniques permit automated (or semi-automated) 
+quantification of spatial ventilation with increased reproducibility,
+resolution, and robustness over traditional spirometry or radiological
+readings.  Although multiple well-performing algorithms have been proposed
+in the literature and are currently used in clinical research, recent
+developments in maching learning (specifically deep learning) has 
+generated new possibilities for quantification with improved capabilities
+in terms of robustness and computational efficiency.  However, the benefits
+of these approaches are realized at a cost of large data requirements.
+In this work, we develop and evaluate a ventilation-based segmentation
+framework for hyperpolarized gas magnetic resonance imaging.  To satisfy
+the large data requirements of such a framework, we propose a novel
+template-based data augmentation strategy for generating simulated data 
+consistent with the population cohort.  To enhance relevance to the 
+research community, we showcase this work in conjunction with the introduction 
+of _ANTsRNet_---a growing repository of well-known deep learning architectures 
+which interfaces with the Advanced Normalization Tools package and the R 
+statistical project.
