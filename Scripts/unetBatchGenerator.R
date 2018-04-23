@@ -120,8 +120,6 @@ unetImageBatchGenerator <- R6::R6Class( "UnetImageBatchGenerator",
         batchReferenceImages <- self$referenceImageList[batchIndices$reference]
         batchReferenceTransforms <- self$referenceTransformList[batchIndices$reference]
 
-        referenceX <- antsImageRead( batchReferenceImages[[1]], dimension = 3 )
-        imageSize <- dim( referenceX )
         channelSize <- length( batchImages[[1]] )
 
         if( !is.null( paddedSize ) )
@@ -147,6 +145,27 @@ unetImageBatchGenerator <- R6::R6Class( "UnetImageBatchGenerator",
             referenceXfrm$invtransforms[2], sourceXfrm$fwdtransforms[1],
             sourceXfrm$fwdtransforms[2] )
 
+          sourceY <- antsImageRead( batchSegmentations[[i]], dimension = 3 )
+
+          warpedImageY <- antsApplyTransforms( referenceX, sourceY, 
+            interpolator = "nearestNeighbor", transformlist = transforms,
+            whichtoinvert = boolInvert  )
+
+          warpedArrayY <- as.array( warpedImageY )
+
+          paddingSize <- imageSize - dim( warpedArrayY )
+          for( d in 1:length( paddingSize ) )
+            {
+            if( paddingSize[d] > 0 )  
+              {
+              paddingSizeDim <- dim( warpedArrayY )
+              paddingSizeDim[d] <- paddingSize[d]  
+              zerosArray <- array( 0, dim = c( paddingSizeDim ) )  
+              warpedArrayY <- abind( warpedArrayY, zerosArray, along = d )
+              }
+            }
+          batchY[i,,,] <- warpedArrayY
+
           for( j in seq_len( channelSize ) )
             {  
             sourceX <- antsImageRead( subjectBatchImages[j], dimension = 3 )
@@ -156,8 +175,8 @@ unetImageBatchGenerator <- R6::R6Class( "UnetImageBatchGenerator",
               whichtoinvert = boolInvert )          
 
             warpedArrayX <- as.array( warpedImageX )
-            warpedArrayX <- ( warpedArrayX - mean( as.vector( warpedArrayX ) ) ) / 
-              sd( as.vector( warpedArrayX ) )
+            warpedArrayX <- ( warpedArrayX - min( warpedArrayX ) ) / 
+              ( max( warpedArrayX ) - min( warpedArrayX ) )
 
             paddingSize <- imageSize - dim( warpedArrayX )
             for( d in 1:length( paddingSize ) )
@@ -170,18 +189,8 @@ unetImageBatchGenerator <- R6::R6Class( "UnetImageBatchGenerator",
                 warpedArrayX <- abind( warpedArrayX, zerosArray, along = d )
                 }
               }
-
             batchX[i,,,,j] <- warpedArrayX
             }
-          sourceY <- antsImageRead( batchSegmentations[[i]], dimension = 3 )
-
-          warpedImageY <- antsApplyTransforms( referenceX, sourceY, 
-            interpolator = "nearestNeighbor", transformlist = transforms,
-            whichtoinvert = boolInvert  )
-
-          warpedArrayY <- as.array( warpedImageY )
-
-          batchY[i,,,] <- warpedArrayY
           }
         segmentationLabels <- sort( unique( as.vector( batchY ) ) )
 

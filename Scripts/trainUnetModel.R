@@ -93,7 +93,7 @@ validationIndices <- sampleIndices[( validationSplit + 1 ):numberOfTrainingData]
 
 trainingData <- unetImageBatchGenerator$new( 
   imageList = trainingImageFiles[trainingIndices], 
-  segmentationList = trainingSegmentations[trainingIndices], 
+  segmentationList = trainingSegmentationFiles[trainingIndices], 
   transformList = trainingTransforms[trainingIndices], 
   referenceImageList = trainingImageFiles, 
   referenceTransformList = trainingTransforms
@@ -104,7 +104,7 @@ trainingDataGenerator <- trainingData$generate( batchSize = batchSize,
 
 validationData <- unetImageBatchGenerator$new( 
   imageList = trainingImageFiles[validationIndices], 
-  segmentationList = trainingSegmentations[validationIndices], 
+  segmentationList = trainingSegmentationFiles[validationIndices], 
   transformList = trainingTransforms[validationIndices],
   referenceImageList = trainingImageFiles, 
   referenceTransformList = trainingTransforms
