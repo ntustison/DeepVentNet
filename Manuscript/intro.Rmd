@@ -4,21 +4,62 @@
 Probing lung function under a variety of conditions and/or pathologies
 has been significantly facilitated by the use of hyperpolarized gas
 imaging and corresponding quantitative image analysis methodologies. 
-Such computational techniques permit automated (or semi-automated) 
-quantification of spatial ventilation with increased reproducibility,
-resolution, and robustness over traditional spirometry or radiological
-readings.  Although multiple well-performing algorithms have been proposed
-in the literature and are currently used in clinical research, recent
-developments in maching learning (specifically deep learning) has 
-generated new possibilities for quantification with improved capabilities
-in terms of robustness and computational efficiency.  However, the benefits
-of these approaches are realized at a cost of large data requirements.
-In this work, we develop and evaluate a ventilation-based segmentation
-framework for hyperpolarized gas magnetic resonance imaging.  To satisfy
-the large data requirements of such a framework, we propose a novel
-template-based data augmentation strategy for generating simulated data 
-consistent with the population cohort.  To enhance relevance to the 
-research community, we showcase this work in conjunction with the introduction 
-of _ANTsRNet_---a growing repository of well-known deep learning architectures 
-which interfaces with the Advanced Normalization Tools package and the R 
-statistical project.
+Such developments have provided direction and opportunity for current 
+and future research trends.  Computational techniques 
+targeting these imaging technologies permit 
+quantification of spatial ventilation with potential for increased reproducibility,
+resolution, and robustness over traditional spirometry and radiological
+readings [@Roos:2015aa;@Adamson:2017aa]. 
+
+One of the most frequently used image-based biomarkers for 
+the study of pulmonary development and disease is based on the quantification 
+of regions of limited ventilation, also known as _ventilation defects_.
+These features have been shown to be particularly salient, for example ventilation
+defect volume to total lung volume ratio has been shown to outperform other 
+image-based features in discriminating asthmatics vs. non-asthmatics [@Tustison:2010aa].
+This has motivated the development of multiple automated (and semi-automated) 
+segmentation algorithms which have been proposed in the literature
+[@Tustison:2011aa;@Kirby:2012aa;@He:2014aa;@Zha:2016aa;@Hughes:2018aa]
+and are currently used in a variety of clinical research investigations 
+(e.g., [@Trivedi:2017aa]).
+
+Despite the enormous methodological progress, recent developments in maching 
+learning (specifically "deep learning" 
+[@LeCun:2015aa]) have generated new possibilities for quantification 
+with improved capabilities in terms of accuracy, robustness, and 
+computational efficiency.
+Deep learning, a term connoting neural network architectures with 
+multiple hidden layers, has gained prominence in recent years due, in large
+part, to the annual ImageNet Large Scale Visual Recognition Challenge [@Russakovsky:2015aa].
+Specifically, one of the participants of the 2012 ImageNet challenge, a convolutional 
+neural network colloquially known as "AlexNet" [@AlexNet],
+significantly surpassed anything that had been proposed previously.
+The subsequent outgrowth of research has resulted in significant developments 
+in various image research areas including classification, segmentation,
+and object localization and has led to co-optation by the medical imaging 
+analysis community [@Litjens:2017aa].
+
+In this work, we develop and evaluate a convolutional neural network 
+segmentation framework, based on the U-net architecture [@Ronneberger:2015aa], 
+for functional lung imaging using hyperpolarized gas.  One of the drawbacks
+to deep learning approaches are the large data requirements for
+the training process oftentimes necessitating ad hoc strategies for 
+simulating additional data from available data---typically termed _data augmentation_.
+While common approaches to data augmentation [@Taylor:2017aa] might include the application
+of randomized simple geometric transformations (e.g., translation, rotation and shearing) 
+and/or intensity adjustments (e.g., brightness and contrast), we propose
+a much more sophisticated approach tailored to medical imaging scenarios.
+In the proposed approach, an optimal shape-based template is constructed 
+from a subset of the available data.   Subsequent pairwise image registration 
+between all training data and the resulting template permits a "pseudo-geodesic"
+propagation of each image to every other image converting a data set of size
+$N$ to an augmented data set of size $N^2$.
+
+To enhance relevance to the research community, we showcase this work in 
+conjunction with the introduction of _ANTsRNet_---a growing open-source 
+repository of well-known deep learning architectures which interfaces with the 
+Advanced Normalization Tools (ANTs) package [@antsr] and its interface with the R 
+statistical project (i.e., ANTsR) [@antsr].  ANTsRNet is developed using
+Keras---a high-level neural network API [@keras].  All code, data, and
+network models have been made publicly available.
+

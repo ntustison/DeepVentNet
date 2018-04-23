@@ -31,6 +31,7 @@ header-includes:
 bibliography:
   - references.bib
   - referencesBA.bib
+  - referencesDeepLearning.bib
   - referencesLung.bib
 csl: national-science-foundation-grant-proposals.csl
 fontsize: 12pt

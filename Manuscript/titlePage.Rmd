@@ -18,6 +18,8 @@ Nicholas J. Tustison$^1$,
 Zixuan Lin$^1$,
 Talissa A. Altes$^2$,
 Jaime F. Mata$^1$,
+Brian B. Avants$^3$,
+Nick Cullen$^4$,
 John P. Mugler III$^1$, and
 Kun Qing$^1$
 
@@ -30,6 +32,10 @@ Kun Qing$^1$
 $^1$Department of Radiology and Medical Imaging, University of Virginia, Charlottesville, VA
 
 $^2$Department of Radiology, University of Missouri, Columbia, MO
+
+$^3$Biogen, Cambridge, MA
+
+$^4$Department of ..., University of Pennsylvania, Philadelphia, PA
 
 \end{centering}
 
