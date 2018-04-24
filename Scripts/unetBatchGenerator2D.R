@@ -136,7 +136,7 @@ unetImageBatchGenerator2D <- R6::R6Class( "UnetImageBatchGenerator2D",
           {
           subjectBatchImages <- batchImages[[i]]  
 
-          referenceX <- antsImageRead( batchReferenceImages[[i]], dimension = 3 )
+          referenceX <- antsImageRead( batchReferenceImages[[i]][1], dimension = 3 )
           referenceXfrm <- batchReferenceTransforms[[i]]
           imageSize <- dim( referenceX )
 

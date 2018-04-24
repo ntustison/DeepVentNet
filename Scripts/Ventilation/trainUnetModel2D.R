@@ -14,22 +14,29 @@ source( paste0( baseDirectory, 'Scripts/unetBatchGenerator2D.R' ) )
 classes <- c( "background", "defect", "hypo", "normal", "hyper" )
 numberOfClassificationLabels <- length( classes )
 
-imageMods <- c( "Ventilation" )
+imageMods <- c( "Ventilation", "ForegroundMask" )
 channelSize <- length( imageMods )
 
 dataDirectory <- paste0( baseDirectory, 'data/' )
 trainingImageDirectory <- paste0( dataDirectory, 
   'Ventilation/Images_isotropic_train/' )
-trainingImageFiles <- list.files( path = trainingImageDirectory, 
+trainingVentilationFiles <- list.files( path = trainingImageDirectory, 
   pattern = "*Ventilation.nii.gz", full.names = TRUE )
 
+trainingImageFiles <- list()
 trainingSegmentationFiles <- list()
 trainingTransforms <- list()
 
-for( i in 1:length( trainingImageFiles ) )
+for( i in 1:length( trainingVentilationFiles ) )
   {
-  subjectId <- basename( trainingImageFiles[i] )
+  subjectId <- basename( trainingVentilationFiles[i] )
   subjectId <- sub( "Ventilation.nii.gz", '', subjectId )
+
+  trainingImageFiles[[i]] <- c(
+    trainingVentilationFiles[i],
+    paste0( dataDirectory, 'Ventilation/Masks_isotropic_train/', subjectId, 
+      "Mask.nii.gz" )
+    )
 
   trainingSegmentationFiles[[i]] <- paste0( dataDirectory,
     'Ventilation/Segmentations_isotropic_train/', subjectId, 
@@ -70,7 +77,7 @@ direction <- 3
 
 unetModel <- createUnetModel2D( c( paddedImageSize[-direction], channelSize ), 
   numberOfClassificationLabels = numberOfClassificationLabels, 
-  layers = 1:3 )
+  layers = 1:4 )
 
 unetModel %>% compile( loss = loss_multilabel_dice_coefficient_error,
   optimizer = optimizer_adam( lr = 0.0001 ),  
@@ -123,11 +130,11 @@ validationDataGenerator <- trainingData$generate( batchSize = batchSize,
 track <- unetModel$fit_generator( 
   generator = reticulate::py_iterator( trainingDataGenerator ), 
   steps_per_epoch = 50, #ceiling( 400 / batchSize ),
-  epochs = 40,
+  epochs = 100,
   validation_data = reticulate::py_iterator( validationDataGenerator ),
-  validation_steps = ceiling( 100 / batchSize ),
+  validation_steps = 20,
   callbacks = list( 
-    callback_model_checkpoint( paste0( dataDirectory, "Ventilation/unetModel2D.h5" ), 
+    callback_model_checkpoint( paste0( baseDirectory, "unetModel.h5" ), 
       monitor = 'val_loss', save_best_only = TRUE, save_weights_only = FALSE,
       verbose = 1, mode = 'auto', period = 1 )
     # callback_early_stopping( monitor = 'val_loss', min_delta = 0.001, 
