@@ -125,7 +125,7 @@ track <- unetModel$fit_generator(
   validation_data = reticulate::py_iterator( validationDataGenerator ),
   validation_steps = ceiling( 100 / batchSize ),
   callbacks = list( 
-    callback_model_checkpoint( paste0( baseDirectory, "unetModel.h5" ), 
+    callback_model_checkpoint( paste0( dataDirectory, "Ventilation/unetModel.h5" ), 
       monitor = 'val_loss', save_best_only = TRUE, save_weights_only = FALSE,
       verbose = 1, mode = 'auto', period = 1 )
     # callback_early_stopping( monitor = 'val_loss', min_delta = 0.001, 

@@ -9,19 +9,20 @@ baseDirectory <- '/Users/ntustison/Data/HeliumLungStudies/DeepVentNet/'
 
 source( paste0( modelDirectory, 'createUnetModel.R' ) )
 source( paste0( modelDirectory, 'unetUtilities.R' ) )
-source( paste0( baseDirectory, 'Scripts/unetBatchGenerator2D.R' ) )
+source( paste0( baseDirectory, 'Scripts/unetBatchGenerator.R' ) )
 
-classes <- c( "background", "defect", "hypo", "normal", "hyper" )
+classes <- c( "background", "leftLung", "rightLung" )
 numberOfClassificationLabels <- length( classes )
 
-imageMods <- c( "Ventilation" )
+imageMods <- c( "Proton" )
 channelSize <- length( imageMods )
 
 dataDirectory <- paste0( baseDirectory, 'data/' )
 trainingImageDirectory <- paste0( dataDirectory, 
-  'Ventilation/Images_isotropic_train/' )
+  'Proton/Images/' )
 trainingImageFiles <- list.files( path = trainingImageDirectory, 
-  pattern = "*Ventilation.nii.gz", full.names = TRUE )
+  pattern = "*N4Denoised.nii.gz", full.names = TRUE )
+templateDirectory <- paste0( dataDirectory, 'Proton/Template/' )
 
 trainingSegmentationFiles <- list()
 trainingTransforms <- list()
@@ -29,25 +30,26 @@ trainingTransforms <- list()
 for( i in 1:length( trainingImageFiles ) )
   {
   subjectId <- basename( trainingImageFiles[i] )
-  subjectId <- sub( "Ventilation.nii.gz", '', subjectId )
+  subjectId <- sub( "N4Denoised.nii.gz", '', subjectId )
 
   trainingSegmentationFiles[[i]] <- paste0( dataDirectory,
-    'Ventilation/Segmentations_isotropic_train/', subjectId, 
-    "Segmentation.nii.gz" )
+    'Proton/LungMasks/', subjectId, 
+    "LungMask.nii.gz" )
   if( !file.exists( trainingSegmentationFiles[[i]] ) )
     {
     stop( paste( "Segmentation file", trainingSegmentationFiles[[i]], 
       "does not exist.\n" ) )
     }
 
-  xfrmPrefix <- paste0( dataDirectory, 'Transforms/', subjectId, "Ventilation_" )
+  xfrmPrefix <- paste0( 'T_', subjectId, 'LungMask' )
+  transformFiles <- list.files( templateDirectory, pattern = xfrmPrefix, full.names = TRUE ) 
 
   fwdtransforms <- c()
-  fwdtransforms[1] <- paste0( xfrmPrefix, '1Warp.nii.gz' )
-  fwdtransforms[2] <- paste0( xfrmPrefix, '0GenericAffine.mat' )
+  fwdtransforms[1] <- transformFiles[3]
+  fwdtransforms[2] <- transformFiles[1]
   invtransforms <- c()
-  invtransforms[1] <- paste0( xfrmPrefix, '0GenericAffine.mat' )
-  invtransforms[2] <- paste0( xfrmPrefix, '1InverseWarp.nii.gz' )
+  invtransforms[1] <- transformFiles[1]
+  invtransforms[2] <- transformFiles[2]
 
   if( !file.exists( fwdtransforms[1] ) || !file.exists( fwdtransforms[2] ) ||
       !file.exists( invtransforms[1] ) || !file.exists( invtransforms[2] ) )
@@ -64,11 +66,9 @@ for( i in 1:length( trainingImageFiles ) )
 # Create the Unet model
 #
 
-paddedImageSize <- c( 128, 128, 128 )
+# paddedImageSize <- c( 128, 128, 128 )
 
-direction <- 3
-
-unetModel <- createUnetModel2D( c( paddedImageSize[-direction], channelSize ), 
+unetModel <- createUnetModel3D( c( paddedImageSize, channelSize ), 
   numberOfClassificationLabels = numberOfClassificationLabels, 
   layers = 1:3 )
 
@@ -91,29 +91,29 @@ sampleIndices <- sample( numberOfTrainingData )
 
 validationSplit <- floor( 0.9 * length( numberOfTrainingData ) )
 trainingIndices <- sampleIndices[1:validationSplit]
-validationIndices <- sampleIndices[( validationSplit + 1 ):batchSize]
+validationIndices <- sampleIndices[( validationSplit + 1 ):numberOfTrainingData]
 
-trainingData <- unetImageBatchGenerator2D$new( 
+trainingData <- unetImageBatchGenerator$new( 
   imageList = trainingImageFiles[trainingIndices], 
   segmentationList = trainingSegmentationFiles[trainingIndices], 
   transformList = trainingTransforms[trainingIndices], 
   referenceImageList = trainingImageFiles, 
-  referenceTransformList = trainingTransforms )
+  referenceTransformList = trainingTransforms
+  )
 
-trainingDataGenerator <- trainingData$generate( batchSize = batchSize,
-  direction = direction, sliceSamplingRate = 0.2,
-  paddedSize = paddedImageSize[-direction] )
+trainingDataGenerator <- trainingData$generate( batchSize = batchSize, 
+  paddedSize = paddedImageSize )
 
-validationData <- unetImageBatchGenerator2D$new( 
+validationData <- unetImageBatchGenerator$new( 
   imageList = trainingImageFiles[validationIndices], 
   segmentationList = trainingSegmentationFiles[validationIndices], 
-  transformList = trainingTransforms[validationIndices], 
+  transformList = trainingTransforms[validationIndices],
   referenceImageList = trainingImageFiles, 
-  referenceTransformList = trainingTransforms )
+  referenceTransformList = trainingTransforms
+  )
 
-validationDataGenerator <- trainingData$generate( batchSize = batchSize,
-  direction = direction, sliceSamplingRate = 0.2,
-  paddedSize = paddedImageSize[-direction] )
+validationDataGenerator <- validationData$generate( batchSize = batchSize,
+  paddedSize = paddedImageSize )
 
 ###
 #
@@ -122,12 +122,12 @@ validationDataGenerator <- trainingData$generate( batchSize = batchSize,
 
 track <- unetModel$fit_generator( 
   generator = reticulate::py_iterator( trainingDataGenerator ), 
-  steps_per_epoch = 50, #ceiling( 400 / batchSize ),
+  steps_per_epoch = ceiling( 400 / batchSize ),
   epochs = 40,
   validation_data = reticulate::py_iterator( validationDataGenerator ),
   validation_steps = ceiling( 100 / batchSize ),
   callbacks = list( 
-    callback_model_checkpoint( paste0( baseDirectory, "unetModel.h5" ), 
+    callback_model_checkpoint( paste0( dataDirectory, "Proton/unetModel.h5" ), 
       monitor = 'val_loss', save_best_only = TRUE, save_weights_only = FALSE,
       verbose = 1, mode = 'auto', period = 1 )
     # callback_early_stopping( monitor = 'val_loss', min_delta = 0.001, 
