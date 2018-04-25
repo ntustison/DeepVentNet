@@ -1,7 +1,44 @@
 
-# Materials and Methods
+# MATERIALS AND METHODS
 
+## _Image acquisition_
 
+<!--
+
+Imaging with hyperpolarized 3He was performed under an Institutional Review Board 
+(IRB)-approved protocol with written informed consent obtained from each subject. 
+In addition, all imaging was performed under an Food and Drug Administration 
+(FDA)-approved physician’s Investigational New Drug application (IND 57866) 
+for hyperpolarized 3He. MRI data were acquired on a 1.5 T whole-body MRI scanner 
+(Siemens Sonata, Siemens Medical Solutions, Malvern, PA) with broadband 
+capabilities and a flexible 3He chest radiofrequency coil (RF; IGC Medical 
+Advances, Milwaukee, WI; or Clinical MR Solutions, Brookfield, WI). During a 
+10–20-second breath-hold following the inhalation of %300 mL of hyperpolarized 
+3He mixed with %700 mL of nitrogen, a set of 19–28 contiguous axial sections 
+were collected. Parameters of the fast low angle shot sequence for 3He MRI 
+were as follows: repetition time msec / echo time msec, 7/3; flip angle
+10$^\circ$; matrix, 80  128; field of view, 26  42 cm; section thickness, 10 mm; 
+and intersection gap, none. The data were deidentified prior to analysis.
+
+-->
+
+MR imaging was performed using a 1.5T commercial scanner (Avanto, Siemens Medical 
+Solutions, Malvern PA).   A 3-D gradient-echo based MR pulse sequence was used to 
+acquire images covering the whole lung with isotropic resolution of 3.9 mm. 
+Other parameters include  TR= 1.80 ms, TE= 0.78 ms, flip angle= 9 degree, 
+bandwidth= 1090 Hz/Pixel. Total acquisition time varies between 5-8 seconds 
+depending on the size of the subjects. 
+
+## Preprocessing
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{./Figures/N4Denoised.pdf}
+\caption{Sample image showing the effects of preprocessing on the proton MRI. (a) 
+Uncorrected image showing MR field inhomogeneity and noise. (b) Corresponding corrected 
+image in which the bias and noise effects have been ameliorated.}
+\label{fig:n4denoised}
+\end{figure}
 
 ## Template-based data augmentation
 
@@ -93,6 +130,50 @@ purposes.  In addtion, we have made novel data augmentation strategies available
 and illustrated them with Keras-specific batch generators.    These contributions are outlined 
 below.  
 
+\begin{table}[!htb]
+\centering
+\caption{My caption}
+\label{table:antsrnet}
+\begin{tabular*}{0.9\textwidth}{ll@{\extracolsep{\fill}}l}
+\toprule
+\multicolumn{3}{c}{\textbf{ANTsRNet}}    \\        
+\midrule
+\multicolumn{3}{l}{\textbf{Image Segmentation}}   \\
+U-net \cite{Ronneberger:2015} &     (2-D, 3-D)       & skdfjsk               \\
+V-net \cite{Milletari:2016} &     (2-D, 3-D)       & skdfjsk               \\
+\midrule
+\multicolumn{3}{l}{\textbf{Image Classification}}   \\
+AlexNet \cite{Krizhevsky:2012} & (2-D, 3-D)            & skdfjsk               \\
+Vgg16/Vgg19 \cite{Simonyan:2014} & (2-D, 3-D)        & blah-blah               \\
+GoogLeNet \cite{Szegedy:2015} & (2-D only) & \\
+ResNet \cite{He:2015}  & (2-D, 3-D)            & skdfjsk               \\
+ResNeXt \cite{Xie:2016} & (2-D, 3-D)            & skdfjsk               \\
+DenseNet \cite{Huang:2016} & (2-D, 3-D) & \\
+\midrule
+\multicolumn{3}{l}{\textbf{Object Localization}}   \\
+SSD300/SSD512 \cite{Liu:2015} & (2-D, 3-D)      & skdfjsk               \\
+SSD7  & (2-D, 3-D)             & blah-blah               \\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+
+-------------------------------------------------------------
+                    __ANTsRNet__
+-------------------------------------------------------------
+__Image Segmentation__
+
+------------------------------ -------------- ---------------
+U-net [@Ronneberger:2015]      (2-D, 3-D)     blah-blah
+
+V-net [@Milletari:2016]        (2-D, 3-D)     blah-blah
+-------------------------------------------------------------
+
+Table: Here's the caption. It, too, may span
+multiple lines.
+
+<!--
+ 
 __Image classification__
 
 * __AlexNet.__  Although convolutional neural networks (CNNs) have been around since the 
@@ -148,7 +229,4 @@ utilities for translating between ANTs images and data representations necessary
 Examples include a left/right lung segmentation example which includes a demonstration of our 
 unique template-based data augmentation strategy (see below).
 
-
-\clearpage
-
-# References
+-->
