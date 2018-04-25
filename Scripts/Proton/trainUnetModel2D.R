@@ -21,7 +21,7 @@ dataDirectory <- paste0( baseDirectory, 'data/' )
 trainingImageDirectory <- paste0( dataDirectory, 
   'Proton/Images/' )
 trainingImageFiles <- list.files( path = trainingImageDirectory, 
-  pattern = "*N4Denoised.nii.gz", full.names = TRUE )
+  pattern = "*Proton_N4Denoised.nii.gz", full.names = TRUE )
 templateDirectory <- paste0( dataDirectory, 'Proton/Template/' )
 
 trainingSegmentationFiles <- list()
@@ -30,7 +30,7 @@ trainingTransforms <- list()
 for( i in 1:length( trainingImageFiles ) )
   {
   subjectId <- basename( trainingImageFiles[i] )
-  subjectId <- sub( "N4Denoised.nii.gz", '', subjectId )
+  subjectId <- sub( "Proton_N4Denoised.nii.gz", '', subjectId )
 
   trainingSegmentationFiles[[i]] <- paste0( dataDirectory,
     'Proton/LungMasks/', subjectId, 
@@ -41,7 +41,7 @@ for( i in 1:length( trainingImageFiles ) )
       "does not exist.\n" ) )
     }
 
-  xfrmPrefix <- paste0( 'T_', subjectId, 'LungMask' )
+  xfrmPrefix <- paste0( 'T_', subjectId )
   transformFiles <- list.files( templateDirectory, pattern = xfrmPrefix, full.names = TRUE ) 
 
   fwdtransforms <- c()
