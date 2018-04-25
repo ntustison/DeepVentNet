@@ -70,7 +70,13 @@ for( i in 1:length( protonImageFiles ) )
     probabilityArray <- array( data = 0, dim = imageSize )
     for( k in seq_len( numberOfSlices ) )  
       {
-      probabilityArray[k,,] <- as.array( probabilitySlices[[i]][[j]] )
+      probabilitySlice <- probabilitySlices[[i]][[j]]  
+      if( any( originalSliceSize != resampledSliceSize ) ) )
+        {
+        probabilitySlice <- resampleImage( probabilitySlice, 
+          originalSliceSize, useVoxels = TRUE, interpType = 1 )
+        }
+      probabilityArray[k,,] <- as.array( probabilitySlice )
       }
     probabilityImage <- as.antsImage( probabilityArray, reference = image )  
 
