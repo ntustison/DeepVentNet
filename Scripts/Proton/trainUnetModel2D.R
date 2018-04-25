@@ -17,30 +17,32 @@ numberOfClassificationLabels <- length( classes )
 imageMods <- c( "Proton" )
 channelSize <- length( imageMods )
 
-dataDirectory <- paste0( baseDirectory, 'data/' )
-trainingImageDirectory <- paste0( dataDirectory, 
-  'Proton/Images/' )
-trainingImageFiles <- list.files( path = trainingImageDirectory, 
+dataDirectory <- paste0( baseDirectory, 'Data/' )
+protonImageDirectory <- paste0( dataDirectory, 
+  'Proton/Training/Images/' )
+protonImageFiles <- list.files( path = protonImageDirectory, 
   pattern = "*Proton_N4Denoised.nii.gz", full.names = TRUE )
 templateDirectory <- paste0( dataDirectory, 'Proton/Template/' )
 
+trainingImageFiles <- list()
 trainingSegmentationFiles <- list()
 trainingTransforms <- list()
 
 count <- 1
-for( i in 1:length( trainingImageFiles ) )
+for( i in 1:length( protonImageFiles ) )
   {
-  subjectId <- basename( trainingImageFiles[i] )
+  subjectId <- basename( protonImageFiles[i] )
   subjectId <- sub( "Proton_N4Denoised.nii.gz", '', subjectId )
 
-  if( as.integer( subjectId ) >= 1033 || as.integer( subjectId ) <= 1084 )
+  if( as.integer( subjectId ) >= 1033 && as.integer( subjectId ) <= 1084 )
     {
     # These are coronal images
     next;  
     }
 
+  trainingImageFiles[[count]] <- protonImageFiles[i]
   trainingSegmentationFiles[[count]] <- paste0( dataDirectory,
-    'Proton/LungMasks/', subjectId, 
+    'Proton/Training/LungMasks/', subjectId, 
     "LungMask.nii.gz" )
   if( !file.exists( trainingSegmentationFiles[[count]] ) )
     {

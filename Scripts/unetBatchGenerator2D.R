@@ -168,8 +168,14 @@ unetImageBatchGenerator2D <- R6::R6Class( "UnetImageBatchGenerator2D",
             {
             sliceWarpedImageY <- extractSlice( warpedImageY, 
               slicesToExtract[k], direction )
-            sliceWarpedArrayY <- as.array( resampleImage( sliceWarpedImageY, 
-              resampledSliceSize, useVoxels = TRUE, interpType = 1 ) )
+            
+            if( any( dim( sliceWarpedImageY ) != resampledSliceSize ) )
+              {
+              sliceWarpedArrayY <- as.array( resampleImage( sliceWarpedImageY, 
+                resampledSliceSize, useVoxels = TRUE, interpType = 1 ) )
+              } else {
+              sliceWarpedArrayY <- as.array( sliceWarpedImageY )
+              }
 
             if( sum( sliceWarpedArrayY ) == 0 ) 
               {
@@ -183,8 +189,14 @@ unetImageBatchGenerator2D <- R6::R6Class( "UnetImageBatchGenerator2D",
               {  
               sliceWarpedImageX <- extractSlice( warpedImagesX[[j]], 
                 slicesToExtract[k], direction )
-              sliceWarpedArrayX <- as.array( resampleImage( sliceWarpedImageX, 
-                resampledSliceSize, useVoxels = TRUE, interpType = 0 ) )
+
+              if( any( dim( sliceWarpedImageY ) != resampledSliceSize ) )
+                {
+                sliceWarpedArrayX <- as.array( resampleImage( sliceWarpedImageX, 
+                  resampledSliceSize, useVoxels = TRUE, interpType = 0 ) )
+                } else {
+                sliceWarpedArrayX <- as.array( sliceWarpedImageX )
+                }  
 
               sliceWarpedArrayX <- ( sliceWarpedArrayX - min( sliceWarpedArrayX ) ) / 
                 ( max( sliceWarpedArrayX ) - min( sliceWarpedArrayX ) )
