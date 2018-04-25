@@ -17,31 +17,40 @@ numberOfClassificationLabels <- length( classes )
 imageMods <- c( "Proton" )
 channelSize <- length( imageMods )
 
-dataDirectory <- paste0( baseDirectory, 'data/' )
-trainingImageDirectory <- paste0( dataDirectory, 
-  'Proton/Images/' )
-trainingImageFiles <- list.files( path = trainingImageDirectory, 
-  pattern = "*N4Denoised.nii.gz", full.names = TRUE )
+dataDirectory <- paste0( baseDirectory, 'Data/' )
+protonImageDirectory <- paste0( dataDirectory, 
+  'Proton/Training/Images/' )
+protonImageFiles <- list.files( path = protonImageDirectory, 
+  pattern = "*Proton_N4Denoised.nii.gz", full.names = TRUE )
 templateDirectory <- paste0( dataDirectory, 'Proton/Template/' )
 
+trainingImageFiles <- list()
 trainingSegmentationFiles <- list()
 trainingTransforms <- list()
 
-for( i in 1:length( trainingImageFiles ) )
+count <- 1
+for( i in 1:length( protonImageFiles ) )
   {
-  subjectId <- basename( trainingImageFiles[i] )
-  subjectId <- sub( "N4Denoised.nii.gz", '', subjectId )
+  subjectId <- basename( protonImageFiles[i] )
+  subjectId <- sub( "Proton_N4Denoised.nii.gz", '', subjectId )
 
-  trainingSegmentationFiles[[i]] <- paste0( dataDirectory,
-    'Proton/LungMasks/', subjectId, 
-    "LungMask.nii.gz" )
-  if( !file.exists( trainingSegmentationFiles[[i]] ) )
+  if( as.integer( subjectId ) >= 1033 && as.integer( subjectId ) <= 1084 )
     {
-    stop( paste( "Segmentation file", trainingSegmentationFiles[[i]], 
+    # These are coronal images
+    next;  
+    }
+
+  trainingImageFiles[[count]] <- protonImageFiles[i]
+  trainingSegmentationFiles[[count]] <- paste0( dataDirectory,
+    'Proton/Training/LungMasks/', subjectId, 
+    "LungMask.nii.gz" )
+  if( !file.exists( trainingSegmentationFiles[[count]] ) )
+    {
+    stop( paste( "Segmentation file", trainingSegmentationFiles[[count]], 
       "does not exist.\n" ) )
     }
 
-  xfrmPrefix <- paste0( 'T_', subjectId, 'LungMask' )
+  xfrmPrefix <- paste0( 'T_', subjectId )
   transformFiles <- list.files( templateDirectory, pattern = xfrmPrefix, full.names = TRUE ) 
 
   fwdtransforms <- c()
@@ -57,8 +66,10 @@ for( i in 1:length( trainingImageFiles ) )
     stop( "Transform file does not exist.\n" )
     }
 
-  trainingTransforms[[i]] <- list( 
+  trainingTransforms[[count]] <- list( 
     fwdtransforms = fwdtransforms, invtransforms = invtransforms )
+
+  count <- count + 1  
   }
 
 ###
@@ -66,11 +77,11 @@ for( i in 1:length( trainingImageFiles ) )
 # Create the Unet model
 #
 
-paddedImageSize <- c( 256, 256, 256 )
+resampledImageSize <- c( 128, 128 )
 
 direction <- 3
 
-unetModel <- createUnetModel2D( c( paddedImageSize[-direction], channelSize ), 
+unetModel <- createUnetModel2D( c( resampledImageSize, channelSize ), 
   numberOfClassificationLabels = numberOfClassificationLabels, 
   layers = 1:4 )
 
@@ -91,7 +102,7 @@ batchSize <- 32L
 numberOfTrainingData <- length( trainingImageFiles )
 sampleIndices <- sample( numberOfTrainingData )
 
-validationSplit <- floor( 0.9 * length( numberOfTrainingData ) )
+validationSplit <- floor( 0.8 * length( numberOfTrainingData ) )
 trainingIndices <- sampleIndices[1:validationSplit]
 validationIndices <- sampleIndices[( validationSplit + 1 ):batchSize]
 
@@ -104,7 +115,7 @@ trainingData <- unetImageBatchGenerator2D$new(
 
 trainingDataGenerator <- trainingData$generate( batchSize = batchSize,
   direction = direction, sliceSamplingRate = 0.2,
-  paddedSize = paddedImageSize[-direction] )
+  resampledSliceSize = resampledImageSize )
 
 validationData <- unetImageBatchGenerator2D$new( 
   imageList = trainingImageFiles[validationIndices], 
@@ -115,7 +126,7 @@ validationData <- unetImageBatchGenerator2D$new(
 
 validationDataGenerator <- trainingData$generate( batchSize = batchSize,
   direction = direction, sliceSamplingRate = 0.2,
-  paddedSize = paddedImageSize[-direction] )
+  resampledSliceSize = resampledImageSize )
 
 ###
 #
