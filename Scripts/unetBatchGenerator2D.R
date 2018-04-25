@@ -66,7 +66,7 @@ unetImageBatchGenerator2D <- R6::R6Class( "UnetImageBatchGenerator2D",
 
       },
 
-    generate = function( batchSize = 32L, paddedSize = NULL, 
+    generate = function( batchSize = 32L, resampledSliceSize = c( 128, 128 ), 
       direction = 2, sliceSamplingRate = 0.2 )    
       {
       # shuffle the source data
@@ -122,12 +122,8 @@ unetImageBatchGenerator2D <- R6::R6Class( "UnetImageBatchGenerator2D",
 
         channelSize <- length( batchImages[[1]] )
 
-        if( !is.null( paddedSize ) )
-          {
-          imageSize2D <- paddedSize  
-          }
-        batchX <- array( data = 0, dim = c( batchSize, imageSize2D, channelSize ) )
-        batchY <- array( data = 0, dim = c( batchSize, imageSize2D ) )
+        batchX <- array( data = 0, dim = c( batchSize, resampledSliceSize, channelSize ) )
+        batchY <- array( data = 0, dim = c( batchSize, resampledSliceSize ) )
 
         currentPassCount <<- currentPassCount + batchSize
 
@@ -139,7 +135,7 @@ unetImageBatchGenerator2D <- R6::R6Class( "UnetImageBatchGenerator2D",
           referenceX <- antsImageRead( batchReferenceImages[[i]][1], dimension = 3 )
           referenceXfrm <- batchReferenceTransforms[[i]]
           imageSize <- dim( referenceX )
-
+         
           sourceXfrm <- batchTransforms[[i]]
 
           boolInvert <- c( TRUE, FALSE, FALSE, FALSE )
@@ -165,26 +161,19 @@ unetImageBatchGenerator2D <- R6::R6Class( "UnetImageBatchGenerator2D",
 
             warpedImagesX[[j]] <- antsApplyTransforms( referenceX, sourceX, 
               interpolator = "linear", transformlist = transforms,
-              whichtoinvert = boolInvert )          
+              whichtoinvert = boolInvert )
             }
 
           for( k in seq_len( numberOfExtractedSlices ) )
             {
-            sliceWarpedImageY <- 
-              extractSlice( warpedImageY, slicesToExtract[k], direction )
-            sliceWarpedArrayY <- as.array( sliceWarpedImageY )
+            sliceWarpedImageY <- extractSlice( warpedImageY, 
+              slicesToExtract[k], direction )
+            sliceWarpedArrayY <- as.array( resampleImage( sliceWarpedImageY, 
+              resampledSliceSize, useVoxels = TRUE, interpType = 1 ) )
 
-            paddingSize2D <- imageSize2D - imageSize[-direction]
-            for( d in 1:length( paddingSize2D ) )
+            if( sum( sliceWarpedArrayY ) == 0 ) 
               {
-              if( paddingSize2D[d] > 0 )  
-                {
-                paddingSizeDim <- dim( sliceWarpedArrayY )
-                paddingSizeDim[d] <- paddingSize2D[d]  
-                zerosArray <- array( 0, dim = c( paddingSizeDim ) )  
-                sliceWarpedArrayY <- abind( sliceWarpedArrayY, zerosArray, 
-                  along = d )
-                }
+              next  
               }
 
             # antsImageWrite( as.antsImage( sliceWarpedArrayY ), "~/Desktop/arrayY.nii.gz" )
@@ -192,24 +181,13 @@ unetImageBatchGenerator2D <- R6::R6Class( "UnetImageBatchGenerator2D",
 
             for( j in seq_len( channelSize ) )
               {  
-              sliceWarpedArrayX <- as.array( extractSlice( warpedImagesX[[j]], 
-                slicesToExtract[k], direction ) )
+              sliceWarpedImageX <- extractSlice( warpedImagesX[[j]], 
+                slicesToExtract[k], direction )
+              sliceWarpedArrayX <- as.array( resampleImage( sliceWarpedImageX, 
+                resampledSliceSize, useVoxels = TRUE, interpType = 0 ) )
 
               sliceWarpedArrayX <- ( sliceWarpedArrayX - min( sliceWarpedArrayX ) ) / 
                 ( max( sliceWarpedArrayX ) - min( sliceWarpedArrayX ) )
-
-              paddingSize2D <- imageSize2D - imageSize[-direction]
-              for( d in 1:length( paddingSize2D ) )
-                {
-                if( paddingSize2D[d] > 0 )  
-                  {
-                  paddingSizeDim <- dim( sliceWarpedArrayX )
-                  paddingSizeDim[d] <- paddingSize2D[d]  
-                  zerosArray <- array( 0, dim = c( paddingSizeDim ) )  
-                  sliceWarpedArrayX <- abind( sliceWarpedArrayX, zerosArray, 
-                    along = d )
-                  }
-                }
 
               # antsImageWrite( as.antsImage( sliceWarpedArrayX ), "~/Desktop/arrayX.nii.gz" )
               # readline( prompt = "Press [enter] to continue\n" )

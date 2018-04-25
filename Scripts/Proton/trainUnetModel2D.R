@@ -27,17 +27,24 @@ templateDirectory <- paste0( dataDirectory, 'Proton/Template/' )
 trainingSegmentationFiles <- list()
 trainingTransforms <- list()
 
+count <- 1
 for( i in 1:length( trainingImageFiles ) )
   {
   subjectId <- basename( trainingImageFiles[i] )
   subjectId <- sub( "Proton_N4Denoised.nii.gz", '', subjectId )
 
-  trainingSegmentationFiles[[i]] <- paste0( dataDirectory,
+  if( as.integer( subjectId ) >= 1033 || as.integer( subjectId ) <= 1084 )
+    {
+    # These are coronal images
+    next;  
+    }
+
+  trainingSegmentationFiles[[count]] <- paste0( dataDirectory,
     'Proton/LungMasks/', subjectId, 
     "LungMask.nii.gz" )
-  if( !file.exists( trainingSegmentationFiles[[i]] ) )
+  if( !file.exists( trainingSegmentationFiles[[count]] ) )
     {
-    stop( paste( "Segmentation file", trainingSegmentationFiles[[i]], 
+    stop( paste( "Segmentation file", trainingSegmentationFiles[[count]], 
       "does not exist.\n" ) )
     }
 
@@ -57,8 +64,10 @@ for( i in 1:length( trainingImageFiles ) )
     stop( "Transform file does not exist.\n" )
     }
 
-  trainingTransforms[[i]] <- list( 
+  trainingTransforms[[count]] <- list( 
     fwdtransforms = fwdtransforms, invtransforms = invtransforms )
+
+  count <- count + 1  
   }
 
 ###
@@ -66,11 +75,11 @@ for( i in 1:length( trainingImageFiles ) )
 # Create the Unet model
 #
 
-paddedImageSize <- c( 256, 256, 256 )
+resampledImageSize <- c( 128, 128 )
 
 direction <- 3
 
-unetModel <- createUnetModel2D( c( paddedImageSize[-direction], channelSize ), 
+unetModel <- createUnetModel2D( c( resampledImageSize, channelSize ), 
   numberOfClassificationLabels = numberOfClassificationLabels, 
   layers = 1:4 )
 
@@ -91,7 +100,7 @@ batchSize <- 32L
 numberOfTrainingData <- length( trainingImageFiles )
 sampleIndices <- sample( numberOfTrainingData )
 
-validationSplit <- floor( 0.9 * length( numberOfTrainingData ) )
+validationSplit <- floor( 0.8 * length( numberOfTrainingData ) )
 trainingIndices <- sampleIndices[1:validationSplit]
 validationIndices <- sampleIndices[( validationSplit + 1 ):batchSize]
 
@@ -104,7 +113,7 @@ trainingData <- unetImageBatchGenerator2D$new(
 
 trainingDataGenerator <- trainingData$generate( batchSize = batchSize,
   direction = direction, sliceSamplingRate = 0.2,
-  paddedSize = paddedImageSize[-direction] )
+  resampledSliceSize = resampledImageSize )
 
 validationData <- unetImageBatchGenerator2D$new( 
   imageList = trainingImageFiles[validationIndices], 
@@ -115,7 +124,7 @@ validationData <- unetImageBatchGenerator2D$new(
 
 validationDataGenerator <- trainingData$generate( batchSize = batchSize,
   direction = direction, sliceSamplingRate = 0.2,
-  paddedSize = paddedImageSize[-direction] )
+  resampledSliceSize = resampledImageSize )
 
 ###
 #
