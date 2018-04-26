@@ -4,7 +4,7 @@ output:
     fig_caption: true
     latex_engine: xelatex
     keep_tex: yes
-    number_sections: true
+    number_sections: false
   word_document:
     fig_caption: true
 classoption: table

@@ -18,8 +18,9 @@ Nicholas J. Tustison$^1$,
 Zixuan Lin$^1$,
 Brian B. Avants$^2$,
 Nick Cullen$^3$,
-Talissa A. Altes$^4$,
 Jaime F. Mata$^1$,
+James C. Gee$^3$,
+Talissa A. Altes$^4$,
 John P. Mugler III$^1$, and
 Kun Qing$^1$
 
@@ -33,13 +34,13 @@ $^1$Department of Radiology and Medical Imaging, University of Virginia, Charlot
 
 $^2$Biogen, Cambridge, MA
 
-$^3$Department of ..., University of Pennsylvania, Philadelphia, PA
+$^3$Department of Radiology University of Pennsylvania, Philadelphia, PA
 
 $^4$Department of Radiology, University of Missouri, Columbia, MO
 
 \end{centering}
 
-\vspace{4.2 cm}
+\vspace{4.5 cm}
 
 \small
 
@@ -47,7 +48,9 @@ Corresponding author: \
 Nicholas J. Tustison \
 ntustison@virginia.edu
 
+<!-- 
 \noindent\rule{4cm}{0.4pt}
+ -->
 
 \newpage
 
