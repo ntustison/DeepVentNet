@@ -6,6 +6,11 @@ keras::backend()$clear_session()
 antsrnetDirectory <- '/Users/ntustison/Pkg/ANTsRNet/'
 modelDirectory <- paste0( antsrnetDirectory, 'Models/' )
 baseDirectory <- '/Users/ntustison/Data/HeliumLungStudies/DeepVentNet/'
+dataDirectory <- paste0( baseDirectory, 'Data/' )
+protonImageDirectory <- paste0( dataDirectory, 
+  'Proton/Prediction/Images/' )
+evaluationDirectory <- paste0( dataDirectory, 
+  'Proton/Prediction/Evaluation/' )
 
 source( paste0( modelDirectory, 'createUnetModel.R' ) )
 source( paste0( modelDirectory, 'unetUtilities.R' ) )
@@ -18,21 +23,22 @@ channelSize <- length( imageMods )
 
 resampledSliceSize <- c( 128, 128 )
 direction <- 3
-unetModel <- load_model_hdf5( paste0( dataDirectory, "Proton/unetModel2D.h5" )
 
-dataDirectory <- paste0( baseDirectory, 'Data/' )
-protonImageDirectory <- paste0( dataDirectory, 
-  'Proton/Prediction/Images/' )
-evaluationDirectory <- paste0( dataDirectory, 
-  'Proton/Prediction/Evaluation/' )
-  
+unetModel <- createUnetModel2D( c( resampledImageSize, channelSize ), 
+  numberOfClassificationLabels = numberOfClassificationLabels, 
+  layers = 1:4 )
+load_model_weights_hdf5( unetModel, 
+  filepath = paste0( dataDirectory, 'Proton/unetModel2DWeights.h5' ) )
+unetModel %>% compile( loss = loss_multilabel_dice_coefficient_error,
+  optimizer = optimizer_adam( lr = 0.0001 ),  
+  metrics = c( multilabel_dice_coefficient ) )
+
 protonImageFiles <- list.files( path = protonImageDirectory, 
   pattern = "*Proton_N4Denoised.nii.gz", full.names = TRUE )
 
 predictionImageFiles <- list()
 predictionSegmentationFiles <- list()
 
-count <- 1
 for( i in 1:length( protonImageFiles ) )
   {
   subjectId <- basename( protonImageFiles[i] )
@@ -49,7 +55,7 @@ for( i in 1:length( protonImageFiles ) )
   for( j in seq_len( numberOfSlices ) )
     {
     imageSlice <- extractSlice( image, j, direction )
-    if( any( originalSliceSize != resampledSliceSize ) ) )
+    if( any( originalSliceSize != resampledSliceSize ) )
       {
       imageSlice <- resampleImage( imageSlice, 
         resampledSliceSize, useVoxels = TRUE, interpType = 1 )
@@ -70,18 +76,20 @@ for( i in 1:length( protonImageFiles ) )
     probabilityArray <- array( data = 0, dim = imageSize )
     for( k in seq_len( numberOfSlices ) )  
       {
-      probabilitySlice <- probabilitySlices[[i]][[j]]  
-      if( any( originalSliceSize != resampledSliceSize ) ) )
+      probabilitySlice <- probabilitySlices[[k]][[j]]  
+      if( any( originalSliceSize != resampledSliceSize ) )
         {
         probabilitySlice <- resampleImage( probabilitySlice, 
           originalSliceSize, useVoxels = TRUE, interpType = 1 )
         }
-      probabilityArray[k,,] <- as.array( probabilitySlice )
+      probabilityArray[,,k] <- as.array( probabilitySlice )
       }
     probabilityImage <- as.antsImage( probabilityArray, reference = image )  
 
     imageFileName <- paste0( 
       evaluationDirectory, subjectId, "Probability", j, ".nii.gz" )
+
+    cat( "Writing", imageFileName, "\n" )  
     antsImageWrite( probabilityImage, imageFileName )
     }  
   }

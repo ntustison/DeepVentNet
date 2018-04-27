@@ -86,7 +86,7 @@ unetModel <- createUnetModel2D( c( resampledImageSize, channelSize ),
   layers = 1:4 )
 
 unetModel %>% compile( loss = loss_multilabel_dice_coefficient_error,
-  optimizer = optimizer_adam( lr = 0.0001 ),  
+  optimizer = optimizer_adam( lr = 0.00001 ),  
   metrics = c( multilabel_dice_coefficient ) )
 
 ###
@@ -94,7 +94,7 @@ unetModel %>% compile( loss = loss_multilabel_dice_coefficient_error,
 # Set up the training generator
 #
 
-batchSize <- 32L
+batchSize <- 48L
 
 # Split trainingData into "training" and "validation" componets for
 # training the model.
@@ -135,19 +135,18 @@ validationDataGenerator <- trainingData$generate( batchSize = batchSize,
 
 track <- unetModel$fit_generator( 
   generator = reticulate::py_iterator( trainingDataGenerator ), 
-  steps_per_epoch = 50, #ceiling( 400 / batchSize ),
-  epochs = 40,
+  steps_per_epoch = ceiling( 0.8 * 0.5 * 128 * numberOfTrainingData  / batchSize ),
+  epochs = 50,
   validation_data = reticulate::py_iterator( validationDataGenerator ),
-  validation_steps = ceiling( 100 / batchSize ),
+  validation_steps = ceiling( 0.2* 0.5 * 128 * numberOfTrainingData  / batchSize ),
   callbacks = list( 
-    callback_model_checkpoint( paste0( dataDirectory, "Proton/unetModel2D.h5" ), 
-      monitor = 'val_loss', save_best_only = TRUE, save_weights_only = FALSE,
-      verbose = 1, mode = 'auto', period = 1 )
-    # callback_early_stopping( monitor = 'val_loss', min_delta = 0.001, 
-    #   patience = 10 ),
-    # callback_reduce_lr_on_plateau( monitor = 'val_loss', factor = 0.5,
-    #   patience = 0, epsilon = 0.001, cooldown = 0 )
-                  # callback_early_stopping( patience = 2, monitor = 'loss' ),
+    callback_model_checkpoint( paste0( dataDirectory, "Proton/unetModel2DWeights.h5" ), 
+      monitor = 'val_loss', save_best_only = TRUE, save_weights_only = TRUE,
+      verbose = 1, mode = 'auto', period = 1 ),
+    callback_early_stopping( monitor = 'val_loss', min_delta = 0.001, 
+      patience = 5 ),
+    callback_reduce_lr_on_plateau( monitor = 'val_loss', factor = 0.5,
+      patience = 0, epsilon = 0.001, cooldown = 0 )
     )
   )
 
