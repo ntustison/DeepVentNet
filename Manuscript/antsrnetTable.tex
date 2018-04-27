@@ -4,7 +4,9 @@
 \centering
 \caption{Current ANTsRNet capabilities comprising architectures for applications in 
 image segmentation, image classification, and object localization.  Self-contained
-examples with data are also provided to demonstrate usage for each of the architectures.}
+examples with data are also provided to denstrate usage for each of the architectures.
+Although the majority of neural network architectures are originally described
+for 2-D images, we generalized the work to 3-D implementations where possible.}
 \label{table:antsrnet}
 \begin{tabular*}{\textwidth}{ll@{\extracolsep{\fill}}l}
 \toprule
@@ -66,7 +68,7 @@ examples with data are also provided to demonstrate usage for each of the archit
     \end{minipage} \\ \vspace{0.2cm} 
   SSD7 \cite{ssd7} & (2-D, 3-D) & 
     \begin{minipage}[t]{0.6\columnwidth}%
-        Lightweight version which increases speed by sacrificing
+        Lightweight SSD variant which increases speed by slightly sacrificing
         accuracy.  Training size requirements are smaller. %
   \end{minipage} \\
 \bottomrule

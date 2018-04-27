@@ -35,7 +35,7 @@ bibliography:
   - referencesDeepLearning.bib
   - referencesLung.bib
 csl: national-science-foundation-grant-proposals.csl
-fontsize: 11pt
+fontsize: 12pt
 mainfont: Georgia
 geometry: margin=1.in 
 ---
