@@ -10,7 +10,8 @@ rmdFiles <- c( formatFile,
                "intro.Rmd",
                "methods.Rmd",
                "results.Rmd",
-               "discussion.Rmd"
+               "discussion.Rmd",
+               "acknowledgments.Rmd"
    )
 
 for( i in 1:length( rmdFiles ) )
