@@ -22,7 +22,8 @@ header-includes:
    - \usepackage{threeparttable}
    - \usepackage[final]{changes}
    - \usepackage[font={small},labelfont=bf,labelsep=colon]{caption}
-   - \linespread{1.5}
+   - \usepackage[nodisplayskipstretch]{setspace}
+   - \setstretch{1.5}
    - \usepackage{enumitem}
    - \usepackage{tikz}
    - \def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;}
@@ -34,9 +35,9 @@ bibliography:
   - referencesDeepLearning.bib
   - referencesLung.bib
 csl: national-science-foundation-grant-proposals.csl
-fontsize: 12pt
+fontsize: 11pt
 mainfont: Georgia
-geometry: margin=1.in
+geometry: margin=1.in 
 ---
 
 ```{r setup, include=FALSE}
