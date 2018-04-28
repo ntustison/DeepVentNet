@@ -12,6 +12,9 @@ source( paste0( modelDirectory, 'unetUtilities.R' ) )
 source( paste0( baseDirectory, 'Scripts/unetBatchGenerator2D.R' ) )
 
 classes <- c( "background", "leftLung", "rightLung" )
+# classes <- c( "background", "wholeLung" )
+# classes <- c( "background", "lobe1", "lobe2", "lobe3", "lobe4", "lobe5" )
+
 numberOfClassificationLabels <- length( classes )
 
 imageMods <- c( "Proton" )
@@ -22,7 +25,7 @@ protonImageDirectory <- paste0( dataDirectory,
   'Proton/Training/Images/' )
 protonImageFiles <- list.files( path = protonImageDirectory, 
   pattern = "*Proton_N4Denoised.nii.gz", full.names = TRUE )
-templateDirectory <- paste0( dataDirectory, 'Proton/Template/' )
+templateDirectory <- paste0( dataDirectory, 'Proton/Training/Template/' )
 
 trainingImageFiles <- list()
 trainingSegmentationFiles <- list()
@@ -44,6 +47,9 @@ for( i in 1:length( protonImageFiles ) )
   trainingSegmentationFiles[[count]] <- paste0( dataDirectory,
     'Proton/Training/LungMasks/', subjectId, 
     "LungMask.nii.gz" )
+  # trainingSegmentationFiles[[count]] <- paste0( dataDirectory,
+  #   'Proton/Training/LobeMasks/', subjectId, 
+  #   "LobeMask.nii.gz" )
   if( !file.exists( trainingSegmentationFiles[[count]] ) )
     {
     stop( paste( "Segmentation file", trainingSegmentationFiles[[count]], 
@@ -83,10 +89,11 @@ direction <- 3
 
 unetModel <- createUnetModel2D( c( resampledImageSize, channelSize ), 
   numberOfClassificationLabels = numberOfClassificationLabels, 
-  layers = 1:4 )
-
+  layers = 1:4, lowestResolution = 32 )
+load_model_weights_hdf5( unetModel, 
+  filepath = paste0( dataDirectory, 'Proton/Models/unetModel2DWeightsStep2.h5' ) )
 unetModel %>% compile( loss = loss_multilabel_dice_coefficient_error,
-  optimizer = optimizer_adam( lr = 0.00001 ),  
+  optimizer = optimizer_adam( lr = 0.00005 ),  
   metrics = c( multilabel_dice_coefficient ) )
 
 ###
@@ -94,7 +101,7 @@ unetModel %>% compile( loss = loss_multilabel_dice_coefficient_error,
 # Set up the training generator
 #
 
-batchSize <- 48L
+batchSize <- 32L
 
 # Split trainingData into "training" and "validation" componets for
 # training the model.
@@ -114,7 +121,7 @@ trainingData <- unetImageBatchGenerator2D$new(
   referenceTransformList = trainingTransforms )
 
 trainingDataGenerator <- trainingData$generate( batchSize = batchSize,
-  direction = direction, sliceSamplingRate = 0.2,
+  direction = direction, sliceSamplingRate = 0.5,
   resampledSliceSize = resampledImageSize )
 
 validationData <- unetImageBatchGenerator2D$new( 
@@ -125,7 +132,7 @@ validationData <- unetImageBatchGenerator2D$new(
   referenceTransformList = trainingTransforms )
 
 validationDataGenerator <- trainingData$generate( batchSize = batchSize,
-  direction = direction, sliceSamplingRate = 0.2,
+  direction = direction, sliceSamplingRate = 0.5,
   resampledSliceSize = resampledImageSize )
 
 ###
@@ -138,15 +145,17 @@ track <- unetModel$fit_generator(
   steps_per_epoch = ceiling( 0.8 * 0.5 * 128 * numberOfTrainingData  / batchSize ),
   epochs = 50,
   validation_data = reticulate::py_iterator( validationDataGenerator ),
-  validation_steps = ceiling( 0.2* 0.5 * 128 * numberOfTrainingData  / batchSize ),
+  validation_steps = ceiling( 0.2 * 0.5 * 128 * numberOfTrainingData  / batchSize ),
   callbacks = list( 
     callback_model_checkpoint( paste0( dataDirectory, "Proton/unetModel2DWeights.h5" ), 
       monitor = 'val_loss', save_best_only = TRUE, save_weights_only = TRUE,
-      verbose = 1, mode = 'auto', period = 1 ),
-    callback_early_stopping( monitor = 'val_loss', min_delta = 0.001, 
-      patience = 5 ),
-    callback_reduce_lr_on_plateau( monitor = 'val_loss', factor = 0.5,
-      patience = 0, epsilon = 0.001, cooldown = 0 )
+      verbose = 1, mode = 'auto', period = 1 )
+    #   ,
+    # callback_early_stopping( monitor = 'val_loss', min_delta = 0.001, 
+    #   patience = 5 )
+    #   ,
+    # callback_reduce_lr_on_plateau( monitor = 'val_loss', factor = 0.5,
+    #   patience = 0, epsilon = 0.001, cooldown = 0 )
     )
   )
 

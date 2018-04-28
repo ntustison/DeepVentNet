@@ -154,6 +154,10 @@ unetImageBatchGenerator2D <- R6::R6Class( "UnetImageBatchGenerator2D",
             interpolator = "nearestNeighbor", transformlist = transforms,
             whichtoinvert = boolInvert  )
 
+          # Randomly "flip a coin" to see if we perform histogram matching.
+
+          doPerformHistogramMatching <- sample( c( TRUE, FALSE ), size = 1 )
+
           warpedImagesX <- list()
           for( j in seq_len( channelSize ) )
             {  
@@ -162,6 +166,12 @@ unetImageBatchGenerator2D <- R6::R6Class( "UnetImageBatchGenerator2D",
             warpedImagesX[[j]] <- antsApplyTransforms( referenceX, sourceX, 
               interpolator = "linear", transformlist = transforms,
               whichtoinvert = boolInvert )
+
+            if( doPerformHistogramMatching )
+              {
+              warpedImagesX[[j]] <- histogramMatchImage( warpedImagesX[[j]], 
+                referenceX )
+              }
             }
 
           for( k in seq_len( numberOfExtractedSlices ) )
@@ -177,11 +187,10 @@ unetImageBatchGenerator2D <- R6::R6Class( "UnetImageBatchGenerator2D",
               sliceWarpedArrayY <- as.array( sliceWarpedImageY )
               }
 
-            if( sum( sliceWarpedArrayY ) == 0 ) 
+            if( sum( sliceWarpedArrayY ) == 0 )
               {
-              next  
+              next
               }
-
             # antsImageWrite( as.antsImage( sliceWarpedArrayY ), "~/Desktop/arrayY.nii.gz" )
             batchY[i,,] <- sliceWarpedArrayY
 
