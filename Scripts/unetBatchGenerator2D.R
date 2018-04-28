@@ -170,7 +170,7 @@ unetImageBatchGenerator2D <- R6::R6Class( "UnetImageBatchGenerator2D",
             if( doPerformHistogramMatching )
               {
               warpedImagesX[[j]] <- histogramMatchImage( warpedImagesX[[j]], 
-                referenceX )
+                antsImageRead( batchReferenceImages[[i]][j], dimension = 3 ) )
               }
             }
 
