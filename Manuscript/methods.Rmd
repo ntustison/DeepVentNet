@@ -3,9 +3,8 @@
 
 ## _Image acquisition_
 
-<!--
 
-Imaging with hyperpolarized 3He was performed under an Institutional Review Board 
+Hyperpolarized MR image acquisition was performed under an Institutional Review Board 
 (IRB)-approved protocol with written informed consent obtained from each subject. 
 In addition, all imaging was performed under an Food and Drug Administration 
 (FDA)-approved physician’s Investigational New Drug application (IND 57866) 
@@ -13,34 +12,51 @@ for hyperpolarized 3He. MRI data were acquired on a 1.5 T whole-body MRI scanner
 (Siemens Sonata, Siemens Medical Solutions, Malvern, PA) with broadband 
 capabilities and a flexible 3He chest radiofrequency coil (RF; IGC Medical 
 Advances, Milwaukee, WI; or Clinical MR Solutions, Brookfield, WI). During a 
-10–20-second breath-hold following the inhalation of %300 mL of hyperpolarized 
-3He mixed with %700 mL of nitrogen, a set of 19–28 contiguous axial sections 
-were collected. Parameters of the fast low angle shot sequence for 3He MRI 
+10–20-second breath-hold following the inhalation of hyperpolarized gas, a set 
+of 19–28 contiguous axial sections were collected. Parameters of the fast low angle shot sequence 
 were as follows: repetition time msec / echo time msec, 7/3; flip angle
-10$^\circ$; matrix, 80  128; field of view, 26  42 cm; section thickness, 10 mm; 
-and intersection gap, none. The data were deidentified prior to analysis.
+10$^\circ$; matrix, 80 $\times$ 128; field of view, 26 $\times$ 42 cm; section thickness, 10 mm;
+and intersection gap, none. 
+Total acquisition time varies between 5-8 seconds depending on the size of the subjects. 
 
--->
+A three-dimensional (3D) proton gradient-echo sequence 
+(repetition time [TR]:1.80 ms, echo time [TE] 0.78 ms, flip angle 10􏰀, bandwidth per 
+pixel 1090 Hz/Pixel, partial Fourier: phase direction 6/8, slice direction 6/8) 
+was used to acquire multiple images sets from multiple subjects at varying inflation levels.
+Acquisition time was 4 sec per image set.  All imaging studies were performed under a 
+physician’s Investigational New Drug application for Xe129 MRI using a protocol approved 
+by Institutional Review Board of our institute. All subjects provided written informed consent
+and the data were deidentified prior to analysis.
+
+<!-- 
 
 MR imaging was performed using a 1.5T commercial scanner (Avanto, Siemens Medical 
 Solutions, Malvern PA).   A 3-D gradient-echo based MR pulse sequence was used to 
 acquire images covering the whole lung with isotropic resolution of 3.9 mm. 
-Other parameters include  TR= 1.80 ms, TE= 0.78 ms, flip angle= 9 degree, 
+Other parameters include  TR = 1.80 ms, TE = 0.78 ms, flip angle = 9 degree, 
 bandwidth= 1090 Hz/Pixel. Total acquisition time varies between 5-8 seconds 
 depending on the size of the subjects. 
 
-## Preprocessing
+-->
+
+## _Image Analysis_
+
+Preprocessing
+
+(Need a diagram of the workflow)
+
+### Preprocessing
 
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{./Figures/N4Denoised.pdf}
-\caption{Sample image showing the effects of preprocessing on the proton MRI. (a) 
+\caption{Example side-by-side image comparison showing the effects of preprocessing on the proton MRI. (a) 
 Uncorrected image showing MR field inhomogeneity and noise. (b) Corresponding corrected 
 image in which the bias and noise effects have been ameliorated.}
 \label{fig:n4denoised}
 \end{figure}
 
-## Template-based data augmentation
+### Template-based data augmentation
 
 In addition to these software contributions, a significant methodological contribution 
 we have made is the design of a template-based data augmentation strategy.  The need
@@ -84,7 +100,7 @@ transformations, translations, etc.).}
 \label{fig:augmentation}
 \end{figure}
 
-## ANTsRNet
+### ANTsRNet
 
 The recent interest in deep learning techniques and the associated successes with respect to a 
 variety of applications has motivated adoption of such techniques within the medical imaging 
