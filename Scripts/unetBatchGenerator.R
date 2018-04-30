@@ -66,9 +66,8 @@ unetImageBatchGenerator <- R6::R6Class( "UnetImageBatchGenerator",
 
       },
 
-    generate = function( batchSize = 32L, paddedSize = NULL )    
+    generate = function( batchSize = 32L, resampledImageSize = c( 64, 64, 64 ) )    
       {
-
       # shuffle the source data
       sampleIndices <- sample( length( self$imageList ) )
       self$imageList <- self$imageList[sampleIndices]
@@ -122,12 +121,8 @@ unetImageBatchGenerator <- R6::R6Class( "UnetImageBatchGenerator",
 
         channelSize <- length( batchImages[[1]] )
 
-        if( !is.null( paddedSize ) )
-          {
-          imageSize <- paddedSize  
-          }
-        batchX <- array( data = 0, dim = c( batchSize, imageSize, channelSize ) )
-        batchY <- array( data = 0, dim = c( batchSize, imageSize ) )
+        batchX <- array( data = 0, dim = c( batchSize, resampledImageSize, channelSize ) )
+        batchY <- array( data = 0, dim = c( batchSize, resampledImageSize ) )
 
         currentPassCount <<- currentPassCount + batchSize
 
@@ -151,20 +146,19 @@ unetImageBatchGenerator <- R6::R6Class( "UnetImageBatchGenerator",
             interpolator = "nearestNeighbor", transformlist = transforms,
             whichtoinvert = boolInvert  )
 
-          warpedArrayY <- as.array( warpedImageY )
-
-          paddingSize <- imageSize - dim( warpedArrayY )
-          for( d in 1:length( paddingSize ) )
+          if( any( dim( warpedImageY ) != resampledImageSize ) )
             {
-            if( paddingSize[d] > 0 )  
-              {
-              paddingSizeDim <- dim( warpedArrayY )
-              paddingSizeDim[d] <- paddingSize[d]  
-              zerosArray <- array( 0, dim = c( paddingSizeDim ) )  
-              warpedArrayY <- abind( warpedArrayY, zerosArray, along = d )
-              }
+            warpedArrayY <- as.array( resampleImage( warpedImageY, 
+              resampledImageSize, useVoxels = TRUE, interpType = 1 ) )
+            } else {
+            warpedArrayY <- as.array( warpedImageY )
             }
+
           batchY[i,,,] <- warpedArrayY
+
+          # Randomly "flip a coin" to see if we perform histogram matching.
+
+          doPerformHistogramMatching <- sample( c( TRUE, FALSE ), size = 1 )
 
           for( j in seq_len( channelSize ) )
             {  
@@ -172,29 +166,29 @@ unetImageBatchGenerator <- R6::R6Class( "UnetImageBatchGenerator",
 
             warpedImageX <- antsApplyTransforms( referenceX, sourceX, 
               interpolator = "linear", transformlist = transforms,
-              whichtoinvert = boolInvert )          
+              whichtoinvert = boolInvert )
 
-            warpedArrayX <- as.array( warpedImageX )
-            warpedArrayX <- ( warpedArrayX - min( warpedArrayX ) ) / 
-              ( max( warpedArrayX ) - min( warpedArrayX ) )
-
-            paddingSize <- imageSize - dim( warpedArrayX )
-            for( d in 1:length( paddingSize ) )
+            if( doPerformHistogramMatching )
               {
-              if( paddingSize[d] > 0 )  
-                {
-                paddingSizeDim <- dim( warpedArrayX )
-                paddingSizeDim[d] <- paddingSize[d]  
-                zerosArray <- array( 0, dim = c( paddingSizeDim ) )  
-                warpedArrayX <- abind( warpedArrayX, zerosArray, along = d )
-                }
+              warpedImageX <- histogramMatchImage( warpedImageX, 
+                antsImageRead( batchReferenceImages[[i]][j], dimension = 3 ) )
               }
+
+            if( any( dim( warpedImageX ) != resampledImageSize ) )
+              {
+              warpedArrayX <- as.array( resampleImage( warpedImageX, 
+                resampledImageSize, useVoxels = TRUE, interpType = 0 ) )
+              } else {
+              warpedArrayX <- as.array( warpedImageX )
+              }
+
             batchX[i,,,,j] <- warpedArrayX
             }
+
           }
         segmentationLabels <- sort( unique( as.vector( batchY ) ) )
 
-        encodedBatchY <- encodeY( batchY, segmentationLabels ) 
+        encodedBatchY <- encodeUnet( batchY, segmentationLabels ) 
 
         return( list( batchX, encodedBatchY ) )        
         }   

@@ -1,14 +1,11 @@
 library( ANTsR )
+library( ANTsRNet )
 library( keras )
 
 keras::backend()$clear_session()
 
-antsrnetDirectory <- '/Users/ntustison/Pkg/ANTsRNet/'
-modelDirectory <- paste0( antsrnetDirectory, 'Models/' )
 baseDirectory <- '/Users/ntustison/Data/HeliumLungStudies/DeepVentNet/'
 
-source( paste0( modelDirectory, 'createUnetModel.R' ) )
-source( paste0( modelDirectory, 'unetUtilities.R' ) )
 source( paste0( baseDirectory, 'Scripts/unetBatchGenerator2D.R' ) )
 
 classes <- c( "background", "leftLung", "rightLung" )

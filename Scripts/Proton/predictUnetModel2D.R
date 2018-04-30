@@ -1,19 +1,15 @@
 library( ANTsR )
+library( ANTsRNet )
 library( keras )
 
 keras::backend()$clear_session()
 
-antsrnetDirectory <- '/Users/ntustison/Pkg/ANTsRNet/'
-modelDirectory <- paste0( antsrnetDirectory, 'Models/' )
 baseDirectory <- '/Users/ntustison/Data/HeliumLungStudies/DeepVentNet/'
 dataDirectory <- paste0( baseDirectory, 'Data/' )
 protonImageDirectory <- paste0( dataDirectory, 
   'Proton/Prediction/Images/' )
 evaluationDirectory <- paste0( dataDirectory, 
   'Proton/Prediction/Evaluation/' )
-
-source( paste0( modelDirectory, 'createUnetModel.R' ) )
-source( paste0( modelDirectory, 'unetUtilities.R' ) )
 
 classes <- c( "background", "leftLung", "rightLung" )
 numberOfClassificationLabels <- length( classes )
@@ -69,7 +65,7 @@ for( i in 1:length( protonImageFiles ) )
     }
     
   predictedData <- unetModel %>% predict( batchX, verbose = 0 )
-  probabilitySlices <- decodeY( predictedData, imageSlice )
+  probabilitySlices <- decodeUnet predictedData, imageSlice )
 
   for( j in seq_len( numberOfClassificationLabels ) )
     {
