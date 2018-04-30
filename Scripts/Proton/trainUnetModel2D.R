@@ -91,7 +91,7 @@ unetModel <- createUnetModel2D( c( resampledImageSize, channelSize ),
   numberOfClassificationLabels = numberOfClassificationLabels, 
   layers = 1:4, lowestResolution = 32 )
 load_model_weights_hdf5( unetModel, 
-  filepath = paste0( dataDirectory, 'Proton/Models/unetModel2DWeightsStep2.h5' ) )
+  filepath = paste0( dataDirectory, 'Proton/Models/unetModel2DWeights.h5' ) )
 unetModel %>% compile( loss = loss_multilabel_dice_coefficient_error,
   optimizer = optimizer_adam( lr = 0.00005 ),  
   metrics = c( multilabel_dice_coefficient ) )

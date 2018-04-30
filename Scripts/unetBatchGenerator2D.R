@@ -151,7 +151,7 @@ unetImageBatchGenerator2D <- R6::R6Class( "UnetImageBatchGenerator2D",
           sourceY <- antsImageRead( batchSegmentations[[i]], dimension = 3 )
 
           warpedImageY <- antsApplyTransforms( referenceX, sourceY, 
-            interpolator = "nearestNeighbor", transformlist = transforms,
+            interpolator = "genericLabel", transformlist = transforms,
             whichtoinvert = boolInvert  )
 
           # Randomly "flip a coin" to see if we perform histogram matching.
@@ -169,9 +169,27 @@ unetImageBatchGenerator2D <- R6::R6Class( "UnetImageBatchGenerator2D",
 
             if( doPerformHistogramMatching )
               {
-              warpedImagesX[[j]] <- histogramMatchImage( warpedImagesX[[j]], 
-                antsImageRead( batchReferenceImages[[i]][j], dimension = 3 ) )
+              warpedImagesX[[j]] <- histogramMatchImage( warpedImagesX[[j]],                 
+                antsImageRead( batchReferenceImages[[i]][j], dimension = 3 ),
+                numberOfHistogramBins = 64, numberOfMatchPoints = 16 )
               }
+
+            # Truncate and rescale image intensity
+
+            warpedArray <- as.array( warpedImagesX[[j]] )
+
+            # truncateQuantiles <- quantile( as.vector( warpedArray ), 
+            #   probs = c( 0.01, 0.99 ) )
+            # warpedArray[ which( warpedArray < truncateQuantiles[1] )] <- 
+            #   truncateQuantiles[1]
+            # warpedArray[ which( warpedArray > truncateQuantiles[2] )] <- 
+            #   truncateQuantiles[2]
+             
+            warpedArray <- ( warpedArray - min( warpedArray ) ) / 
+              ( max( warpedArray ) - min( warpedArray ) )
+
+            warpedImagesX[[j]] <- as.antsImage( warpedArray, 
+              reference = warpedImagesX[[j]] )
             }
 
           for( k in seq_len( numberOfExtractedSlices ) )
@@ -206,9 +224,6 @@ unetImageBatchGenerator2D <- R6::R6Class( "UnetImageBatchGenerator2D",
                 } else {
                 sliceWarpedArrayX <- as.array( sliceWarpedImageX )
                 }  
-
-              sliceWarpedArrayX <- ( sliceWarpedArrayX - min( sliceWarpedArrayX ) ) / 
-                ( max( sliceWarpedArrayX ) - min( sliceWarpedArrayX ) )
 
               # antsImageWrite( as.antsImage( sliceWarpedArrayX ), "~/Desktop/arrayX.nii.gz" )
               # readline( prompt = "Press [enter] to continue\n" )
