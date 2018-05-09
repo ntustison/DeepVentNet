@@ -1,2 +1,10 @@
 
 # DISCUSSION
+
+Significant progress has been made from earlier quantification approaches
+in which human labelers manually identified areas of poor ventilation 
+[@mata;@paragga] or applied simple thresholding techniques [@].  More 
+sophisticated automated and semi-automated techniques have advanced 
+
+
+

@@ -11,35 +11,41 @@ quantification of spatial ventilation with potential for increased reproducibili
 resolution, and robustness over traditional spirometry and radiological
 readings [@Roos:2015aa;@Adamson:2017aa]. 
 
-In this research context, one of the most frequently used image-based biomarkers for 
+One of the most frequently used image-based biomarkers for 
 the study of pulmonary development and disease is based on the quantification 
-of regions of limited ventilation, also known as _ventilation defects_.
+of regions of limited ventilation, also known as _ventilation defects_ [@Svenningsen:2014aa].
 These features have been shown to be particularly salient in a clinical context, 
 for example ventilation defect volume to total lung volume ratio has been shown 
 to outperform other image-based features in discriminating asthmatics vs. 
-non-asthmatics [@Tustison:2010aa].
-This has motivated the development of multiple automated (and semi-automated) 
+non-asthmatics [@Tustison:2010aa].  Ventilation defects have also demonstrated 
+discriminative capabilities in chronic obstructive pulmonary disease (COPD) [@Kirby:2014aa].
+These findings, along with related research, has motivated the development of multiple automated (and semi-automated) 
 segmentation algorithms which have been proposed in the literature
 [@Tustison:2011aa;@Kirby:2012aa;@He:2014aa;@Zha:2016aa;@Hughes:2018aa]
 and are currently used in a variety of clinical research investigations 
 (e.g., [@Trivedi:2017aa]).
 
-Despite the enormous methodological progress, recent developments in maching 
-learning (specifically "deep learning" 
+Despite the enormous methodological progress with existing quantification strategies, 
+recent developments in maching learning (specifically "deep learning" 
 [@LeCun:2015aa]) have generated new possibilities for quantification 
 with improved capabilities in terms of accuracy, robustness, and 
 computational efficiency.
-Deep learning, a term connoting neural network architectures with 
+The outgrowth of research, in conjunction with advances
+in computational hardware, has resulted in significant developments 
+in various image research areas including classification, segmentation,
+and object localization and has led to co-optation by the medical imaging 
+analysis community [@Litjens:2017aa].
+
+<!--
+
+Deep learning, a term denoting neural network architectures with 
 multiple hidden layers, has gained prominence in recent years due, in large
 part, to the annual ImageNet Large Scale Visual Recognition Challenge [@Russakovsky:2015aa].
 Specifically, one of the participants of the 2012 ImageNet challenge, a convolutional 
 neural network colloquially known as "AlexNet" [@AlexNet],
 significantly surpassed anything that had been proposed previously.
-The subsequent outgrowth of research, in conjunction with advances
-in computational hardware, has resulted in significant developments 
-in various image research areas including classification, segmentation,
-and object localization and has led to co-optation by the medical imaging 
-analysis community [@Litjens:2017aa].
+
+-->
 
 In this work, we develop and evaluate a convolutional neural network 
 segmentation framework, based on the U-net architecture [@Ronneberger:2015aa], 
@@ -53,8 +59,8 @@ One of the drawbacks
 to deep learning approaches are the large data requirements for
 the training process oftentimes necessitating ad hoc strategies for 
 simulating additional data from available data---a process termed _data augmentation_ [@Taylor:2017aa].
-While common approaches to data augmentation  might include the application
-of randomized simulated linear (e.g., translation, rotation and shearing) 
+While common approaches to data augmentation include the application
+of randomized simulated linear (e.g., translation, rotation and affine) 
 or elastic transformations and intensity adjustments (e.g., brightness and contrast), we propose
 an approach tailored to medical imaging scenarios.
 In the proposed approach, an optimal shape-based template is constructed 
@@ -70,5 +76,14 @@ repository of well-known deep learning architectures which interfaces with the
 Advanced Normalization Tools (ANTs) package [@antsr] and its interface with the R 
 statistical project (i.e., ANTsR) [@antsr].  This permits the public distribution of
 all code, data, and models which can be found on the GitHub repository corresponding
-to this manuscript [@deepventnet]
+to this manuscript [@deepventnet].  This allows other researchers to apply the 
+developed models and software to their data and/or use the models to initialize
+their own model development tailored to their studies. 
+
+In the work described below, we first describe the acquisition protocols for both
+the helium and ventilation images followed by a description of the analysis 
+methodologies for the proposed segmentation framework.  This discussion is 
+contextualized with a brief overview of existing quantification methods (including
+that previously proposed by our group and used for the evaluative comparison).
+
 

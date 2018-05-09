@@ -7,7 +7,7 @@ $ $
 
 \LARGE
 
-{\bf Convolutional Neural Nets with Template-Based Data Augmentation for Functional Lung Imaging 
+{\bf Convolutional Neural Networks with Template-Based Data Augmentation for Functional Lung Imaging 
 Segmentation}
 
 \vspace{2.0 cm}

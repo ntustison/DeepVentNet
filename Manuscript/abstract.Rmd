@@ -2,16 +2,17 @@
 
 __Rationale and Objectives:__  We propose an automated segmentation pipeline
 based on deep learning for ventilation-based quantification which improves on 
-previous methods in terms of robustness and computational efficiency.  The 
+previously proposed methods in terms of computational efficiency while maintaining
+accuracy and robustness.  The 
 large data requirements for the proposed framework is made possible by a novel 
 template-based data augmentation strategy.
 
-__Materials and Methods:__ Convolutional neural net (i.e., U-net) models were 
+__Materials and Methods:__ Convolutional neural network (i.e., U-net) models were 
 generated using a custom multilabel Dice metric loss function and a novel 
-template-based data augmentation strategy.  Development occurred within 
+template-based data augmentation strategy.  Development and processing utilized
 _ANTsRNet_---a growing open-source repository of well-known deep learning 
 architectures first introduced here which interfaces with the Advanced Normalization
-Tools package and the R statistical project.  Training (including template generation
+Tools (ANTs) package and the R statistical project.  Training (including template generation
 and data augmentation) employed $500$ images.  Evaluation was performed on the
 remaining 1?? images through comparison with a previously reported 
 automated segmentation algorithm based on Gaussian mixture modelling with Markov

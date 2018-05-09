@@ -3,7 +3,13 @@
 
 ## _Image acquisition_
 
+Both proton and ventilation mages used for this study were taken from current and
+previous studies from our group. Ventilation images comprised both Helium-3 and 
+Xenon-129 acquisitions as our current segmentation processing does not distinguish 
+between acquisition protocols and we expected similar agnosticism for the proposed
+approach.
 
+__Ventilation.__
 Hyperpolarized MR image acquisition was performed under an Institutional Review Board 
 (IRB)-approved protocol with written informed consent obtained from each subject. 
 In addition, all imaging was performed under an Food and Drug Administration 
@@ -19,8 +25,9 @@ were as follows: repetition time msec / echo time msec, 7/3; flip angle
 and intersection gap, none. 
 Total acquisition time varies between 5-8 seconds depending on the size of the subjects. 
 
+__Proton.__
 A three-dimensional (3D) proton gradient-echo sequence 
-(repetition time [TR]:1.80 ms, echo time [TE] 0.78 ms, flip angle 10􏰀, bandwidth per 
+(repetition time [TR]:1.80 ms, echo time [TE] 0.78 ms, flip angle 10$^\circ$, bandwidth per 
 pixel 1090 Hz/Pixel, partial Fourier: phase direction 6/8, slice direction 6/8) 
 was used to acquire multiple images sets from multiple subjects at varying inflation levels.
 Acquisition time was 4 sec per image set.  All imaging studies were performed under a 
@@ -41,20 +48,88 @@ depending on the size of the subjects.
 
 ## _Image Analysis_
 
-Preprocessing
+We first review our previous contributions to the segmentation of proton and 
+hyperpolarized gas MR images [@Tustison:2011aa;@Tustison:2016aa].  We then describe the 
+proposed deep learning methods (including preprocessing) extending earlier work.
+Specifically, the proposed contributions include:
 
-(Need a diagram of the workflow)
+* convolution neural networks for structural/functional lung
+segmentation,
+
+* template-based data augmentation, and
+
+* open-source (i.e., ANTsRNet) availability.
+
+
+### Previous approaches for lung and ventilation-based segmentation
+
+In [@Tustison:2016aa], we proposed a joint label fusion (JLF) approach for segmenting
+the left and right lungs in proton MRI as well as estimating the lobar volumes.  An 
+atlas set consisting of a cohort of both 
+the proton MRI and the corresponding lung segmentation is spatially normalized to an 
+unlabeled image. A weighted consensus from the normalized images and segmentations 
+is used to determine each voxel label.  Although the method yields high quality 
+results, one of the drawbacks is the time and computational resources required to 
+perform the image registration for each member of the atlas set and the subsequent
+voxelwise label estimation.   
+
+Automated ventilation-based segmentation, described in [@Tustison:2011aa], employs
+a Gaussian mixture model using a Markov random field (MRF) spatial prior which is optimized
+via the expectation-maximization algorithm. Basically, the intensity histogram profile
+is modeled using Gaussians with means and standard deviations designed to 
+model the intensities of the individual ventilation classes 
+(e.g., ventilation defect, hypo-ventilation, and normal ventilation).  At each iteration
+the resulting estimated labels are then refined based an MRF spatial modeling.  The
+parameters of the class-specific Gaussians are then re-estimated.  This iterative
+process continues until convergence.  We also iterate this segmentation with application
+of N4 bias correction [@Tustison:2010ac].
+
+These approaches have been used in a number of clinical studies [@Altes:2016aa;@Altes:2017aa]
+
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{./Figures/workflow.pdf}
+\caption{Illustration of the proposed workflow.  Training the U-net models for both proton and 
+ventilation imaging includes template-based data augmentation.  This offline training is computationally 
+intensive but is only performed once.   Subsequent individual subject preprocessing includes
+MR denoising and bias correction.  The proton mask determined from the proton U-net model 
+is included as a separate "channel" for ventilation image processing.s
+}
+\label{fig:workflow}
+\end{figure}
+
+
+A diagrammatic representation of the proposed workflow is provided in Figure 
+\ref{fig:workflow}.
 
 ### Preprocessing
+
+Because of the low-frequency artifacts introduced by such confounds as 
+radiofrequency coil inhomogeneity, we perform a retrospective bias 
+correction on both sets of images using the N4 algorithm [@tustison2010].
+These are included in our previously proposed ventilation [@Tustison:2011aa]
+and structural [@Tustison:2016aa] segmentation frameworks.  Since the initial 
+release of these pipelines we have also adopted an adaptive, patch-based
+denoising algorithm specific to MR [@Manjon:2010aa] which we have reimplemented 
+in the ANTs toolkit.  The dual effects of these data cleaning techniques on both 
+the proton images and ventilation images are shown in Figure
+\ref{fig:n4denoised}.
 
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{./Figures/N4Denoised.pdf}
-\caption{Example side-by-side image comparison showing the effects of preprocessing on the proton MRI. (a) 
+\caption{Side-by-side image comparison showing the effects of preprocessing on the proton (top) 
+and ventilation (bottom) MRI. (a) 
 Uncorrected image showing MR field inhomogeneity and noise. (b) Corresponding corrected 
 image in which the bias and noise effects have been ameliorated.}
 \label{fig:n4denoised}
 \end{figure}
+
+
+### U-net architecture
+
+
 
 ### Template-based data augmentation
 
