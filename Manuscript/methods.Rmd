@@ -48,11 +48,23 @@ depending on the size of the subjects.
 
 ## _Image processing and analysis_
 
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{./Figures/workflow.pdf}
+\caption{Illustration of the proposed workflow.  Training the U-net models for both proton and 
+ventilation imaging includes template-based data augmentation.  This offline training is computationally 
+intensive but is only performed once.   Subsequent individual subject preprocessing includes
+MR denoising and bias correction.  The proton mask determined from the proton U-net model 
+is included as a separate "channel" for ventilation image processing.s
+}
+\label{fig:workflow}
+\end{figure}
+
 We first review our previous contributions to the segmentation of proton and 
 hyperpolarized gas MR images [@Tustison:2011aa;@Tustison:2016aa] as we use 
 these previously described techniques for evaluative comparison.  We then describe 
 the deep learning analogs (including preprocessing) extending earlier work
-and discuss the proposed comntributions which include:
+and discuss the proposed contributions which include:
 
 * convolution neural networks for structural/functional lung
 segmentation,
@@ -61,6 +73,11 @@ segmentation,
 
 * open-source (i.e., ANTsRNet) availability.
 
+An overview of the resulting framework is provided in Figure  \ref{fig:workflow}.
+The most computationally intensive portion is the offline processing for model
+training for both structural and functional imaging.  However, once that is 
+complete, individual processing consists of a couple of preprocessing steps
+followed by application of the models which has minimal computational requirements.  
 
 ### Previous approaches for lung and ventilation-based segmentation
 
@@ -80,7 +97,7 @@ solely on intensity distributions while discarding spatial information,
 histogram rescaling and thresholding [@He:2014aa]),  our technique employs
 both spatial and intensity information for probabilistic classification.
 
-Because of our dual structural/functional acquisition protocol [@], we also 
+Because of our dual structural/functional acquisition protocol [@Qing:2015aa], we also 
 previously formulated a joint label fusion (JLF) approach for segmenting
 the left and right lungs in proton MRI as well as estimating the lobar volumes.  An 
 atlas set consisting of a cohort of both 
@@ -93,7 +110,7 @@ and the subsequent voxelwise label estimation.
 
 ### Preprocessing
 
-Because of the low-frequency artifacts introduced by such confounds as 
+Because of the low-frequency imaging artifacts introduced by confounds such as 
 radiofrequency coil inhomogeneity, we perform a retrospective bias 
 correction on both sets of images using the N4 algorithm [@tustison2010].
 These are included in our previously proposed ventilation [@Tustison:2011aa]
@@ -115,23 +132,80 @@ image in which the bias and noise effects have been ameliorated.}
 \end{figure}
 
 
-### U-net architecture
+### U-net architecture for structural/functional lung segmentation
 
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{./Figures/Unet.png}
-\caption{Illustration
+\caption{The modified U-net architecture for both structural and functional 
+lung segmentation.  Network layers are represented as boxes with arrows 
+designating connections between layers.  The main parameter value for each layer
+is provided above the corresponding box.  Input 2-D images are typically of
+size $128 \times 128$ voxels or are resampled accordingly.  Each layer 
+of the descending (or "encoding") branch of the network is characterized
+by two convolutional layers.  Modification of 
+the original architecture includes an intermediate dropout layer 
+for regularization (dropout rate = 0.2).  A max pooling operation 
+ produces the feature map for the next series.  The ascending
+(or "decoding") branch is similarly characterized.  A convolutional transpose
+operation is used to upsample the feature map following a convolution $\rightarrow$
+dropout $\rightarrow$ convolution layer series until the final convolutional
+operation which yields the segmentation probability maps.
 }
 \label{fig:unet}
 \end{figure}
 
 
+Deep learning, a term denoting neural network architectures with 
+multiple hidden layers, has gained prominence in recent years.  In the field of 
+image analysis and computer vision, deep learning with convolution neural networks (CNNs)
+has been particularly prominent due, in large part, to the annual ImageNet Large Scale Visual 
+Recognition Challenge [@Russakovsky:2015aa].
+Specifically, one of the participating groups in the 2012 ImageNet challenge was the earliest 
+adopter of CNNs.  The resulting architecture, colloquially known as "AlexNet" [@AlexNet],
+surpassed any approach that had been proposed previously and laid the groundwork for
+future CNN-based architectures for image classification such as VGG [@Simonyan:2014] and
+GoogLeNet [@Szegedy:2015].  The recent successes of CNNs are historically rooted in the 
+pioneering work of LeCun et al. [@LeCun1998] and Fukushima [@Fukushima:1980aa] and others
+which drew inspiration from earlier work on the complex arrangment of cells within 
+the feline visual cortex [@HUBEL:1962aa].  CNNs are characterized by common components i.e.,
+convolution, pooling, and activation functions which can be put together in various 
+arrangements to perform such tasks as image classification and voxelwise segmentation.
 
+The U-net architecture was introduced in [@Ronneberger:2015aa] which extended the fully 
+convolutional neural network (FCN) approach introduced by Long, Shelhamer, and Darrel 
+[@Shelhamer:2017aa].  U-net augments the "encoding path" (see left side of Figure 
+\ref{fig:unet}) common to such architectures as VGG and FCN with a symmetric decoding
+path where the corresponding encoding/decoding layers are linked via skip paths for
+enhanced feature detection.  The nomenclature reflects the descending/ascending aspect
+of its architecture.  Each series in both encoding and decoding branches is 
+characterized by two convolutional layers sandwiching an optional dropout layer.  This 
+latter modification from the original is meant to provide additional regularization for 
+over-fitting prevention [@Srivastava2014].  Output consists of a segmentation probability
+image for each label from which a segmentation map can be inferred.  
 
+We used U-net to build separate models for segmenting both structural and functional lung 
+images.  For cases where dual acquisition provides both images, we use the structural 
+images to provide a mask for segmentation of the ventilation image.  We used an open-source
+implementation written by our group and provided with the ANTsRNet R package [@antsrnet] which
+is described in greater detail below.  Specific parameters for the architectural components
+are as follows:
 
+* Convolution layers
+    * kernel size:  $2 \times 2$
+    * activation: rectified linear units (ReLU) [@Nair2010]
+    * number of filters:  doubled at every layer starting with $N = 32$
+* Dropout layers
+    * rate: 0.2
+* Max pooling layers
+    * size: $2 \times 2$
+    * stride length:  $2 \times 2$
+* Upsampling or deconvolution layers
+    * kernel size:  $3 \times 3$
+    * stride length:  $2 \times 2$
+    * activation: rectified linear units (ReLU) [@Nair2010]
+    * number of filters:  doubled at every layer starting with $N = 32$
 
-A diagrammatic representation of the proposed workflow is provided in Figure 
-\ref{fig:workflow}.
 
 
 ### Template-based data augmentation
@@ -180,17 +254,6 @@ transformations, translations, etc.).}
 
 
 
-\begin{figure}[!htb]
-\centering
-\includegraphics[width=\textwidth]{./Figures/workflow.pdf}
-\caption{Illustration of the proposed workflow.  Training the U-net models for both proton and 
-ventilation imaging includes template-based data augmentation.  This offline training is computationally 
-intensive but is only performed once.   Subsequent individual subject preprocessing includes
-MR denoising and bias correction.  The proton mask determined from the proton U-net model 
-is included as a separate "channel" for ventilation image processing.s
-}
-\label{fig:workflow}
-\end{figure}
 
 ### ANTsRNet
 
