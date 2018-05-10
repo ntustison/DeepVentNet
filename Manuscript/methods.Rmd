@@ -46,12 +46,13 @@ depending on the size of the subjects.
 
 -->
 
-## _Image Analysis_
+## _Image processing and analysis_
 
 We first review our previous contributions to the segmentation of proton and 
-hyperpolarized gas MR images [@Tustison:2011aa;@Tustison:2016aa].  We then describe the 
-proposed deep learning methods (including preprocessing) extending earlier work.
-Specifically, the proposed contributions include:
+hyperpolarized gas MR images [@Tustison:2011aa;@Tustison:2016aa] as we use 
+these previously described techniques for evaluative comparison.  We then describe 
+the deep learning analogs (including preprocessing) extending earlier work
+and discuss the proposed comntributions which include:
 
 * convolution neural networks for structural/functional lung
 segmentation,
@@ -63,45 +64,32 @@ segmentation,
 
 ### Previous approaches for lung and ventilation-based segmentation
 
-In [@Tustison:2016aa], we proposed a joint label fusion (JLF) approach for segmenting
+Automated ventilation-based segmentation, described in [@Tustison:2011aa], employs
+a Gaussian mixture model using a Markov random field (MRF) spatial prior which is optimized
+via the expectation-maximization algorithm which has been used in a number of 
+clinical studies (e.g., [@Altes:2016aa;@Altes:2017aa]).  Briefly, the intensity histogram profile
+is modeled using Gaussians with means and standard deviations designed to 
+model the intensities of the individual ventilation classes 
+(e.g., ventilation defect, hypo-ventilation, and normal ventilation).  At each iteration
+the resulting estimated labels are then refined based an MRF spatial modeling to smooth
+out the effects of noise.  The parameters of the class-specific Gaussians are then re-estimated.  This iterative
+process continues until convergence.  We also iterate this segmentation with application
+of N4 bias correction [@Tustison:2010ac].  Unlike other segmentation methods which rely 
+solely on intensity distributions while discarding spatial information,
+(e.g., K-means variants [@Kirby:2012aa;@Zha:2016aa], 
+histogram rescaling and thresholding [@He:2014aa]),  our technique employs
+both spatial and intensity information for probabilistic classification.
+
+Because of our dual structural/functional acquisition protocol [@], we also 
+previously formulated a joint label fusion (JLF) approach for segmenting
 the left and right lungs in proton MRI as well as estimating the lobar volumes.  An 
 atlas set consisting of a cohort of both 
 the proton MRI and the corresponding lung segmentation is spatially normalized to an 
 unlabeled image. A weighted consensus from the normalized images and segmentations 
 is used to determine each voxel label.  Although the method yields high quality 
-results, one of the drawbacks is the time and computational resources required to 
-perform the image registration for each member of the atlas set and the subsequent
-voxelwise label estimation.   
-
-Automated ventilation-based segmentation, described in [@Tustison:2011aa], employs
-a Gaussian mixture model using a Markov random field (MRF) spatial prior which is optimized
-via the expectation-maximization algorithm. Basically, the intensity histogram profile
-is modeled using Gaussians with means and standard deviations designed to 
-model the intensities of the individual ventilation classes 
-(e.g., ventilation defect, hypo-ventilation, and normal ventilation).  At each iteration
-the resulting estimated labels are then refined based an MRF spatial modeling.  The
-parameters of the class-specific Gaussians are then re-estimated.  This iterative
-process continues until convergence.  We also iterate this segmentation with application
-of N4 bias correction [@Tustison:2010ac].
-
-These approaches have been used in a number of clinical studies [@Altes:2016aa;@Altes:2017aa]
-
-
-\begin{figure}[!htb]
-\centering
-\includegraphics[width=\textwidth]{./Figures/workflow.pdf}
-\caption{Illustration of the proposed workflow.  Training the U-net models for both proton and 
-ventilation imaging includes template-based data augmentation.  This offline training is computationally 
-intensive but is only performed once.   Subsequent individual subject preprocessing includes
-MR denoising and bias correction.  The proton mask determined from the proton U-net model 
-is included as a separate "channel" for ventilation image processing.s
-}
-\label{fig:workflow}
-\end{figure}
-
-
-A diagrammatic representation of the proposed workflow is provided in Figure 
-\ref{fig:workflow}.
+results which are fully automated, one of the drawbacks is the time and computational 
+resources required to perform the image registration for each member of the atlas set 
+and the subsequent voxelwise label estimation.   
 
 ### Preprocessing
 
@@ -129,6 +117,21 @@ image in which the bias and noise effects have been ameliorated.}
 
 ### U-net architecture
 
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{./Figures/Unet.png}
+\caption{Illustration
+}
+\label{fig:unet}
+\end{figure}
+
+
+
+
+
+
+A diagrammatic representation of the proposed workflow is provided in Figure 
+\ref{fig:workflow}.
 
 
 ### Template-based data augmentation
@@ -173,6 +176,20 @@ create such a template permitting 60$^2$ = 3600 possible deformable shapes
 which can be further augmented by more conventional strategies (e.g., brightness
 transformations, translations, etc.).}
 \label{fig:augmentation}
+\end{figure}
+
+
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{./Figures/workflow.pdf}
+\caption{Illustration of the proposed workflow.  Training the U-net models for both proton and 
+ventilation imaging includes template-based data augmentation.  This offline training is computationally 
+intensive but is only performed once.   Subsequent individual subject preprocessing includes
+MR denoising and bias correction.  The proton mask determined from the proton U-net model 
+is included as a separate "channel" for ventilation image processing.s
+}
+\label{fig:workflow}
 \end{figure}
 
 ### ANTsRNet

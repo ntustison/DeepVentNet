@@ -7,4 +7,6 @@ in which human labelers manually identified areas of poor ventilation
 sophisticated automated and semi-automated techniques have advanced 
 
 
-
+* Previous approach
+* Deep learning
+* Deep learning, benefits of
