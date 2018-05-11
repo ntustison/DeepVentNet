@@ -71,7 +71,7 @@ segmentation,
 
 * template-based data augmentation, and
 
-* open-source (i.e., ANTsRNet) availability.
+* open-source availability.
 
 An overview of the resulting framework is provided in Figure  \ref{fig:workflow}.
 The most computationally intensive portion is the offline processing for model
@@ -188,7 +188,9 @@ We used U-net to build separate models for segmenting both structural and functi
 images.  For cases where dual acquisition provides both images, we use the structural 
 images to provide a mask for segmentation of the ventilation image.  We used an open-source
 implementation written by our group and provided with the ANTsRNet R package [@antsrnet] which
-is described in greater detail below.  Specific parameters for the architectural components
+is described in greater detail below.  We also implemented a multi-label dice coefficient
+loss function along with specific batch generators for generating batch image data on the
+fly.  Specific parameters for the architectural components
 are as follows:
 
 * Convolution layers
@@ -210,22 +212,21 @@ are as follows:
 
 ### Template-based data augmentation
 
-In addition to these software contributions, a significant methodological contribution 
-we have made is the design of a template-based data augmentation strategy.  The need
+In order to generate data cohorts of sufficient size necessary for deep learning
+approaches, we have designed of a template-based data augmentation strategy.  The need
 for large training data sets is a well-known limitation associated with deep learning 
 algorithms.  Whereas the architectures developed for such tasks as the ImageNet 
 competition have access to millions of annotated images, such data access is not always
-is available and such is typically the case in medical imaging.  In order to achieve
+available and such is typically the case in medical imaging.  In order to achieve
 data set sizes necessary for learning functional models, various data augmentation 
-strategies have been employed. These include application of intensity transformations, 
-such as brightening and enhanced contrast, and simple spatial transformations, 
-such as arbitrary rotations and translations.  Regarding the latter, such transformations
-are not ideal as they might not reflect what is typically seen in medical images and
-might not sufficiently sample the shape-space of the population currently being 
-studied.  
+strategies have been employed [@Taylor:2017aa]. These include application of intensity 
+transformations, such as brightening and enhanced contrast.  They might also include 
+spatial transformations such as arbitrary rotations, translations, and even simulated
+elastic deformations.  Such transformations might not be ideal if they do not represent
+shape variation within the range within the population under study.
 
-We currently use a template-based approach whereby image data sampled from the population
-is used to construct a representative template that is optimal in terms of both shape and 
+We propose a template-based approach whereby image data sampled from the population
+is used to construct a representative template that is optimal in terms of shape and/or
 intensity [@Avants:2010aa].  In addition to the representative template, this template-building 
 process yields the transformations to/from each individual image to the template space.
 This permits a propagation of the training data to the space of each individual image. In 
@@ -252,22 +253,17 @@ transformations, translations, etc.).}
 \label{fig:augmentation}
 \end{figure}
 
-
-
-
 ### ANTsRNet
 
+In addition to the contributions previously described, we also introduce ANTsRNet [@antsrnet] to the 
+research community which not only contains the software to perform the operations specific 
+to structural and functional lung image segmentation but also performs a host of other 
+deep learning tasks wrapped in a thoroughly documented and well-written R package.
 The recent interest in deep learning techniques and the associated successes with respect to a 
-variety of applications has motivated adoption of such techniques within the medical imaging 
-research community.  Basic image operations such as classification, object identification, and 
-segmentation (as well as more focused techniques) has significant potential for facilitating 
-basic medical research.  In light of these new developments, and in order to better meet the 
-modern needs of the community, we have modified this specific aim for ITK-Lung to include 
-the implementation and dissemination of open-source deep learning architectures relevant to 
-the use cases of our partner investigators.  
-
-Towards this end, we have created _ANTsRNet_--a collection of well-known deep learning 
-architectures ported to the R language.  ANTsRNet is built using the Keras neural network 
+variety of applications has motivated adoption of such techniques.
+Basic image operations such as classification, object identification, and 
+segmentation (as well as more focused techniques) have significant potential for facilitating 
+basic medical research.  ANTsRNet is built using the Keras neural network 
 library (available through R) and is highly integrated with the ANTsR package, the R interface 
 of the ANTs toolkit.  Consistent with our other software offerings, ongoing development is 
 currently carried out on GitHub using a well-commented coding style, thorough documentation, 
@@ -275,22 +271,19 @@ and self-contained working examples.
 
 It should be noted that various implementations of different deep learning 
 architectures exist and are largely available to the public.  However, we feel 
-that this work fills an unmet need.  Based on our own search, many publicly 
+that ANTsRNet fills an unmet need.  Based on our own search, many publicly 
 available implementations, while functional, are not developed with large-scale distribution 
 and application as end goals.  There is little, if any, coding consistency between the 
 various implementations leading to non-standardized APIs and difficulties in code
 navigation for debugging and/or didactic reasons.  In addition, the vast majority employ the
 Python language which is understandable given its widespread usage by data scientists.
 However, this work makes these powerful new developments available through a major platform 
-heavily used by statisticians and data scientists alike.
+heavily used by statisticians and data scientists.
 In addition, the R-based interface to the ANTs toolkit allows for preprocessing and data
-augmentation strategies specific to medical imaging.  As a result of these current efforts,
-we were recently awarded a Titan XP GPU from the NVIDIA corporation for facilitating ongoing 
-development.
+augmentation strategies specific to medical imaging.  
 
-Although much work remains to be completed, we have made significant progress. As noted below,
-several architectures have been implemented for both 2-D and 3-D images spanning the broad
-application areas of image classification, object detection, and image segmentation. 
+Several architectures have been implemented for both 2-D and 3-D images spanning the broad
+application areas of image classification, object detection, and image segmentation (cf. Table \ref{table:antsrnet}). 
 It should be noted that most reporting in the literature has dealt exclusively with 2-D 
 implementations.  This is understandable due to memory and computational speed constraints
 limiting practical 3-D application on current hardware.  However, given the importance that
@@ -298,8 +291,7 @@ limiting practical 3-D application on current hardware.  However, given the impo
 the investment in implementing corresponding 3-D architectures.  Each 
 architecture is accompanied by one or more self-contained examples for testing and illustrative
 purposes.  In addtion, we have made novel data augmentation strategies available to the user 
-and illustrated them with Keras-specific batch generators.    These contributions are outlined 
-below.  
+and illustrated them with Keras-specific batch generators.    
 
 \input{antsrnetTable.tex}
 

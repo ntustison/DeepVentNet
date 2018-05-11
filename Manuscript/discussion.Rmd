@@ -1,12 +1,51 @@
 
 # DISCUSSION
 
+<!--
+
+## State the study’s major findings
 Significant progress has been made from earlier quantification approaches
-in which human labelers manually identified areas of poor ventilation 
-[@mata;@paragga] or applied simple thresholding techniques [@].  More 
-sophisticated automated and semi-automated techniques have advanced 
+in which human labelers manually identified areas of poor ventilation or 
+applied simple thresholding techniques.  More sophisticated automated and 
+semi-automated techniques have advanced our ability to investigate the use
+of hyperpolarized gas imaging as quantitative image-based biomarkers.
+Deep learning techniques can further enhance these methodologies by 
+potentially increasing accuracy, generalizability, and computational 
+efficiency.  In this work, we provided a deep learning framework for 
+segmentation of structural and functional lung MRI for quantification
+of ventilation.  This framework is based on the U-net architecture but 
+implemented in 
 
 
-* Previous approach
-* Deep learning
-* Deep learning, benefits of
+## Explain the meaning and importance of the findings
+
+## Relate the findings to those of similar studies 
+
+## Consider alternative explanations of the findings 
+
+## State the clinical relevance of the findings 
+
+-->
+
+There are several limitations to the proposed framework. The most obvious
+is that it does not leverage the full 3-D nature of the image data collected.
+The trained models were based on 2-D coronal slices and therefore subsequent
+prediction is limited to those views.  Even though good results were achieved
+in this study, even better results might be achieved by training 3-D
+models.  However, even though the software is available for such model 
+generation (e.g., ANTsRNet), model optimization requires significant
+hardware resources which were not available for this study.  Also, evaluative
+comparison was made using manually-refined segmentations which is certainly
+useful but additional evaluations using various clinical measures would
+also be helpful in determining the relative utility of various segmentation approaches.
+For example, how does the performance of the various methods translate
+into utility as an imaging biomarker for lung function?
+
+Future research will certainly look into these issues as potential improvements 
+to the existing framework.  As a surrogate for full 3-D models, we are looking into 
+developing additional 2-D U-net models for the axial and sagittal views. Since 
+slice-by-slice processing is computationally efficient in the deep learning paradigm,
+we can process 3-D images along the three canonical axes and combined the results 
+for increased accuracy.  More broadly, it would be of potential interest to investigate
+the use of image classification techniques (e.g., VGG [@Simonyan:2014]) for classifying 
+lung disease phenotype directly from the images.
