@@ -34,7 +34,7 @@ $^1$Department of Radiology and Medical Imaging, University of Virginia, Charlot
 
 $^2$Biogen, Cambridge, MA
 
-$^3$Department of Radiology University of Pennsylvania, Philadelphia, PA
+$^3$Department of Radiology, University of Pennsylvania, Philadelphia, PA
 
 $^4$Department of Radiology, University of Missouri, Columbia, MO
 

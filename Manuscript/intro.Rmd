@@ -36,17 +36,6 @@ in various image research areas including classification, segmentation,
 and object localization and has led to co-optation by the medical imaging 
 analysis community [@Litjens:2017aa].
 
-<!--
-
-Deep learning, a term denoting neural network architectures with 
-multiple hidden layers, has gained prominence in recent years due, in large
-part, to the annual ImageNet Large Scale Visual Recognition Challenge [@Russakovsky:2015aa].
-Specifically, one of the participants of the 2012 ImageNet challenge, a convolutional 
-neural network colloquially known as "AlexNet" [@AlexNet],
-significantly surpassed anything that had been proposed previously.
-
--->
-
 In this work, we develop and evaluate a convolutional neural network 
 segmentation framework, based on the U-net architecture [@Ronneberger:2015aa], 
 for functional lung imaging using hyperpolarized gas.  As part of this framework

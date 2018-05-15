@@ -4,7 +4,8 @@
 
 __ACKNOWLEDGMENTS__
 
-_Add ITK Lung grant here._
+Research reported in this manuscript was supported by the National Heart, Lung, and Blood Institute
+of the National Institutes of Health under award number R01HL133889.
 
 We also gratefully acknowledge the support of NVIDIA Corporation with the donation of the Titan 
 Xp GPU used for this research.
