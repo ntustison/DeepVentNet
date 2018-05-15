@@ -84,7 +84,7 @@ resampledImageSize <- c( 128, 128, 64 )
 
 unetModel <- createUnetModel3D( c( resampledImageSize, channelSize ), 
   numberOfClassificationLabels = numberOfClassificationLabels, 
-  layers = 1:4, lowestResolution = 16, dropoutRate = 0.2,
+  layers = 1:4, lowestResolution = 32, dropoutRate = 0.2,
   convolutionKernelSize = c( 5, 5, 5 ), deconvolutionKernelSize = c( 5, 5, 5 ) )
 
 unetModel %>% compile( loss = loss_multilabel_dice_coefficient_error,
@@ -96,7 +96,7 @@ unetModel %>% compile( loss = loss_multilabel_dice_coefficient_error,
 # Set up the training generator
 #
 
-batchSize <- 5L
+batchSize <- 10L
 
 # Split trainingData into "training" and "validation" componets for
 # training the model.
