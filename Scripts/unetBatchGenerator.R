@@ -182,6 +182,9 @@ unetImageBatchGenerator <- R6::R6Class( "UnetImageBatchGenerator",
               warpedArrayX <- as.array( warpedImageX )
               }
 
+            warpedArrayX <- ( warpedArrayX - mean( warpedArrayX ) ) / 
+              sd( warpedArrayX )  
+
             batchX[i,,,,j] <- warpedArrayX
             }
 

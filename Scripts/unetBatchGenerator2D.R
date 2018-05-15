@@ -185,8 +185,9 @@ unetImageBatchGenerator2D <- R6::R6Class( "UnetImageBatchGenerator2D",
             # warpedArray[ which( warpedArray > truncateQuantiles[2] )] <- 
             #   truncateQuantiles[2]
              
-            warpedArray <- ( warpedArray - min( warpedArray ) ) / 
-              ( max( warpedArray ) - min( warpedArray ) )
+            # warpedArray <- ( warpedArray - min( warpedArray ) ) / 
+            #   ( max( warpedArray ) - min( warpedArray ) )
+            warpedArray <- ( warpedArray - mean( warpedArray ) ) / sd( warpedArray )
 
             warpedImagesX[[j]] <- as.antsImage( warpedArray, 
               reference = warpedImagesX[[j]] )

@@ -86,11 +86,14 @@ direction <- 3
 
 unetModel <- createUnetModel2D( c( resampledImageSize, channelSize ), 
   numberOfClassificationLabels = numberOfClassificationLabels, 
-  layers = 1:4, lowestResolution = 32 )
-load_model_weights_hdf5( unetModel, 
-  filepath = paste0( dataDirectory, 'Proton/Models/unetModel2DWeights.h5' ) )
+  layers = 1:4, lowestResolution = 16, dropoutRate = 0.2,
+  convolutionKernelSize = c( 5, 5 ), deconvolutionKernelSize = c( 5, 5 ) )
+
+# load_model_weights_hdf5( unetModel, 
+#   filepath = paste0( dataDirectory, 'Proton/Models/unetModel2DWeights.h5' ) )
+
 unetModel %>% compile( loss = loss_multilabel_dice_coefficient_error,
-  optimizer = optimizer_adam( lr = 0.00005 ),  
+  optimizer = optimizer_adam( lr = 0.00001 ),  
   metrics = c( multilabel_dice_coefficient ) )
 
 ###
@@ -139,22 +142,21 @@ validationDataGenerator <- trainingData$generate( batchSize = batchSize,
 
 track <- unetModel$fit_generator( 
   generator = reticulate::py_iterator( trainingDataGenerator ), 
-  steps_per_epoch = ceiling( 0.8 * 0.5 * 128 * numberOfTrainingData  / batchSize ),
-  epochs = 50,
+  steps_per_epoch = ceiling( 0.1 * 0.8 * 0.5 * 128 * numberOfTrainingData  / batchSize ),
+  epochs = 200,
   validation_data = reticulate::py_iterator( validationDataGenerator ),
-  validation_steps = ceiling( 0.2 * 0.5 * 128 * numberOfTrainingData  / batchSize ),
+  validation_steps = ceiling( 0.1 * 0.2 * 0.5 * 128 * numberOfTrainingData  / batchSize ),
   callbacks = list( 
     callback_model_checkpoint( paste0( dataDirectory, "Proton/unetModel2DWeights.h5" ), 
       monitor = 'val_loss', save_best_only = TRUE, save_weights_only = TRUE,
-      verbose = 1, mode = 'auto', period = 1 )
-    #   ,
-    # callback_early_stopping( monitor = 'val_loss', min_delta = 0.001, 
-    #   patience = 5 )
-    #   ,
-    # callback_reduce_lr_on_plateau( monitor = 'val_loss', factor = 0.5,
-    #   patience = 0, epsilon = 0.001, cooldown = 0 )
-    )
+      verbose = 1, mode = 'auto', period = 1 ),
+     callback_reduce_lr_on_plateau( monitor = 'val_loss', factor = 0.1,
+       verbose = 1, patience = 10, mode = 'auto' )
+      # ,
+    #  callback_early_stopping( monitor = 'val_loss', min_delta = 0.001, 
+    #    patience = 10 ),
   )
+)  
 
 
 

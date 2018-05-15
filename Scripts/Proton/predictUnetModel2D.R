@@ -12,6 +12,7 @@ evaluationDirectory <- paste0( dataDirectory,
   'Proton/Prediction/Evaluation/' )
 
 classes <- c( "background", "leftLung", "rightLung" )
+# classes <- c( "background", "body", "leftLung", "rightLung" )
 numberOfClassificationLabels <- length( classes )
 
 imageMods <- c( "Proton" )
@@ -20,9 +21,10 @@ channelSize <- length( imageMods )
 resampledSliceSize <- c( 128, 128 )
 direction <- 3
 
-unetModel <- createUnetModel2D( c( resampledImageSize, channelSize ), 
+unetModel <- createUnetModel2D( c( resampledSliceSize, channelSize ), 
   numberOfClassificationLabels = numberOfClassificationLabels, 
-  layers = 1:4 )
+  layers = 1:4, lowestResolution = 32, dropoutRate = 0.2,
+  convolutionKernelSize = c( 5, 5 ), deconvolutionKernelSize = c( 5, 5 ) )
 load_model_weights_hdf5( unetModel, 
   filepath = paste0( dataDirectory, 'Proton/unetModel2DWeights.h5' ) )
 unetModel %>% compile( loss = loss_multilabel_dice_coefficient_error,
@@ -65,7 +67,7 @@ for( i in 1:length( protonImageFiles ) )
     }
     
   predictedData <- unetModel %>% predict( batchX, verbose = 0 )
-  probabilitySlices <- decodeUnet predictedData, imageSlice )
+  probabilitySlices <- decodeUnet( predictedData, imageSlice )
 
   for( j in seq_len( numberOfClassificationLabels ) )
     {

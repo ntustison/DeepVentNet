@@ -4,22 +4,83 @@ library( keras )
 
 keras::backend()$clear_session()
 
-baseDirectory <- '/Users/ntustison/Data/HeliumLungStudies/DeepLearning/'
+baseDirectory <- '/Users/ntustison/Data/HeliumLungStudies/DeepVentNet/'
+dataDirectory <- paste0( baseDirectory, 'Data/' )
+protonImageDirectory <- paste0( dataDirectory, 
+  'Proton/Prediction/Images/' )
+evaluationDirectory <- paste0( dataDirectory, 
+  'Proton/Prediction/Evaluation/' )
 
-classes <- c( "background", "defect", "hypo", "normal1", "normal2" )
+classes <- c( "background", "leftLung", "rightLung" )
+# classes <- c( "background", "body", "leftLung", "rightLung" )
 numberOfClassificationLabels <- length( classes )
 
-imageMods <- c( "Ventilation" )
+imageMods <- c( "Proton" )
 channelSize <- length( imageMods )
 
-dataDirectory <- paste0( baseDirectory, 'data/' )
-trainingDirectory <- paste0( dataDirectory, 
-  'Ventilation/Images_isotropic_train/' )
-ventilationImages <- list.files( path = trainingDirectory, 
-  pattern = "*Ventilation.nii.gz", full.names = TRUE )
+resampledImageSize <- c( 128, 128, 64 )
 
-###
-#
-# Create the Unet model
-#
+unetModel <- createUnetModel3D( c( resampledImageSize, channelSize ), 
+  numberOfClassificationLabels = numberOfClassificationLabels, 
+  layers = 1:4, lowestResolution = 16, dropoutRate = 0.2,
+  convolutionKernelSize = c( 5, 5, 5 ), deconvolutionKernelSize = c( 5, 5, 5 ) )
+
+unetModel %>% compile( loss = loss_multilabel_dice_coefficient_error,
+  optimizer = optimizer_adam( lr = 0.0001 ),  
+  metrics = c( multilabel_dice_coefficient ) )
+
+
+unetModel <- createUnetModel3D( c( resampledImageSize, channelSize ), 
+  numberOfClassificationLabels = numberOfClassificationLabels, 
+  layers = 1:4, lowestResolution = 32, dropoutRate = 0.2,
+  convolutionKernelSize = c( 5, 5 ), deconvolutionKernelSize = c( 5, 5 ) )
+load_model_weights_hdf5( unetModel, 
+  filepath = paste0( dataDirectory, 'Proton/unetModelWeights.h5' ) )
+unetModel %>% compile( loss = loss_multilabel_dice_coefficient_error,
+  optimizer = optimizer_adam( lr = 0.0001 ),  
+  metrics = c( multilabel_dice_coefficient ) )
+
+protonImageFiles <- list.files( path = protonImageDirectory, 
+  pattern = "*Proton_N4Denoised.nii.gz", full.names = TRUE )
+
+predictionImageFiles <- list()
+predictionSegmentationFiles <- list()
+
+for( i in 1:length( protonImageFiles ) )
+  {
+  subjectId <- basename( protonImageFiles[i] )
+  subjectId <- sub( "Proton_N4Denoised.nii.gz", '', subjectId )
+
+  image <- antsImageRead( protonImageFiles[i], dimension = 3 )
+  imageSize <- dim( image )
+
+  resampledImage <- resampleImage( image, resampledImageSize, 
+    useVoxels = TRUE, interpType = 1 )
+  resampledArray <- as.array( resampledImage )  
+
+  batchX <- array( data = resampledArray, 
+    dim = c( resampledImageSize, channelSize ) )
+    
+  predictedData <- unetModel %>% predict( batchX, verbose = 0 )
+  probabilitySlices <- decodeUnet( predictedData, image )
+
+  for( j in seq_len( numberOfClassificationLabels ) )
+    {
+    probabilityArray <- array( data = 0, dim = resampledImageSize )
+    probabilityImage <- as.antsImage( probabilityArray, 
+      reference = resampledImage )
+
+    imageFileName <- paste0( 
+      evaluationDirectory, subjectId, "Probability", j, ".nii.gz" )
+
+    cat( "Writing", imageFileName, "\n" )  
+    antsImageWrite( resampleImage( probabilityImage, imageSize, 
+      useVoxels = TRUE, interpType = 1 ), imageFileName )  
+    }  
+  }
+
+
+
+
+
 

@@ -9,36 +9,51 @@ baseDirectory <- '/Users/ntustison/Data/HeliumLungStudies/DeepVentNet/'
 source( paste0( baseDirectory, 'Scripts/unetBatchGenerator.R' ) )
 
 classes <- c( "background", "leftLung", "rightLung" )
+# classes <- c( "background", "wholeLung" )
+# classes <- c( "background", "lobe1", "lobe2", "lobe3", "lobe4", "lobe5" )
+
 numberOfClassificationLabels <- length( classes )
 
 imageMods <- c( "Proton" )
 channelSize <- length( imageMods )
 
-dataDirectory <- paste0( baseDirectory, 'data/' )
-trainingImageDirectory <- paste0( dataDirectory, 
-  'Proton/Images/' )
-trainingImageFiles <- list.files( path = trainingImageDirectory, 
-  pattern = "*N4Denoised.nii.gz", full.names = TRUE )
-templateDirectory <- paste0( dataDirectory, 'Proton/Template/' )
+dataDirectory <- paste0( baseDirectory, 'Data/' )
+protonImageDirectory <- paste0( dataDirectory, 
+  'Proton/Training/Images/' )
+protonImageFiles <- list.files( path = protonImageDirectory, 
+  pattern = "*Proton_N4Denoised.nii.gz", full.names = TRUE )
+templateDirectory <- paste0( dataDirectory, 'Proton/Training/Template/' )
 
+trainingImageFiles <- list()
 trainingSegmentationFiles <- list()
 trainingTransforms <- list()
 
-for( i in 1:length( trainingImageFiles ) )
+count <- 1
+for( i in 1:length( protonImageFiles ) )
   {
-  subjectId <- basename( trainingImageFiles[i] )
-  subjectId <- sub( "N4Denoised.nii.gz", '', subjectId )
+  subjectId <- basename( protonImageFiles[i] )
+  subjectId <- sub( "Proton_N4Denoised.nii.gz", '', subjectId )
 
-  trainingSegmentationFiles[[i]] <- paste0( dataDirectory,
-    'Proton/LungMasks/', subjectId, 
-    "LungMask.nii.gz" )
-  if( !file.exists( trainingSegmentationFiles[[i]] ) )
+  if( as.integer( subjectId ) >= 1033 && as.integer( subjectId ) <= 1084 )
     {
-    stop( paste( "Segmentation file", trainingSegmentationFiles[[i]], 
+    # These are coronal images
+    next;  
+    }
+
+  trainingImageFiles[[count]] <- protonImageFiles[i]
+  trainingSegmentationFiles[[count]] <- paste0( dataDirectory,
+    'Proton/Training/LungMasks/', subjectId, 
+    "LungMask.nii.gz" )
+  # trainingSegmentationFiles[[count]] <- paste0( dataDirectory,
+  #   'Proton/Training/LobeMasks/', subjectId, 
+  #   "LobeMask.nii.gz" )
+  if( !file.exists( trainingSegmentationFiles[[count]] ) )
+    {
+    stop( paste( "Segmentation file", trainingSegmentationFiles[[count]], 
       "does not exist.\n" ) )
     }
 
-  xfrmPrefix <- paste0( 'T_', subjectId, 'LungMask' )
+  xfrmPrefix <- paste0( 'T_', subjectId )
   transformFiles <- list.files( templateDirectory, pattern = xfrmPrefix, full.names = TRUE ) 
 
   fwdtransforms <- c()
@@ -54,8 +69,10 @@ for( i in 1:length( trainingImageFiles ) )
     stop( "Transform file does not exist.\n" )
     }
 
-  trainingTransforms[[i]] <- list( 
+  trainingTransforms[[count]] <- list( 
     fwdtransforms = fwdtransforms, invtransforms = invtransforms )
+
+  count <- count + 1  
   }
 
 ###
@@ -63,11 +80,12 @@ for( i in 1:length( trainingImageFiles ) )
 # Create the Unet model
 #
 
-# paddedImageSize <- c( 128, 128, 128 )
+resampledImageSize <- c( 128, 128, 64 )
 
-unetModel <- createUnetModel3D( c( paddedImageSize, channelSize ), 
+unetModel <- createUnetModel3D( c( resampledImageSize, channelSize ), 
   numberOfClassificationLabels = numberOfClassificationLabels, 
-  layers = 1:3 )
+  layers = 1:4, lowestResolution = 16, dropoutRate = 0.2,
+  convolutionKernelSize = c( 5, 5, 5 ), deconvolutionKernelSize = c( 5, 5, 5 ) )
 
 unetModel %>% compile( loss = loss_multilabel_dice_coefficient_error,
   optimizer = optimizer_adam( lr = 0.0001 ),  
@@ -78,7 +96,7 @@ unetModel %>% compile( loss = loss_multilabel_dice_coefficient_error,
 # Set up the training generator
 #
 
-batchSize <- 32L
+batchSize <- 5L
 
 # Split trainingData into "training" and "validation" componets for
 # training the model.
@@ -86,7 +104,7 @@ batchSize <- 32L
 numberOfTrainingData <- length( trainingImageFiles )
 sampleIndices <- sample( numberOfTrainingData )
 
-validationSplit <- floor( 0.9 * length( numberOfTrainingData ) )
+validationSplit <- floor( 0.8 * length( numberOfTrainingData ) )
 trainingIndices <- sampleIndices[1:validationSplit]
 validationIndices <- sampleIndices[( validationSplit + 1 ):numberOfTrainingData]
 
@@ -99,7 +117,7 @@ trainingData <- unetImageBatchGenerator$new(
   )
 
 trainingDataGenerator <- trainingData$generate( batchSize = batchSize, 
-  paddedSize = paddedImageSize )
+  resampledImageSize = resampledImageSize )
 
 validationData <- unetImageBatchGenerator$new( 
   imageList = trainingImageFiles[validationIndices], 
@@ -110,34 +128,28 @@ validationData <- unetImageBatchGenerator$new(
   )
 
 validationDataGenerator <- validationData$generate( batchSize = batchSize,
-  paddedSize = paddedImageSize )
+  resampledImageSize = resampledImageSize )
 
 ###
 #
 # Run training
 #
-
 track <- unetModel$fit_generator( 
   generator = reticulate::py_iterator( trainingDataGenerator ), 
-  steps_per_epoch = ceiling( 400 / batchSize ),
-  epochs = 40,
+  steps_per_epoch = ceiling( 0.5 * 0.8 * numberOfTrainingData  / batchSize ),
+  epochs = 200,
   validation_data = reticulate::py_iterator( validationDataGenerator ),
-  validation_steps = ceiling( 100 / batchSize ),
+  validation_steps = ceiling( 0.5 * 0.2 * numberOfTrainingData  / batchSize ),
   callbacks = list( 
-    callback_model_checkpoint( paste0( dataDirectory, "Proton/unetModel.h5" ), 
-      monitor = 'val_loss', save_best_only = TRUE, save_weights_only = FALSE,
-      verbose = 1, mode = 'auto', period = 1 )
-    # callback_early_stopping( monitor = 'val_loss', min_delta = 0.001, 
-    #   patience = 10 ),
-    # callback_reduce_lr_on_plateau( monitor = 'val_loss', factor = 0.5,
-    #   patience = 0, epsilon = 0.001, cooldown = 0 )
-                  # callback_early_stopping( patience = 2, monitor = 'loss' ),
-    )
+    callback_model_checkpoint( paste0( dataDirectory, "Proton/unetModelWeights.h5" ), 
+      monitor = 'val_loss', save_best_only = TRUE, save_weights_only = TRUE,
+      verbose = 1, mode = 'auto', period = 1 ),
+     callback_reduce_lr_on_plateau( monitor = 'val_loss', factor = 0.1,
+       verbose = 1, patience = 10, mode = 'auto' )
+      # ,
+    #  callback_early_stopping( monitor = 'val_loss', min_delta = 0.001, 
+    #    patience = 10 ),
   )
-
-
-
-
-
+)  
 
 
