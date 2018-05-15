@@ -6,22 +6,22 @@ has been significantly facilitated by the use of hyperpolarized gas
 imaging and corresponding quantitative image analysis methodologies. 
 Such developments have provided direction and opportunity for current 
 and future research trends [@Liu:2014aa].  Computational techniques 
-targeting these imaging technologies permit 
-quantification of spatial ventilation with potential for increased reproducibility,
+targeting these imaging technologies permit spatial
+quantification of localized ventilation with potential for increased reproducibility,
 resolution, and robustness over traditional spirometry and radiological
 readings [@Roos:2015aa;@Adamson:2017aa]. 
 
 One of the most frequently used image-based biomarkers for 
 the study of pulmonary development and disease is based on the quantification 
 of regions of limited ventilation, also known as _ventilation defects_ [@Svenningsen:2014aa].
-These features have been shown to be particularly salient in a clinical context, 
-for example ventilation defect volume to total lung volume ratio has been shown 
+These features have been shown to be particularly salient in a clinical context.
+For example, ventilation defect volume to total lung volume ratio has been shown 
 to outperform other image-based features in discriminating asthmatics vs. 
 non-asthmatics [@Tustison:2010aa].  Ventilation defects have also demonstrated 
 discriminative capabilities in chronic obstructive pulmonary disease (COPD) [@Kirby:2014aa].
 These findings, along with related research, has motivated the development of multiple automated (and semi-automated) 
-segmentation algorithms which have been proposed in the literature
-[@Tustison:2011aa;@Kirby:2012aa;@He:2014aa;@Zha:2016aa;@Hughes:2018aa]
+segmentation algorithms which have been proposed in the literature (e.g., 
+[@Tustison:2011aa;@Kirby:2012aa;@He:2014aa;@Zha:2016aa;@Hughes:2018aa])
 and are currently used in a variety of clinical research investigations 
 (e.g., [@Trivedi:2017aa]).
 
@@ -39,40 +39,46 @@ analysis community [@Litjens:2017aa].
 In this work, we develop and evaluate a convolutional neural network 
 segmentation framework, based on the U-net architecture [@Ronneberger:2015aa], 
 for functional lung imaging using hyperpolarized gas.  As part of this framework
-we include a deep learning counterpart to earlier work from our group targeting
+we include a deep learning analog to earlier work from our group targeting
 segmentation of proton lung MRI [@Tustison:2016aa].  This is motivated by 
-common use case scenarious in which proton images are used for quantifying 
-corresponding ventilation images (e.g., [@Tustison:2011aa;@Kirby:2012aa;@He:2014aa]).
+common use case scenarios in which proton images are used for quantifying 
+corresponding ventilation images (i.e., masking regions of interest 
+a la [@Tustison:2011aa;@Kirby:2012aa;@He:2014aa]).
 
-One of the drawbacks
-to deep learning approaches are the large data requirements for
+One of the practical constraints 
+to adopting deep learning techniques is the large data requirements for
 the training process oftentimes necessitating ad hoc strategies for 
 simulating additional data from available data---a process termed _data augmentation_ [@Taylor:2017aa].
 While common approaches to data augmentation include the application
 of randomized simulated linear (e.g., translation, rotation and affine) 
 or elastic transformations and intensity adjustments (e.g., brightness and contrast), we propose
-an approach tailored to medical imaging scenarios.
+an approach tailored to commonly encountered medical imaging scenarios.
 In the proposed approach, an optimal shape-based template is constructed 
 from a subset of the available data.   Subsequent pairwise image registration 
 between all training data and the resulting template permits a "pseudo-geodesic"
-transformation of each image to every other image thus converting a data set of size
+transformation of each image to every other image thus potentially 
+converting a data set of size
 $N$ to an augmented data set of size $N^2$.  In this way, transformations are 
 constrainted to the shape space representing the population of interest.
 
 To enhance relevance to the research community, we showcase this work in 
 conjunction with the introduction of _ANTsRNet_---a growing open-source 
 repository of well-known deep learning architectures which interfaces with the 
-Advanced Normalization Tools (ANTs) package [@antsr] and its interface with the R 
-statistical project (i.e., ANTsR) [@antsr].  This permits the public distribution of
-all code, data, and models which can be found on the GitHub repository corresponding
-to this manuscript [@deepventnet].  This allows other researchers to apply the 
-developed models and software to their data and/or use the models to initialize
+Advanced Normalization Tools (ANTs) package [@antsr] and its  R package
+(i.e., ANTsR) [@antsr].  This permits the public distribution of
+all code, data, and models for external reproducibility which can be found on 
+the GitHub repository corresponding to this manuscript [@deepventnet].  This 
+allows other researchers to apply the developed models and software to their 
+data and/or use the models to initialize
 their own model development tailored to their studies. 
 
-In the work described below, we first describe the acquisition protocols for both
-the helium and ventilation images followed by a description of the analysis 
-methodologies for the proposed segmentation framework.  This discussion is 
+In the work described below, we first provide the acquisition protocols for both
+the helium and ventilation images followed by a discussion of the analysis 
+methodologies for the proposed segmentation framework.  This is 
 contextualized with a brief overview of existing quantification methods (including
-that previously proposed by our group and used for the evaluative comparison).
+that previously proposed by our group and used for the evaluative comparison).  We
+also summarize the key contributions of this work viz., the template-based data 
+augmentation and the current feature set of ANTsRNet.
+
 
 

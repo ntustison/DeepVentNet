@@ -6,15 +6,15 @@
 Both proton and ventilation mages used for this study were taken from current and
 previous studies from our group. Ventilation images comprised both Helium-3 and 
 Xenon-129 acquisitions as our current segmentation processing does not distinguish 
-between acquisition protocols and we expected similar agnosticism for the proposed
-approach.
+between ventilation gas acquisition protocols and we expected similar agnosticism 
+for the proposed approach.
 
 __Ventilation.__
 Hyperpolarized MR image acquisition was performed under an Institutional Review Board 
 (IRB)-approved protocol with written informed consent obtained from each subject. 
 In addition, all imaging was performed under an Food and Drug Administration 
 (FDA)-approved physician’s Investigational New Drug application (IND 57866) 
-for hyperpolarized 3He. MRI data were acquired on a 1.5 T whole-body MRI scanner 
+for hyperpolarized gas. MRI data were acquired on a 1.5 T whole-body MRI scanner 
 (Siemens Sonata, Siemens Medical Solutions, Malvern, PA) with broadband 
 capabilities and a flexible 3He chest radiofrequency coil (RF; IGC Medical 
 Advances, Milwaukee, WI; or Clinical MR Solutions, Brookfield, WI). During a 
@@ -31,7 +31,7 @@ A three-dimensional (3D) proton gradient-echo sequence
 pixel 1090 Hz/Pixel, partial Fourier: phase direction 6/8, slice direction 6/8) 
 was used to acquire multiple images sets from multiple subjects at varying inflation levels.
 Acquisition time was 4 sec per image set.  All imaging studies were performed under a 
-physician’s Investigational New Drug application for Xe129 MRI using a protocol approved 
+physician’s Investigational New Drug application for hyperpolarized gas imaging using a protocol approved 
 by Institutional Review Board of our institute. All subjects provided written informed consent
 and the data were deidentified prior to analysis.
 
@@ -55,7 +55,7 @@ depending on the size of the subjects.
 ventilation imaging includes template-based data augmentation.  This offline training is computationally 
 intensive but is only performed once.   Subsequent individual subject preprocessing includes
 MR denoising and bias correction.  The proton mask determined from the proton U-net model 
-is included as a separate "channel" for ventilation image processing.s
+is included as a separate ``channel'' for ventilation image processing.
 }
 \label{fig:workflow}
 \end{figure}
@@ -142,12 +142,12 @@ lung segmentation.  Network layers are represented as boxes with arrows
 designating connections between layers.  The main parameter value for each layer
 is provided above the corresponding box.  Input 2-D images are typically of
 size $128 \times 128$ voxels or are resampled accordingly.  Each layer 
-of the descending (or "encoding") branch of the network is characterized
+of the descending (or ``encoding'') branch of the network is characterized
 by two convolutional layers.  Modification of 
 the original architecture includes an intermediate dropout layer 
 for regularization (dropout rate = 0.2).  A max pooling operation 
  produces the feature map for the next series.  The ascending
-(or "decoding") branch is similarly characterized.  A convolutional transpose
+(or ``decoding'') branch is similarly characterized.  A convolutional transpose
 operation is used to upsample the feature map following a convolution $\rightarrow$
 dropout $\rightarrow$ convolution layer series until the final convolutional
 operation which yields the segmentation probability maps.
@@ -202,11 +202,10 @@ are as follows:
 * Max pooling layers
     * size: $2 \times 2$
     * stride length:  $2 \times 2$
-* Upsampling or deconvolution layers
-    * kernel size:  $3 \times 3$
+* Upsampling/ transposed convolution (i.e., deconvolution) layers
+    * kernel size:  $5 \times 5$
     * stride length:  $2 \times 2$
     * activation: rectified linear units (ReLU) [@Nair2010]
-    * number of filters:  doubled at every layer starting with $N = 32$
 
 
 
