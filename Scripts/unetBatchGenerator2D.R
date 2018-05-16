@@ -25,10 +25,6 @@ unetImageBatchGenerator2D <- R6::R6Class( "UnetImageBatchGenerator2D",
         {
         stop( "Please install the ANTsR package." )
         }
-      if( !usePkg( "abind" ) )
-        {
-        stop( "Please install the abind package." )
-        }
 
       if( !is.null( imageList ) )
         {
