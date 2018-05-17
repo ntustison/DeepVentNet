@@ -25,10 +25,6 @@ unetImageBatchGenerator <- R6::R6Class( "UnetImageBatchGenerator",
         {
         stop( "Please install the ANTsR package." )
         }
-      if( !usePkg( "abind" ) )
-        {
-        stop( "Please install the abind package." )
-        }
 
       if( !is.null( imageList ) )
         {
@@ -143,7 +139,7 @@ unetImageBatchGenerator <- R6::R6Class( "UnetImageBatchGenerator",
           sourceY <- antsImageRead( batchSegmentations[[i]], dimension = 3 )
 
           warpedImageY <- antsApplyTransforms( referenceX, sourceY, 
-            interpolator = "nearestNeighbor", transformlist = transforms,
+            interpolator = "genericLabel", transformlist = transforms,
             whichtoinvert = boolInvert  )
 
           if( any( dim( warpedImageY ) != resampledImageSize ) )
@@ -154,11 +150,14 @@ unetImageBatchGenerator <- R6::R6Class( "UnetImageBatchGenerator",
             warpedArrayY <- as.array( warpedImageY )
             }
 
+          # antsImageWrite( as.antsImage( warpedArrayY ), "~/Desktop/arrayY.nii.gz" )
           batchY[i,,,] <- warpedArrayY
 
           # Randomly "flip a coin" to see if we perform histogram matching.
 
           doPerformHistogramMatching <- sample( c( TRUE, FALSE ), size = 1 )
+
+          # cat( "Hist = ", doPerformHistogramMatching, "\n" );
 
           for( j in seq_len( channelSize ) )
             {  
@@ -171,7 +170,8 @@ unetImageBatchGenerator <- R6::R6Class( "UnetImageBatchGenerator",
             if( doPerformHistogramMatching )
               {
               warpedImageX <- histogramMatchImage( warpedImageX, 
-                antsImageRead( batchReferenceImages[[i]][j], dimension = 3 ) )
+                antsImageRead( batchReferenceImages[[i]][j], dimension = 3 ),
+                numberOfHistogramBins = 64, numberOfMatchPoints = 16 )
               }
 
             if( any( dim( warpedImageX ) != resampledImageSize ) )
@@ -185,6 +185,8 @@ unetImageBatchGenerator <- R6::R6Class( "UnetImageBatchGenerator",
             warpedArrayX <- ( warpedArrayX - mean( warpedArrayX ) ) / 
               sd( warpedArrayX )  
 
+            # antsImageWrite( as.antsImage( warpedArrayX ), "~/Desktop/arrayX.nii.gz" )
+            # readline( prompt = "Press [enter] to continue\n" )
             batchX[i,,,,j] <- warpedArrayX
             }
 

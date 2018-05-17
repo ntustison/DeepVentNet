@@ -18,22 +18,12 @@ numberOfClassificationLabels <- length( classes )
 imageMods <- c( "Proton" )
 channelSize <- length( imageMods )
 
-resampledImageSize <- c( 128, 128, 64 )
+resampledImageSize <- c( 128, 128, 48 )
 
 unetModel <- createUnetModel3D( c( resampledImageSize, channelSize ), 
   numberOfClassificationLabels = numberOfClassificationLabels, 
-  layers = 1:4, lowestResolution = 16, dropoutRate = 0.2,
+  layers = 1:4, lowestResolution = 8, dropoutRate = 0.2,
   convolutionKernelSize = c( 5, 5, 5 ), deconvolutionKernelSize = c( 5, 5, 5 ) )
-
-unetModel %>% compile( loss = loss_multilabel_dice_coefficient_error,
-  optimizer = optimizer_adam( lr = 0.0001 ),  
-  metrics = c( multilabel_dice_coefficient ) )
-
-
-unetModel <- createUnetModel3D( c( resampledImageSize, channelSize ), 
-  numberOfClassificationLabels = numberOfClassificationLabels, 
-  layers = 1:4, lowestResolution = 32, dropoutRate = 0.2,
-  convolutionKernelSize = c( 5, 5 ), deconvolutionKernelSize = c( 5, 5 ) )
 load_model_weights_hdf5( unetModel, 
   filepath = paste0( dataDirectory, 'Proton/unetModelWeights.h5' ) )
 unetModel %>% compile( loss = loss_multilabel_dice_coefficient_error,
@@ -59,23 +49,19 @@ for( i in 1:length( protonImageFiles ) )
   resampledArray <- as.array( resampledImage )  
 
   batchX <- array( data = resampledArray, 
-    dim = c( resampledImageSize, channelSize ) )
+    dim = c( 1, resampledImageSize, channelSize ) )
     
   predictedData <- unetModel %>% predict( batchX, verbose = 0 )
-  probabilitySlices <- decodeUnet( predictedData, image )
+  probabilityImagesArray <- decodeUnet( predictedData, image )
 
   for( j in seq_len( numberOfClassificationLabels ) )
     {
-    probabilityArray <- array( data = 0, dim = resampledImageSize )
-    probabilityImage <- as.antsImage( probabilityArray, 
-      reference = resampledImage )
-
     imageFileName <- paste0( 
       evaluationDirectory, subjectId, "Probability", j, ".nii.gz" )
 
     cat( "Writing", imageFileName, "\n" )  
-    antsImageWrite( resampleImage( probabilityImage, imageSize, 
-      useVoxels = TRUE, interpType = 1 ), imageFileName )  
+    antsImageWrite( resampleImage( probabilityImagesArray[[1]][[j]], 
+      imageSize, useVoxels = TRUE, interpType = 1 ), imageFileName )  
     }  
   }
 
