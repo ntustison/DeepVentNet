@@ -15,16 +15,15 @@ Segmentation}
 \normalsize
 
 Nicholas J. Tustison$^1$,
-Zixuan Lin$^1$,
 Brian B. Avants$^2$,
+Zixuan Lin$^1$,
 Nick Cullen$^3$,
 Jaime F. Mata$^1$,
+Lucia F. Basco$^4$,
 James C. Gee$^3$,
 Talissa A. Altes$^4$,
 John P. Mugler III$^1$, and
 Kun Qing$^1$
-
-
 
 \vspace{0.25 cm}
 
@@ -32,7 +31,7 @@ Kun Qing$^1$
 
 $^1$Department of Radiology and Medical Imaging, University of Virginia, Charlottesville, VA
 
-$^2$Biogen, Cambridge, MA
+$^2$Sentience, Hampton, NH
 
 $^3$Department of Radiology, University of Pennsylvania, Philadelphia, PA
 
