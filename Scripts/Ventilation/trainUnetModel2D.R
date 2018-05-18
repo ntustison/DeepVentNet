@@ -10,7 +10,7 @@ baseDirectory <- '/Users/ntustison/Data/HeliumLungStudies/DeepVentNet/'
 
 source( paste0( baseDirectory, 'Scripts/unetBatchGenerator2D.R' ) )
 
-classes <- c( "background", "defect", "hypo", "normal", "hypernormal" )
+classes <- c( "background", "defect/hypo", "normal" )
 numberOfClassificationLabels <- length( classes )
 
 imageMods <- c( "Ventilation", "ForegroundMask" )
@@ -39,7 +39,7 @@ for( i in 1:length( trainingVentilationFiles ) )
 
   trainingSegmentationFiles[[i]] <- paste0( dataDirectory,
     'Ventilation/Training/Segmentations/', subjectId, 
-    "Segmentation.nii.gz" )
+    "Segmentation2Class.nii.gz" )
   if( !file.exists( trainingSegmentationFiles[[i]] ) )
     {
     stop( paste( "Segmentation file", trainingSegmentationFiles[[i]], 
@@ -132,10 +132,10 @@ validationDataGenerator <- trainingData$generate( batchSize = batchSize,
 
 track <- unetModel$fit_generator( 
   generator = reticulate::py_iterator( trainingDataGenerator ), 
-  steps_per_epoch = ceiling( 0.05 * 0.8 * 0.5 * 128 * numberOfTrainingData  / batchSize ),
+  steps_per_epoch = ceiling( 0.25 * 0.8 * 0.5 * 128 * numberOfTrainingData  / batchSize ),
   epochs = 200,
   validation_data = reticulate::py_iterator( validationDataGenerator ),
-  validation_steps = ceiling( 0.05 * 0.2 * 0.5 * 128 * numberOfTrainingData  / batchSize ),
+  validation_steps = ceiling( 0.25 * 0.2 * 0.5 * 128 * numberOfTrainingData  / batchSize ),
   callbacks = list( 
     callback_model_checkpoint( paste0( dataDirectory, "Ventilation/unetModel2DWeights.h5" ), 
       monitor = 'loss', save_best_only = TRUE, save_weights_only = TRUE,

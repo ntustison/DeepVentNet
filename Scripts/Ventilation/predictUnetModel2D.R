@@ -11,7 +11,7 @@ ventilationImageDirectory <- paste0( dataDirectory,
 evaluationDirectory <- paste0( dataDirectory, 
   'Ventilation/Prediction/Evaluation/' )
 
-classes <- c( "background", "defect", "hypo", "normal", "hypernormal" )
+classes <- c( "background", "defect/hypo", "normal" )
 numberOfClassificationLabels <- length( classes )
 
 imageMods <- c( "Ventilation", "ForegroundMask" )
@@ -31,7 +31,7 @@ unetModel %>% compile( loss = loss_multilabel_dice_coefficient_error,
   metrics = c( multilabel_dice_coefficient ) )
 
 ventilationImageFiles <- list.files( path = ventilationImageDirectory, 
-  pattern = "*Ventilation.nii.gz", full.names = TRUE )
+  pattern = "*N4.nii.gz", full.names = TRUE )
 
 predictionImageFiles <- list()
 predictionSegmentationFiles <- list()
@@ -39,12 +39,12 @@ predictionSegmentationFiles <- list()
 for( i in 1:length( ventilationImageFiles ) )
   {
   subjectId <- basename( ventilationImageFiles[i] )
-  subjectId <- sub( "Proton_N4Denoised.nii.gz", '', subjectId )
+  subjectId <- sub( "N4.nii.gz", '', subjectId )
 
   image <- antsImageRead( ventilationImageFiles[i], dimension = 3 )
   imageSize <- dim( image )
   mask <- antsImageRead( paste0( dataDirectory, 
-    'Ventilation/Prediction/LungMasks/' ), dimension = 3 )
+    'Ventilation/Prediction/LungMasks/', subjectId, "Mask.nii.gz" ), dimension = 3 )
 
   numberOfSlices <- imageSize[direction]  
   originalSliceSize <- imageSize[-direction]
@@ -67,7 +67,7 @@ for( i in 1:length( ventilationImageFiles ) )
     arrayImageSlice <- ( arrayImageSlice - mean( arrayImageSlice ) ) / 
       sd( arrayImageSlice )
     
-    batchX[j,,,1] <- arraySlice
+    batchX[j,,,1] <- arrayImageSlice
     batchX[j,,,2] <- as.array( maskSlice )
     }
     
