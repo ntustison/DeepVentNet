@@ -63,7 +63,7 @@ unetImageBatchGenerator2D <- R6::R6Class( "UnetImageBatchGenerator2D",
       },
 
     generate = function( batchSize = 32L, resampledSliceSize = c( 128, 128 ), 
-      direction = 2, sliceSamplingRate = 0.2 )    
+      direction = 2, sliceSamplingRate = 0.2, doRandomHistogramMatching = TRUE )
       {
       # shuffle the source data
       sampleIndices <- sample( length( self$imageList ) )
@@ -152,7 +152,11 @@ unetImageBatchGenerator2D <- R6::R6Class( "UnetImageBatchGenerator2D",
 
           # Randomly "flip a coin" to see if we perform histogram matching.
 
-          doPerformHistogramMatching <- sample( c( TRUE, FALSE ), size = 1 )
+          doPerformHistogramMatching <- FALSE
+          if( doRandomHistogramMatching == TRUE )
+            {
+            doPerformHistogramMatching <- sample( c( TRUE, FALSE ), size = 1 )
+            }
 
           warpedImagesX <- list()
           for( j in seq_len( channelSize ) )

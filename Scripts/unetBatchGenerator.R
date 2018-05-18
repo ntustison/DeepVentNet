@@ -62,7 +62,8 @@ unetImageBatchGenerator <- R6::R6Class( "UnetImageBatchGenerator",
 
       },
 
-    generate = function( batchSize = 32L, resampledImageSize = c( 64, 64, 64 ) )    
+    generate = function( batchSize = 32L, resampledImageSize = c( 64, 64, 64 ), 
+      doRandomHistogramMatching = TRUE )    
       {
       # shuffle the source data
       sampleIndices <- sample( length( self$imageList ) )
@@ -126,7 +127,7 @@ unetImageBatchGenerator <- R6::R6Class( "UnetImageBatchGenerator",
           {
           subjectBatchImages <- batchImages[[i]]  
 
-          referenceX <- antsImageRead( batchReferenceImages[[i]], dimension = 3 )
+          referenceX <- antsImageRead( batchReferenceImages[[i]][1], dimension = 3 )
           referenceXfrm <- batchReferenceTransforms[[i]]
 
           sourceXfrm <- batchTransforms[[i]]
@@ -155,7 +156,11 @@ unetImageBatchGenerator <- R6::R6Class( "UnetImageBatchGenerator",
 
           # Randomly "flip a coin" to see if we perform histogram matching.
 
-          doPerformHistogramMatching <- sample( c( TRUE, FALSE ), size = 1 )
+          doPerformHistogramMatching <- FALSE
+          if( doRandomHistogramMatching == TRUE )
+            {
+            doPerformHistogramMatching <- sample( c( TRUE, FALSE ), size = 1 )
+            }
 
           # cat( "Hist = ", doPerformHistogramMatching, "\n" );
 

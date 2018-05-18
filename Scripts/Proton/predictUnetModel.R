@@ -22,7 +22,7 @@ resampledImageSize <- c( 128, 128, 48 )
 
 unetModel <- createUnetModel3D( c( resampledImageSize, channelSize ), 
   numberOfClassificationLabels = numberOfClassificationLabels, 
-  layers = 1:4, lowestResolution = 8, dropoutRate = 0.2,
+  layers = 1:4, lowestResolution = 16, dropoutRate = 0.2,
   convolutionKernelSize = c( 5, 5, 5 ), deconvolutionKernelSize = c( 5, 5, 5 ) )
 load_model_weights_hdf5( unetModel, 
   filepath = paste0( dataDirectory, 'Proton/unetModelWeights.h5' ) )
@@ -60,8 +60,13 @@ for( i in 1:length( protonImageFiles ) )
       evaluationDirectory, subjectId, "Probability", j, ".nii.gz" )
 
     cat( "Writing", imageFileName, "\n" )  
-    antsImageWrite( resampleImage( probabilityImagesArray[[1]][[j]], 
-      imageSize, useVoxels = TRUE, interpType = 1 ), imageFileName )  
+
+    probabilityArray <- as.array( 
+      resampleImage( probabilityImagesArray[[1]][[j]], 
+        imageSize, useVoxels = TRUE, interpType = 1 ) )
+    
+    antsImageWrite( as.antsImage( probabilityArray, reference = image ),
+      imageFileName )  
     }  
   }
 

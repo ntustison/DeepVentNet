@@ -1,4 +1,5 @@
 library( ANTsR )
+library( ANTsRNet )
 library( keras )
 
 keras::backend()$clear_session()
@@ -7,21 +8,19 @@ antsrnetDirectory <- '/Users/ntustison/Pkg/ANTsRNet/'
 modelDirectory <- paste0( antsrnetDirectory, 'Models/' )
 baseDirectory <- '/Users/ntustison/Data/HeliumLungStudies/DeepVentNet/'
 
-source( paste0( modelDirectory, 'createUnetModel.R' ) )
-source( paste0( modelDirectory, 'unetUtilities.R' ) )
 source( paste0( baseDirectory, 'Scripts/unetBatchGenerator2D.R' ) )
 
-classes <- c( "background", "defect", "hypo", "normal", "hyper" )
+classes <- c( "background", "defect", "hypo", "normal", "hypernormal" )
 numberOfClassificationLabels <- length( classes )
 
 imageMods <- c( "Ventilation", "ForegroundMask" )
 channelSize <- length( imageMods )
 
-dataDirectory <- paste0( baseDirectory, 'data/' )
+dataDirectory <- paste0( baseDirectory, 'Data/' )
 trainingImageDirectory <- paste0( dataDirectory, 
-  'Ventilation/Images_isotropic_train/' )
+  'Ventilation/Training/Images/' )
 trainingVentilationFiles <- list.files( path = trainingImageDirectory, 
-  pattern = "*Ventilation.nii.gz", full.names = TRUE )
+  pattern = "*N4.nii.gz", full.names = TRUE )
 
 trainingImageFiles <- list()
 trainingSegmentationFiles <- list()
@@ -30,16 +29,16 @@ trainingTransforms <- list()
 for( i in 1:length( trainingVentilationFiles ) )
   {
   subjectId <- basename( trainingVentilationFiles[i] )
-  subjectId <- sub( "Ventilation.nii.gz", '', subjectId )
+  subjectId <- sub( "N4.nii.gz", '', subjectId )
 
   trainingImageFiles[[i]] <- c(
     trainingVentilationFiles[i],
-    paste0( dataDirectory, 'Ventilation/Masks_isotropic_train/', subjectId, 
+    paste0( dataDirectory, 'Ventilation/Training/LungMasks/', subjectId, 
       "Mask.nii.gz" )
     )
 
   trainingSegmentationFiles[[i]] <- paste0( dataDirectory,
-    'Ventilation/Segmentations_isotropic_train/', subjectId, 
+    'Ventilation/Training/Segmentations/', subjectId, 
     "Segmentation.nii.gz" )
   if( !file.exists( trainingSegmentationFiles[[i]] ) )
     {
@@ -47,7 +46,8 @@ for( i in 1:length( trainingVentilationFiles ) )
       "does not exist.\n" ) )
     }
 
-  xfrmPrefix <- paste0( dataDirectory, 'Transforms/', subjectId, "Ventilation_" )
+  xfrmPrefix <- paste0( dataDirectory, 
+    'Ventilation/Training/Template/', subjectId, "Ventilation_" )
 
   fwdtransforms <- c()
   fwdtransforms[1] <- paste0( xfrmPrefix, '1Warp.nii.gz' )
@@ -70,17 +70,20 @@ for( i in 1:length( trainingVentilationFiles ) )
 #
 # Create the Unet model
 #
-
-paddedImageSize <- c( 128, 128, 128 )
+resampledImageSize <- c( 128, 128 )
 
 direction <- 3
 
-unetModel <- createUnetModel2D( c( paddedImageSize[-direction], channelSize ), 
+unetModel <- createUnetModel2D( c( resampledImageSize, channelSize ), 
   numberOfClassificationLabels = numberOfClassificationLabels, 
-  layers = 1:4 )
+  layers = 1:4, lowestResolution = 32, dropoutRate = 0.2,
+  convolutionKernelSize = c( 5, 5 ), deconvolutionKernelSize = c( 5, 5 ) )
+
+# load_model_weights_hdf5( unetModel, 
+#   filepath = paste0( dataDirectory, 'Ventilation/Models/unetModel2DWeights.h5' ) )
 
 unetModel %>% compile( loss = loss_multilabel_dice_coefficient_error,
-  optimizer = optimizer_adam( lr = 0.0001 ),  
+  optimizer = optimizer_adam( lr = 0.00001 ),  
   metrics = c( multilabel_dice_coefficient ) )
 
 ###
@@ -96,7 +99,7 @@ batchSize <- 32L
 numberOfTrainingData <- length( trainingImageFiles )
 sampleIndices <- sample( numberOfTrainingData )
 
-validationSplit <- floor( 0.9 * length( numberOfTrainingData ) )
+validationSplit <- floor( 0.8 * length( numberOfTrainingData ) )
 trainingIndices <- sampleIndices[1:validationSplit]
 validationIndices <- sampleIndices[( validationSplit + 1 ):batchSize]
 
@@ -108,8 +111,8 @@ trainingData <- unetImageBatchGenerator2D$new(
   referenceTransformList = trainingTransforms )
 
 trainingDataGenerator <- trainingData$generate( batchSize = batchSize,
-  direction = direction, sliceSamplingRate = 0.2,
-  paddedSize = paddedImageSize[-direction] )
+  direction = direction, sliceSamplingRate = 0.5,
+  resampledSliceSize = resampledImageSize )
 
 validationData <- unetImageBatchGenerator2D$new( 
   imageList = trainingImageFiles[validationIndices], 
@@ -119,8 +122,8 @@ validationData <- unetImageBatchGenerator2D$new(
   referenceTransformList = trainingTransforms )
 
 validationDataGenerator <- trainingData$generate( batchSize = batchSize,
-  direction = direction, sliceSamplingRate = 0.2,
-  paddedSize = paddedImageSize[-direction] )
+  direction = direction, sliceSamplingRate = 0.5,
+  resampledSliceSize = resampledImageSize )
 
 ###
 #
@@ -129,21 +132,21 @@ validationDataGenerator <- trainingData$generate( batchSize = batchSize,
 
 track <- unetModel$fit_generator( 
   generator = reticulate::py_iterator( trainingDataGenerator ), 
-  steps_per_epoch = 50, #ceiling( 400 / batchSize ),
-  epochs = 100,
+  steps_per_epoch = ceiling( 0.05 * 0.8 * 0.5 * 128 * numberOfTrainingData  / batchSize ),
+  epochs = 200,
   validation_data = reticulate::py_iterator( validationDataGenerator ),
-  validation_steps = 20,
+  validation_steps = ceiling( 0.05 * 0.2 * 0.5 * 128 * numberOfTrainingData  / batchSize ),
   callbacks = list( 
-    callback_model_checkpoint( paste0( baseDirectory, "unetModel.h5" ), 
-      monitor = 'val_loss', save_best_only = TRUE, save_weights_only = FALSE,
-      verbose = 1, mode = 'auto', period = 1 )
-    # callback_early_stopping( monitor = 'val_loss', min_delta = 0.001, 
-    #   patience = 10 ),
-    # callback_reduce_lr_on_plateau( monitor = 'val_loss', factor = 0.5,
-    #   patience = 0, epsilon = 0.001, cooldown = 0 )
-                  # callback_early_stopping( patience = 2, monitor = 'loss' ),
-    )
+    callback_model_checkpoint( paste0( dataDirectory, "Ventilation/unetModel2DWeights.h5" ), 
+      monitor = 'loss', save_best_only = TRUE, save_weights_only = TRUE,
+      verbose = 1, mode = 'auto', period = 1 ),
+     callback_reduce_lr_on_plateau( monitor = 'loss', factor = 0.1,
+       verbose = 1, patience = 10, mode = 'auto' )
+      # ,
+    #  callback_early_stopping( monitor = 'val_loss', min_delta = 0.001, 
+    #    patience = 10 ),
   )
+)  
 
 
 
