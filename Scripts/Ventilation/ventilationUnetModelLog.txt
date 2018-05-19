@@ -1,0 +1,612 @@
+> source( "trainUnetModel2D.R" )
+/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/tensorflow/python/ops/gradients_impl.py:97: UserWarning: Converting sparse IndexedSlices to a dense Tensor of unknown shape. This may consume a large amount of memory.
+  "Converting sparse IndexedSlices to a dense Tensor of unknown shape. "
+Epoch 1/200
+2018-05-18 14:27:53.482343: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1306] Adding visible gpu devices: 0
+2018-05-18 14:27:53.482488: I tensorflow/core/common_runtime/gpu/gpu_device.cc:987] Creating TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 75 MB memory) -> physical GPU (device: 0, name: TITAN Xp, pci bus id: 0000:c3:00.0, compute capability: 6.1)
+29/30 [============================>.] - ETA: 4s - loss: -0.5505 - multilabel_dice_coefficient: 0.5505  
+Epoch 00001: loss improved from inf to -0.55217, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 172s 6s/step - loss: -0.5522 - multilabel_dice_coefficient: 0.5522 - val_loss: -0.5640 - val_multilabel_dice_coefficient: 0.5640
+Epoch 2/200
+29/30 [============================>.] - ETA: 4s - loss: -0.5658 - multilabel_dice_coefficient: 0.5658  
+Epoch 00002: loss improved from -0.55217 to -0.56640, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 175s 6s/step - loss: -0.5664 - multilabel_dice_coefficient: 0.5664 - val_loss: -0.5764 - val_multilabel_dice_coefficient: 0.5764
+Epoch 3/200
+29/30 [============================>.] - ETA: 4s - loss: -0.6487 - multilabel_dice_coefficient: 0.6487  
+Epoch 00003: loss improved from -0.56640 to -0.65119, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 176s 6s/step - loss: -0.6512 - multilabel_dice_coefficient: 0.6512 - val_loss: -0.6829 - val_multilabel_dice_coefficient: 0.6829
+Epoch 4/200
+29/30 [============================>.] - ETA: 4s - loss: -0.7340 - multilabel_dice_coefficient: 0.7340  
+Epoch 00004: loss improved from -0.65119 to -0.73448, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 168s 6s/step - loss: -0.7345 - multilabel_dice_coefficient: 0.7345 - val_loss: -0.7151 - val_multilabel_dice_coefficient: 0.7151
+Epoch 5/200
+29/30 [============================>.] - ETA: 4s - loss: -0.7683 - multilabel_dice_coefficient: 0.7683  
+Epoch 00005: loss improved from -0.73448 to -0.76804, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 163s 5s/step - loss: -0.7680 - multilabel_dice_coefficient: 0.7680 - val_loss: -0.7103 - val_multilabel_dice_coefficient: 0.7103
+Epoch 6/200
+29/30 [============================>.] - ETA: 4s - loss: -0.7812 - multilabel_dice_coefficient: 0.7812  
+Epoch 00006: loss improved from -0.76804 to -0.78155, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 167s 6s/step - loss: -0.7815 - multilabel_dice_coefficient: 0.7815 - val_loss: -0.7232 - val_multilabel_dice_coefficient: 0.7232
+Epoch 7/200
+29/30 [============================>.] - ETA: 4s - loss: -0.8037 - multilabel_dice_coefficient: 0.8037  
+Epoch 00007: loss improved from -0.78155 to -0.80430, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 168s 6s/step - loss: -0.8043 - multilabel_dice_coefficient: 0.8043 - val_loss: -0.7143 - val_multilabel_dice_coefficient: 0.7143
+Epoch 8/200
+29/30 [============================>.] - ETA: 4s - loss: -0.8248 - multilabel_dice_coefficient: 0.8248  
+Epoch 00008: loss improved from -0.80430 to -0.82504, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 166s 6s/step - loss: -0.8250 - multilabel_dice_coefficient: 0.8250 - val_loss: -0.7384 - val_multilabel_dice_coefficient: 0.7384
+Epoch 9/200
+29/30 [============================>.] - ETA: 4s - loss: -0.8453 - multilabel_dice_coefficient: 0.8453  
+Epoch 00009: loss improved from -0.82504 to -0.84589, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 165s 5s/step - loss: -0.8459 - multilabel_dice_coefficient: 0.8459 - val_loss: -0.7409 - val_multilabel_dice_coefficient: 0.7409
+Epoch 10/200
+29/30 [============================>.] - ETA: 4s - loss: -0.8666 - multilabel_dice_coefficient: 0.8666  
+Epoch 00010: loss improved from -0.84589 to -0.86715, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 168s 6s/step - loss: -0.8672 - multilabel_dice_coefficient: 0.8672 - val_loss: -0.7717 - val_multilabel_dice_coefficient: 0.7717
+Epoch 11/200
+29/30 [============================>.] - ETA: 4s - loss: -0.8849 - multilabel_dice_coefficient: 0.8849  
+Epoch 00011: loss improved from -0.86715 to -0.88517, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 169s 6s/step - loss: -0.8852 - multilabel_dice_coefficient: 0.8852 - val_loss: -0.8039 - val_multilabel_dice_coefficient: 0.8039
+Epoch 12/200
+29/30 [============================>.] - ETA: 4s - loss: -0.8943 - multilabel_dice_coefficient: 0.8943  
+Epoch 00012: loss improved from -0.88517 to -0.89419, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 170s 6s/step - loss: -0.8942 - multilabel_dice_coefficient: 0.8942 - val_loss: -0.7940 - val_multilabel_dice_coefficient: 0.7940
+Epoch 13/200
+29/30 [============================>.] - ETA: 4s - loss: -0.8974 - multilabel_dice_coefficient: 0.8974  
+Epoch 00013: loss improved from -0.89419 to -0.89748, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 166s 6s/step - loss: -0.8975 - multilabel_dice_coefficient: 0.8975 - val_loss: -0.8285 - val_multilabel_dice_coefficient: 0.8285
+Epoch 14/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9060 - multilabel_dice_coefficient: 0.9060  
+Epoch 00014: loss improved from -0.89748 to -0.90627, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 166s 6s/step - loss: -0.9063 - multilabel_dice_coefficient: 0.9063 - val_loss: -0.8280 - val_multilabel_dice_coefficient: 0.8280
+Epoch 15/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9117 - multilabel_dice_coefficient: 0.9117  
+Epoch 00015: loss improved from -0.90627 to -0.91201, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 168s 6s/step - loss: -0.9120 - multilabel_dice_coefficient: 0.9120 - val_loss: -0.8272 - val_multilabel_dice_coefficient: 0.8272
+Epoch 16/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9137 - multilabel_dice_coefficient: 0.9137  
+Epoch 00016: loss improved from -0.91201 to -0.91379, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 174s 6s/step - loss: -0.9138 - multilabel_dice_coefficient: 0.9138 - val_loss: -0.8401 - val_multilabel_dice_coefficient: 0.8401
+Epoch 17/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9150 - multilabel_dice_coefficient: 0.9150  
+Epoch 00017: loss improved from -0.91379 to -0.91509, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 178s 6s/step - loss: -0.9151 - multilabel_dice_coefficient: 0.9151 - val_loss: -0.8510 - val_multilabel_dice_coefficient: 0.8510
+Epoch 18/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9198 - multilabel_dice_coefficient: 0.9198  
+Epoch 00018: loss improved from -0.91509 to -0.92007, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 170s 6s/step - loss: -0.9201 - multilabel_dice_coefficient: 0.9201 - val_loss: -0.8484 - val_multilabel_dice_coefficient: 0.8484
+Epoch 19/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9204 - multilabel_dice_coefficient: 0.9204  
+Epoch 00019: loss improved from -0.92007 to -0.92026, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 169s 6s/step - loss: -0.9203 - multilabel_dice_coefficient: 0.9203 - val_loss: -0.8692 - val_multilabel_dice_coefficient: 0.8692
+Epoch 20/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9233 - multilabel_dice_coefficient: 0.9233  
+Epoch 00020: loss improved from -0.92026 to -0.92336, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 169s 6s/step - loss: -0.9234 - multilabel_dice_coefficient: 0.9234 - val_loss: -0.8652 - val_multilabel_dice_coefficient: 0.8652
+Epoch 21/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9260 - multilabel_dice_coefficient: 0.9260  
+Epoch 00021: loss improved from -0.92336 to -0.92608, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 169s 6s/step - loss: -0.9261 - multilabel_dice_coefficient: 0.9261 - val_loss: -0.8575 - val_multilabel_dice_coefficient: 0.8575
+Epoch 22/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9246 - multilabel_dice_coefficient: 0.9246  
+Epoch 00022: loss did not improve
+30/30 [==============================] - 169s 6s/step - loss: -0.9245 - multilabel_dice_coefficient: 0.9245 - val_loss: -0.8699 - val_multilabel_dice_coefficient: 0.8699
+Epoch 23/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9291 - multilabel_dice_coefficient: 0.9291  
+Epoch 00023: loss improved from -0.92608 to -0.92918, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 170s 6s/step - loss: -0.9292 - multilabel_dice_coefficient: 0.9292 - val_loss: -0.8786 - val_multilabel_dice_coefficient: 0.8786
+Epoch 24/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9291 - multilabel_dice_coefficient: 0.9291  
+Epoch 00024: loss did not improve
+30/30 [==============================] - 172s 6s/step - loss: -0.9289 - multilabel_dice_coefficient: 0.9289 - val_loss: -0.8637 - val_multilabel_dice_coefficient: 0.8637
+Epoch 25/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9314 - multilabel_dice_coefficient: 0.9314  
+Epoch 00025: loss improved from -0.92918 to -0.93154, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 172s 6s/step - loss: -0.9315 - multilabel_dice_coefficient: 0.9315 - val_loss: -0.8717 - val_multilabel_dice_coefficient: 0.8717
+Epoch 26/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9322 - multilabel_dice_coefficient: 0.9322  
+Epoch 00026: loss improved from -0.93154 to -0.93214, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 169s 6s/step - loss: -0.9321 - multilabel_dice_coefficient: 0.9321 - val_loss: -0.8817 - val_multilabel_dice_coefficient: 0.8817
+Epoch 27/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9327 - multilabel_dice_coefficient: 0.9327  
+Epoch 00027: loss improved from -0.93214 to -0.93276, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 168s 6s/step - loss: -0.9328 - multilabel_dice_coefficient: 0.9328 - val_loss: -0.8858 - val_multilabel_dice_coefficient: 0.8858
+Epoch 28/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9347 - multilabel_dice_coefficient: 0.9347  
+Epoch 00028: loss improved from -0.93276 to -0.93471, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 168s 6s/step - loss: -0.9347 - multilabel_dice_coefficient: 0.9347 - val_loss: -0.8854 - val_multilabel_dice_coefficient: 0.8854
+Epoch 29/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9345 - multilabel_dice_coefficient: 0.9345  
+Epoch 00029: loss did not improve
+30/30 [==============================] - 166s 6s/step - loss: -0.9344 - multilabel_dice_coefficient: 0.9344 - val_loss: -0.8734 - val_multilabel_dice_coefficient: 0.8734
+Epoch 30/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9334 - multilabel_dice_coefficient: 0.9334  
+Epoch 00030: loss did not improve
+30/30 [==============================] - 167s 6s/step - loss: -0.9334 - multilabel_dice_coefficient: 0.9334 - val_loss: -0.8864 - val_multilabel_dice_coefficient: 0.8864
+Epoch 31/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9355 - multilabel_dice_coefficient: 0.9355  
+Epoch 00031: loss improved from -0.93471 to -0.93554, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 171s 6s/step - loss: -0.9355 - multilabel_dice_coefficient: 0.9355 - val_loss: -0.8883 - val_multilabel_dice_coefficient: 0.8883
+Epoch 32/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9377 - multilabel_dice_coefficient: 0.9377  
+Epoch 00032: loss improved from -0.93554 to -0.93765, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 174s 6s/step - loss: -0.9377 - multilabel_dice_coefficient: 0.9377 - val_loss: -0.8865 - val_multilabel_dice_coefficient: 0.8865
+Epoch 33/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9353 - multilabel_dice_coefficient: 0.9353  
+Epoch 00033: loss did not improve
+30/30 [==============================] - 168s 6s/step - loss: -0.9355 - multilabel_dice_coefficient: 0.9355 - val_loss: -0.8929 - val_multilabel_dice_coefficient: 0.8929
+Epoch 34/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9375 - multilabel_dice_coefficient: 0.9375  
+Epoch 00034: loss did not improve
+30/30 [==============================] - 168s 6s/step - loss: -0.9375 - multilabel_dice_coefficient: 0.9375 - val_loss: -0.8991 - val_multilabel_dice_coefficient: 0.8991
+Epoch 35/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9389 - multilabel_dice_coefficient: 0.9389  
+Epoch 00035: loss improved from -0.93765 to -0.93887, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 170s 6s/step - loss: -0.9389 - multilabel_dice_coefficient: 0.9389 - val_loss: -0.8953 - val_multilabel_dice_coefficient: 0.8953
+Epoch 36/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9381 - multilabel_dice_coefficient: 0.9381  
+Epoch 00036: loss did not improve
+30/30 [==============================] - 169s 6s/step - loss: -0.9381 - multilabel_dice_coefficient: 0.9381 - val_loss: -0.9004 - val_multilabel_dice_coefficient: 0.9004
+Epoch 37/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9407 - multilabel_dice_coefficient: 0.9407  
+Epoch 00037: loss improved from -0.93887 to -0.94068, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 168s 6s/step - loss: -0.9407 - multilabel_dice_coefficient: 0.9407 - val_loss: -0.8963 - val_multilabel_dice_coefficient: 0.8963
+Epoch 38/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9405 - multilabel_dice_coefficient: 0.9405  
+Epoch 00038: loss did not improve
+30/30 [==============================] - 165s 6s/step - loss: -0.9404 - multilabel_dice_coefficient: 0.9404 - val_loss: -0.9121 - val_multilabel_dice_coefficient: 0.9121
+Epoch 39/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9416 - multilabel_dice_coefficient: 0.9416  
+Epoch 00039: loss improved from -0.94068 to -0.94159, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 169s 6s/step - loss: -0.9416 - multilabel_dice_coefficient: 0.9416 - val_loss: -0.9011 - val_multilabel_dice_coefficient: 0.9011
+Epoch 40/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9419 - multilabel_dice_coefficient: 0.9419  
+Epoch 00040: loss improved from -0.94159 to -0.94195, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 173s 6s/step - loss: -0.9420 - multilabel_dice_coefficient: 0.9420 - val_loss: -0.9036 - val_multilabel_dice_coefficient: 0.9036
+Epoch 41/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9399 - multilabel_dice_coefficient: 0.9399  
+Epoch 00041: loss did not improve
+30/30 [==============================] - 171s 6s/step - loss: -0.9400 - multilabel_dice_coefficient: 0.9400 - val_loss: -0.8996 - val_multilabel_dice_coefficient: 0.8996
+Epoch 42/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9416 - multilabel_dice_coefficient: 0.9416  
+Epoch 00042: loss did not improve
+30/30 [==============================] - 172s 6s/step - loss: -0.9416 - multilabel_dice_coefficient: 0.9416 - val_loss: -0.9113 - val_multilabel_dice_coefficient: 0.9113
+Epoch 43/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9412 - multilabel_dice_coefficient: 0.9412  
+Epoch 00043: loss did not improve
+30/30 [==============================] - 172s 6s/step - loss: -0.9411 - multilabel_dice_coefficient: 0.9411 - val_loss: -0.9197 - val_multilabel_dice_coefficient: 0.9197
+Epoch 44/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9423 - multilabel_dice_coefficient: 0.9423  
+Epoch 00044: loss improved from -0.94195 to -0.94241, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 168s 6s/step - loss: -0.9424 - multilabel_dice_coefficient: 0.9424 - val_loss: -0.9178 - val_multilabel_dice_coefficient: 0.9178
+Epoch 45/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9431 - multilabel_dice_coefficient: 0.9431  
+Epoch 00045: loss improved from -0.94241 to -0.94320, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 166s 6s/step - loss: -0.9432 - multilabel_dice_coefficient: 0.9432 - val_loss: -0.8998 - val_multilabel_dice_coefficient: 0.8998
+Epoch 46/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9435 - multilabel_dice_coefficient: 0.9435  
+Epoch 00046: loss improved from -0.94320 to -0.94363, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 166s 6s/step - loss: -0.9436 - multilabel_dice_coefficient: 0.9436 - val_loss: -0.9093 - val_multilabel_dice_coefficient: 0.9093
+Epoch 47/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9456 - multilabel_dice_coefficient: 0.9456  
+Epoch 00047: loss improved from -0.94363 to -0.94566, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 160s 5s/step - loss: -0.9457 - multilabel_dice_coefficient: 0.9457 - val_loss: -0.9142 - val_multilabel_dice_coefficient: 0.9142
+Epoch 48/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9441 - multilabel_dice_coefficient: 0.9441  
+Epoch 00048: loss did not improve
+30/30 [==============================] - 174s 6s/step - loss: -0.9441 - multilabel_dice_coefficient: 0.9441 - val_loss: -0.9096 - val_multilabel_dice_coefficient: 0.9096
+Epoch 49/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9445 - multilabel_dice_coefficient: 0.9445  
+Epoch 00049: loss did not improve
+30/30 [==============================] - 165s 5s/step - loss: -0.9446 - multilabel_dice_coefficient: 0.9446 - val_loss: -0.9197 - val_multilabel_dice_coefficient: 0.9197
+Epoch 50/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9453 - multilabel_dice_coefficient: 0.9453  
+Epoch 00050: loss did not improve
+30/30 [==============================] - 166s 6s/step - loss: -0.9453 - multilabel_dice_coefficient: 0.9453 - val_loss: -0.9051 - val_multilabel_dice_coefficient: 0.9051
+Epoch 51/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9432 - multilabel_dice_coefficient: 0.9432  
+Epoch 00051: loss did not improve
+30/30 [==============================] - 179s 6s/step - loss: -0.9434 - multilabel_dice_coefficient: 0.9434 - val_loss: -0.9167 - val_multilabel_dice_coefficient: 0.9167
+Epoch 52/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9459 - multilabel_dice_coefficient: 0.9459  
+Epoch 00052: loss improved from -0.94566 to -0.94598, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 168s 6s/step - loss: -0.9460 - multilabel_dice_coefficient: 0.9460 - val_loss: -0.9236 - val_multilabel_dice_coefficient: 0.9236
+Epoch 53/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9465 - multilabel_dice_coefficient: 0.9465  
+Epoch 00053: loss did not improve
+30/30 [==============================] - 170s 6s/step - loss: -0.9456 - multilabel_dice_coefficient: 0.9456 - val_loss: -0.9217 - val_multilabel_dice_coefficient: 0.9217
+Epoch 54/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9459 - multilabel_dice_coefficient: 0.9459  
+Epoch 00054: loss improved from -0.94598 to -0.94603, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 168s 6s/step - loss: -0.9460 - multilabel_dice_coefficient: 0.9460 - val_loss: -0.9158 - val_multilabel_dice_coefficient: 0.9158
+Epoch 55/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9464 - multilabel_dice_coefficient: 0.9464  
+Epoch 00055: loss improved from -0.94603 to -0.94657, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 167s 6s/step - loss: -0.9466 - multilabel_dice_coefficient: 0.9466 - val_loss: -0.9216 - val_multilabel_dice_coefficient: 0.9216
+Epoch 56/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9473 - multilabel_dice_coefficient: 0.9473  
+Epoch 00056: loss improved from -0.94657 to -0.94727, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 165s 6s/step - loss: -0.9473 - multilabel_dice_coefficient: 0.9473 - val_loss: -0.9134 - val_multilabel_dice_coefficient: 0.9134
+Epoch 57/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9472 - multilabel_dice_coefficient: 0.9472  
+Epoch 00057: loss did not improve
+30/30 [==============================] - 162s 5s/step - loss: -0.9472 - multilabel_dice_coefficient: 0.9472 - val_loss: -0.9229 - val_multilabel_dice_coefficient: 0.9229
+Epoch 58/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9470 - multilabel_dice_coefficient: 0.9470  
+Epoch 00058: loss did not improve
+30/30 [==============================] - 169s 6s/step - loss: -0.9468 - multilabel_dice_coefficient: 0.9468 - val_loss: -0.9274 - val_multilabel_dice_coefficient: 0.9274
+Epoch 59/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9477 - multilabel_dice_coefficient: 0.9477  
+Epoch 00059: loss improved from -0.94727 to -0.94771, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 165s 6s/step - loss: -0.9477 - multilabel_dice_coefficient: 0.9477 - val_loss: -0.9250 - val_multilabel_dice_coefficient: 0.9250
+Epoch 60/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9457 - multilabel_dice_coefficient: 0.9457  
+Epoch 00060: loss did not improve
+30/30 [==============================] - 168s 6s/step - loss: -0.9458 - multilabel_dice_coefficient: 0.9458 - val_loss: -0.9176 - val_multilabel_dice_coefficient: 0.9176
+Epoch 61/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9476 - multilabel_dice_coefficient: 0.9476  
+Epoch 00061: loss improved from -0.94771 to -0.94776, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 169s 6s/step - loss: -0.9478 - multilabel_dice_coefficient: 0.9478 - val_loss: -0.9262 - val_multilabel_dice_coefficient: 0.9262
+Epoch 62/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9473 - multilabel_dice_coefficient: 0.9473  
+Epoch 00062: loss did not improve
+30/30 [==============================] - 168s 6s/step - loss: -0.9473 - multilabel_dice_coefficient: 0.9473 - val_loss: -0.9279 - val_multilabel_dice_coefficient: 0.9279
+Epoch 63/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9477 - multilabel_dice_coefficient: 0.9477  
+Epoch 00063: loss did not improve
+30/30 [==============================] - 170s 6s/step - loss: -0.9474 - multilabel_dice_coefficient: 0.9474 - val_loss: -0.9247 - val_multilabel_dice_coefficient: 0.9247
+Epoch 64/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9488 - multilabel_dice_coefficient: 0.9488  
+Epoch 00064: loss improved from -0.94776 to -0.94876, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 170s 6s/step - loss: -0.9488 - multilabel_dice_coefficient: 0.9488 - val_loss: -0.9264 - val_multilabel_dice_coefficient: 0.9264
+Epoch 65/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9491 - multilabel_dice_coefficient: 0.9491  
+Epoch 00065: loss improved from -0.94876 to -0.94912, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 167s 6s/step - loss: -0.9491 - multilabel_dice_coefficient: 0.9491 - val_loss: -0.9231 - val_multilabel_dice_coefficient: 0.9231
+Epoch 66/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9476 - multilabel_dice_coefficient: 0.9476  
+Epoch 00066: loss did not improve
+30/30 [==============================] - 168s 6s/step - loss: -0.9477 - multilabel_dice_coefficient: 0.9477 - val_loss: -0.9260 - val_multilabel_dice_coefficient: 0.9260
+Epoch 67/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9494 - multilabel_dice_coefficient: 0.9494  
+Epoch 00067: loss improved from -0.94912 to -0.94929, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 170s 6s/step - loss: -0.9493 - multilabel_dice_coefficient: 0.9493 - val_loss: -0.9260 - val_multilabel_dice_coefficient: 0.9260
+Epoch 68/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9483 - multilabel_dice_coefficient: 0.9483  
+Epoch 00068: loss did not improve
+30/30 [==============================] - 164s 5s/step - loss: -0.9482 - multilabel_dice_coefficient: 0.9482 - val_loss: -0.9238 - val_multilabel_dice_coefficient: 0.9238
+Epoch 69/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9493 - multilabel_dice_coefficient: 0.9493  
+Epoch 00069: loss improved from -0.94929 to -0.94936, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 170s 6s/step - loss: -0.9494 - multilabel_dice_coefficient: 0.9494 - val_loss: -0.9290 - val_multilabel_dice_coefficient: 0.9290
+Epoch 70/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9501 - multilabel_dice_coefficient: 0.9501  
+Epoch 00070: loss improved from -0.94936 to -0.95008, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 171s 6s/step - loss: -0.9501 - multilabel_dice_coefficient: 0.9501 - val_loss: -0.9270 - val_multilabel_dice_coefficient: 0.9270
+Epoch 71/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9488 - multilabel_dice_coefficient: 0.9488  
+Epoch 00071: loss did not improve
+30/30 [==============================] - 170s 6s/step - loss: -0.9489 - multilabel_dice_coefficient: 0.9489 - val_loss: -0.9213 - val_multilabel_dice_coefficient: 0.9213
+Epoch 72/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9497 - multilabel_dice_coefficient: 0.9497  
+Epoch 00072: loss did not improve
+30/30 [==============================] - 172s 6s/step - loss: -0.9497 - multilabel_dice_coefficient: 0.9497 - val_loss: -0.9294 - val_multilabel_dice_coefficient: 0.9294
+Epoch 73/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9487 - multilabel_dice_coefficient: 0.9487  
+Epoch 00073: loss did not improve
+30/30 [==============================] - 169s 6s/step - loss: -0.9488 - multilabel_dice_coefficient: 0.9488 - val_loss: -0.9266 - val_multilabel_dice_coefficient: 0.9266
+Epoch 74/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9490 - multilabel_dice_coefficient: 0.9490  
+Epoch 00074: loss did not improve
+30/30 [==============================] - 167s 6s/step - loss: -0.9491 - multilabel_dice_coefficient: 0.9491 - val_loss: -0.9156 - val_multilabel_dice_coefficient: 0.9156
+Epoch 75/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9489 - multilabel_dice_coefficient: 0.9489  
+Epoch 00075: loss did not improve
+30/30 [==============================] - 167s 6s/step - loss: -0.9487 - multilabel_dice_coefficient: 0.9487 - val_loss: -0.9298 - val_multilabel_dice_coefficient: 0.9298
+Epoch 76/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9513 - multilabel_dice_coefficient: 0.9513  
+Epoch 00076: loss improved from -0.95008 to -0.95122, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 170s 6s/step - loss: -0.9512 - multilabel_dice_coefficient: 0.9512 - val_loss: -0.9277 - val_multilabel_dice_coefficient: 0.9277
+Epoch 77/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9500 - multilabel_dice_coefficient: 0.9500  
+Epoch 00077: loss did not improve
+30/30 [==============================] - 167s 6s/step - loss: -0.9502 - multilabel_dice_coefficient: 0.9502 - val_loss: -0.9306 - val_multilabel_dice_coefficient: 0.9306
+Epoch 78/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9511 - multilabel_dice_coefficient: 0.9511  
+Epoch 00078: loss did not improve
+30/30 [==============================] - 166s 6s/step - loss: -0.9511 - multilabel_dice_coefficient: 0.9511 - val_loss: -0.9289 - val_multilabel_dice_coefficient: 0.9289
+Epoch 79/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9499 - multilabel_dice_coefficient: 0.9499  
+Epoch 00079: loss did not improve
+30/30 [==============================] - 168s 6s/step - loss: -0.9498 - multilabel_dice_coefficient: 0.9498 - val_loss: -0.9271 - val_multilabel_dice_coefficient: 0.9271
+Epoch 80/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9505 - multilabel_dice_coefficient: 0.9505  
+Epoch 00080: loss did not improve
+30/30 [==============================] - 168s 6s/step - loss: -0.9504 - multilabel_dice_coefficient: 0.9504 - val_loss: -0.9290 - val_multilabel_dice_coefficient: 0.9290
+Epoch 81/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9501 - multilabel_dice_coefficient: 0.9501  
+Epoch 00081: loss did not improve
+30/30 [==============================] - 164s 5s/step - loss: -0.9502 - multilabel_dice_coefficient: 0.9502 - val_loss: -0.9347 - val_multilabel_dice_coefficient: 0.9347
+Epoch 82/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9500 - multilabel_dice_coefficient: 0.9500  
+Epoch 00082: loss did not improve
+30/30 [==============================] - 165s 6s/step - loss: -0.9498 - multilabel_dice_coefficient: 0.9498 - val_loss: -0.9323 - val_multilabel_dice_coefficient: 0.9323
+Epoch 83/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9524 - multilabel_dice_coefficient: 0.9524  
+Epoch 00083: loss improved from -0.95122 to -0.95254, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 168s 6s/step - loss: -0.9525 - multilabel_dice_coefficient: 0.9525 - val_loss: -0.9359 - val_multilabel_dice_coefficient: 0.9359
+Epoch 84/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9521 - multilabel_dice_coefficient: 0.9521  
+Epoch 00084: loss did not improve
+30/30 [==============================] - 169s 6s/step - loss: -0.9522 - multilabel_dice_coefficient: 0.9522 - val_loss: -0.9350 - val_multilabel_dice_coefficient: 0.9350
+Epoch 85/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9514 - multilabel_dice_coefficient: 0.9514  
+Epoch 00085: loss did not improve
+30/30 [==============================] - 168s 6s/step - loss: -0.9515 - multilabel_dice_coefficient: 0.9515 - val_loss: -0.9315 - val_multilabel_dice_coefficient: 0.9315
+Epoch 86/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9497 - multilabel_dice_coefficient: 0.9497  
+Epoch 00086: loss did not improve
+30/30 [==============================] - 168s 6s/step - loss: -0.9498 - multilabel_dice_coefficient: 0.9498 - val_loss: -0.9273 - val_multilabel_dice_coefficient: 0.9273
+Epoch 87/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9516 - multilabel_dice_coefficient: 0.9516  
+Epoch 00087: loss did not improve
+30/30 [==============================] - 166s 6s/step - loss: -0.9517 - multilabel_dice_coefficient: 0.9517 - val_loss: -0.9267 - val_multilabel_dice_coefficient: 0.9267
+Epoch 88/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9502 - multilabel_dice_coefficient: 0.9502  
+Epoch 00088: loss did not improve
+30/30 [==============================] - 170s 6s/step - loss: -0.9503 - multilabel_dice_coefficient: 0.9503 - val_loss: -0.9333 - val_multilabel_dice_coefficient: 0.9333
+Epoch 89/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9519 - multilabel_dice_coefficient: 0.9519  
+Epoch 00089: loss did not improve
+30/30 [==============================] - 180s 6s/step - loss: -0.9519 - multilabel_dice_coefficient: 0.9519 - val_loss: -0.9286 - val_multilabel_dice_coefficient: 0.9286
+Epoch 90/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9519 - multilabel_dice_coefficient: 0.9519  
+Epoch 00090: loss did not improve
+30/30 [==============================] - 167s 6s/step - loss: -0.9519 - multilabel_dice_coefficient: 0.9519 - val_loss: -0.9362 - val_multilabel_dice_coefficient: 0.9362
+Epoch 91/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9519 - multilabel_dice_coefficient: 0.9519  
+Epoch 00091: loss did not improve
+30/30 [==============================] - 170s 6s/step - loss: -0.9518 - multilabel_dice_coefficient: 0.9518 - val_loss: -0.9322 - val_multilabel_dice_coefficient: 0.9322
+Epoch 92/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9523 - multilabel_dice_coefficient: 0.9523  
+Epoch 00092: loss did not improve
+30/30 [==============================] - 167s 6s/step - loss: -0.9517 - multilabel_dice_coefficient: 0.9517 - val_loss: -0.9318 - val_multilabel_dice_coefficient: 0.9318
+Epoch 93/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9529 - multilabel_dice_coefficient: 0.9529  
+Epoch 00093: loss improved from -0.95254 to -0.95297, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 168s 6s/step - loss: -0.9530 - multilabel_dice_coefficient: 0.9530 - val_loss: -0.9351 - val_multilabel_dice_coefficient: 0.9351
+Epoch 94/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9525 - multilabel_dice_coefficient: 0.9525  
+Epoch 00094: loss did not improve
+30/30 [==============================] - 167s 6s/step - loss: -0.9526 - multilabel_dice_coefficient: 0.9526 - val_loss: -0.9367 - val_multilabel_dice_coefficient: 0.9367
+Epoch 95/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9516 - multilabel_dice_coefficient: 0.9516  ^[[A
+Epoch 00095: loss did not improve
+30/30 [==============================] - 172s 6s/step - loss: -0.9518 - multilabel_dice_coefficient: 0.9518 - val_loss: -0.9259 - val_multilabel_dice_coefficient: 0.9259
+Epoch 96/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9529 - multilabel_dice_coefficient: 0.9529  
+Epoch 00096: loss did not improve
+30/30 [==============================] - 172s 6s/step - loss: -0.9528 - multilabel_dice_coefficient: 0.9528 - val_loss: -0.9324 - val_multilabel_dice_coefficient: 0.9324
+Epoch 97/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9510 - multilabel_dice_coefficient: 0.9510  
+Epoch 00097: loss did not improve
+30/30 [==============================] - 171s 6s/step - loss: -0.9510 - multilabel_dice_coefficient: 0.9510 - val_loss: -0.9379 - val_multilabel_dice_coefficient: 0.9379
+Epoch 98/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9530 - multilabel_dice_coefficient: 0.9530  
+Epoch 00098: loss improved from -0.95297 to -0.95297, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 171s 6s/step - loss: -0.9530 - multilabel_dice_coefficient: 0.9530 - val_loss: -0.9386 - val_multilabel_dice_coefficient: 0.9386
+Epoch 99/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9531 - multilabel_dice_coefficient: 0.9531  
+Epoch 00099: loss improved from -0.95297 to -0.95303, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 169s 6s/step - loss: -0.9530 - multilabel_dice_coefficient: 0.9530 - val_loss: -0.9290 - val_multilabel_dice_coefficient: 0.9290
+Epoch 100/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9519 - multilabel_dice_coefficient: 0.9519  
+Epoch 00100: loss did not improve
+30/30 [==============================] - 167s 6s/step - loss: -0.9519 - multilabel_dice_coefficient: 0.9519 - val_loss: -0.9265 - val_multilabel_dice_coefficient: 0.9265
+Epoch 101/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9503 - multilabel_dice_coefficient: 0.9503  
+Epoch 00101: loss did not improve
+30/30 [==============================] - 167s 6s/step - loss: -0.9504 - multilabel_dice_coefficient: 0.9504 - val_loss: -0.9366 - val_multilabel_dice_coefficient: 0.9366
+Epoch 102/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9510 - multilabel_dice_coefficient: 0.9510  
+Epoch 00102: loss did not improve
+30/30 [==============================] - 171s 6s/step - loss: -0.9513 - multilabel_dice_coefficient: 0.9513 - val_loss: -0.9409 - val_multilabel_dice_coefficient: 0.9409
+Epoch 103/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9527 - multilabel_dice_coefficient: 0.9527  
+Epoch 00103: loss did not improve
+30/30 [==============================] - 170s 6s/step - loss: -0.9527 - multilabel_dice_coefficient: 0.9527 - val_loss: -0.9404 - val_multilabel_dice_coefficient: 0.9404
+Epoch 104/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9536 - multilabel_dice_coefficient: 0.9536  
+Epoch 00104: loss improved from -0.95303 to -0.95371, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 172s 6s/step - loss: -0.9537 - multilabel_dice_coefficient: 0.9537 - val_loss: -0.9367 - val_multilabel_dice_coefficient: 0.9367
+Epoch 105/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9531 - multilabel_dice_coefficient: 0.9531  
+Epoch 00105: loss did not improve
+30/30 [==============================] - 168s 6s/step - loss: -0.9531 - multilabel_dice_coefficient: 0.9531 - val_loss: -0.9342 - val_multilabel_dice_coefficient: 0.9342
+Epoch 106/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9540 - multilabel_dice_coefficient: 0.9540  
+Epoch 00106: loss improved from -0.95371 to -0.95392, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 171s 6s/step - loss: -0.9539 - multilabel_dice_coefficient: 0.9539 - val_loss: -0.9369 - val_multilabel_dice_coefficient: 0.9369
+Epoch 107/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9541 - multilabel_dice_coefficient: 0.9541  
+Epoch 00107: loss improved from -0.95392 to -0.95415, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 172s 6s/step - loss: -0.9542 - multilabel_dice_coefficient: 0.9542 - val_loss: -0.9365 - val_multilabel_dice_coefficient: 0.9365
+Epoch 108/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9531 - multilabel_dice_coefficient: 0.9531  
+Epoch 00108: loss did not improve
+30/30 [==============================] - 169s 6s/step - loss: -0.9532 - multilabel_dice_coefficient: 0.9532 - val_loss: -0.9364 - val_multilabel_dice_coefficient: 0.9364
+Epoch 109/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9539 - multilabel_dice_coefficient: 0.9539  
+Epoch 00109: loss did not improve
+30/30 [==============================] - 168s 6s/step - loss: -0.9540 - multilabel_dice_coefficient: 0.9540 - val_loss: -0.9385 - val_multilabel_dice_coefficient: 0.9385
+Epoch 110/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9549 - multilabel_dice_coefficient: 0.9549  
+Epoch 00110: loss improved from -0.95415 to -0.95460, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 171s 6s/step - loss: -0.9546 - multilabel_dice_coefficient: 0.9546 - val_loss: -0.9379 - val_multilabel_dice_coefficient: 0.9379
+Epoch 111/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9521 - multilabel_dice_coefficient: 0.9521  
+Epoch 00111: loss did not improve
+30/30 [==============================] - 170s 6s/step - loss: -0.9521 - multilabel_dice_coefficient: 0.9521 - val_loss: -0.9360 - val_multilabel_dice_coefficient: 0.9360
+Epoch 112/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9535 - multilabel_dice_coefficient: 0.9535  
+Epoch 00112: loss did not improve
+30/30 [==============================] - 170s 6s/step - loss: -0.9534 - multilabel_dice_coefficient: 0.9534 - val_loss: -0.9407 - val_multilabel_dice_coefficient: 0.9407
+Epoch 113/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9536 - multilabel_dice_coefficient: 0.9536  
+Epoch 00113: loss did not improve
+30/30 [==============================] - 171s 6s/step - loss: -0.9538 - multilabel_dice_coefficient: 0.9538 - val_loss: -0.9335 - val_multilabel_dice_coefficient: 0.9335
+Epoch 114/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9522 - multilabel_dice_coefficient: 0.9522  
+Epoch 00114: loss did not improve
+30/30 [==============================] - 170s 6s/step - loss: -0.9523 - multilabel_dice_coefficient: 0.9523 - val_loss: -0.9358 - val_multilabel_dice_coefficient: 0.9358
+Epoch 115/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9518 - multilabel_dice_coefficient: 0.9518  
+Epoch 00115: loss did not improve
+30/30 [==============================] - 171s 6s/step - loss: -0.9520 - multilabel_dice_coefficient: 0.9520 - val_loss: -0.9426 - val_multilabel_dice_coefficient: 0.9426
+Epoch 116/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9553 - multilabel_dice_coefficient: 0.9553  
+Epoch 00116: loss improved from -0.95460 to -0.95523, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 170s 6s/step - loss: -0.9552 - multilabel_dice_coefficient: 0.9552 - val_loss: -0.9444 - val_multilabel_dice_coefficient: 0.9444
+Epoch 117/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9530 - multilabel_dice_coefficient: 0.9530  
+Epoch 00117: loss did not improve
+30/30 [==============================] - 172s 6s/step - loss: -0.9531 - multilabel_dice_coefficient: 0.9531 - val_loss: -0.9332 - val_multilabel_dice_coefficient: 0.9332
+Epoch 118/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9539 - multilabel_dice_coefficient: 0.9539  
+Epoch 00118: loss did not improve
+30/30 [==============================] - 169s 6s/step - loss: -0.9537 - multilabel_dice_coefficient: 0.9537 - val_loss: -0.9391 - val_multilabel_dice_coefficient: 0.9391
+Epoch 119/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9541 - multilabel_dice_coefficient: 0.9541  
+Epoch 00119: loss did not improve
+30/30 [==============================] - 170s 6s/step - loss: -0.9542 - multilabel_dice_coefficient: 0.9542 - val_loss: -0.9400 - val_multilabel_dice_coefficient: 0.9400
+Epoch 120/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9552 - multilabel_dice_coefficient: 0.9552  
+Epoch 00120: loss did not improve
+30/30 [==============================] - 171s 6s/step - loss: -0.9552 - multilabel_dice_coefficient: 0.9552 - val_loss: -0.9450 - val_multilabel_dice_coefficient: 0.9450
+Epoch 121/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9554 - multilabel_dice_coefficient: 0.9554  
+Epoch 00121: loss did not improve
+30/30 [==============================] - 170s 6s/step - loss: -0.9551 - multilabel_dice_coefficient: 0.9551 - val_loss: -0.9407 - val_multilabel_dice_coefficient: 0.9407
+Epoch 122/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9548 - multilabel_dice_coefficient: 0.9548  
+Epoch 00122: loss did not improve
+30/30 [==============================] - 168s 6s/step - loss: -0.9548 - multilabel_dice_coefficient: 0.9548 - val_loss: -0.9348 - val_multilabel_dice_coefficient: 0.9348
+Epoch 123/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9543 - multilabel_dice_coefficient: 0.9543  
+Epoch 00123: loss did not improve
+30/30 [==============================] - 167s 6s/step - loss: -0.9544 - multilabel_dice_coefficient: 0.9544 - val_loss: -0.9436 - val_multilabel_dice_coefficient: 0.9436
+Epoch 124/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9558 - multilabel_dice_coefficient: 0.9558  
+Epoch 00124: loss did not improve
+30/30 [==============================] - 171s 6s/step - loss: -0.9552 - multilabel_dice_coefficient: 0.9552 - val_loss: -0.9403 - val_multilabel_dice_coefficient: 0.9403
+Epoch 125/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9534 - multilabel_dice_coefficient: 0.9534  
+Epoch 00125: loss did not improve
+30/30 [==============================] - 170s 6s/step - loss: -0.9534 - multilabel_dice_coefficient: 0.9534 - val_loss: -0.9362 - val_multilabel_dice_coefficient: 0.9362
+Epoch 126/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9529 - multilabel_dice_coefficient: 0.9529  
+Epoch 00126: loss did not improve
+30/30 [==============================] - 170s 6s/step - loss: -0.9529 - multilabel_dice_coefficient: 0.9529 - val_loss: -0.9391 - val_multilabel_dice_coefficient: 0.9391
+Epoch 127/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9562 - multilabel_dice_coefficient: 0.9562  
+Epoch 00127: loss improved from -0.95523 to -0.95632, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 168s 6s/step - loss: -0.9563 - multilabel_dice_coefficient: 0.9563 - val_loss: -0.9399 - val_multilabel_dice_coefficient: 0.9399
+Epoch 128/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9534 - multilabel_dice_coefficient: 0.9534  
+Epoch 00128: loss did not improve
+30/30 [==============================] - 167s 6s/step - loss: -0.9535 - multilabel_dice_coefficient: 0.9535 - val_loss: -0.9391 - val_multilabel_dice_coefficient: 0.9391
+Epoch 129/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9553 - multilabel_dice_coefficient: 0.9553  
+Epoch 00129: loss did not improve
+30/30 [==============================] - 175s 6s/step - loss: -0.9555 - multilabel_dice_coefficient: 0.9555 - val_loss: -0.9390 - val_multilabel_dice_coefficient: 0.9390
+Epoch 130/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9544 - multilabel_dice_coefficient: 0.9544  
+Epoch 00130: loss did not improve
+30/30 [==============================] - 178s 6s/step - loss: -0.9544 - multilabel_dice_coefficient: 0.9544 - val_loss: -0.9475 - val_multilabel_dice_coefficient: 0.9475
+Epoch 131/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9550 - multilabel_dice_coefficient: 0.9550  
+Epoch 00131: loss did not improve
+30/30 [==============================] - 172s 6s/step - loss: -0.9551 - multilabel_dice_coefficient: 0.9551 - val_loss: -0.9418 - val_multilabel_dice_coefficient: 0.9418
+Epoch 132/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9551 - multilabel_dice_coefficient: 0.9551  
+Epoch 00132: loss did not improve
+30/30 [==============================] - 172s 6s/step - loss: -0.9552 - multilabel_dice_coefficient: 0.9552 - val_loss: -0.9453 - val_multilabel_dice_coefficient: 0.9453
+Epoch 133/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9556 - multilabel_dice_coefficient: 0.9556  
+Epoch 00133: loss did not improve
+30/30 [==============================] - 171s 6s/step - loss: -0.9557 - multilabel_dice_coefficient: 0.9557 - val_loss: -0.9397 - val_multilabel_dice_coefficient: 0.9397
+Epoch 134/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9555 - multilabel_dice_coefficient: 0.9555  
+Epoch 00134: loss did not improve
+30/30 [==============================] - 170s 6s/step - loss: -0.9555 - multilabel_dice_coefficient: 0.9555 - val_loss: -0.9449 - val_multilabel_dice_coefficient: 0.9449
+Epoch 135/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9538 - multilabel_dice_coefficient: 0.9538  
+Epoch 00135: loss did not improve
+30/30 [==============================] - 172s 6s/step - loss: -0.9538 - multilabel_dice_coefficient: 0.9538 - val_loss: -0.9340 - val_multilabel_dice_coefficient: 0.9340
+Epoch 136/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9561 - multilabel_dice_coefficient: 0.9561  
+Epoch 00136: loss did not improve
+30/30 [==============================] - 169s 6s/step - loss: -0.9562 - multilabel_dice_coefficient: 0.9562 - val_loss: -0.9435 - val_multilabel_dice_coefficient: 0.9435
+Epoch 137/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9560 - multilabel_dice_coefficient: 0.9560  
+Epoch 00137: loss did not improve
+30/30 [==============================] - 165s 6s/step - loss: -0.9562 - multilabel_dice_coefficient: 0.9562 - val_loss: -0.9417 - val_multilabel_dice_coefficient: 0.9417
+Epoch 138/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9538 - multilabel_dice_coefficient: 0.9538  
+Epoch 00138: loss did not improve
+
+Epoch 00138: ReduceLROnPlateau reducing learning rate to 9.999999747378752e-07.
+30/30 [==============================] - 170s 6s/step - loss: -0.9537 - multilabel_dice_coefficient: 0.9537 - val_loss: -0.9444 - val_multilabel_dice_coefficient: 0.9444
+Epoch 139/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9550 - multilabel_dice_coefficient: 0.9550  
+Epoch 00139: loss did not improve
+30/30 [==============================] - 167s 6s/step - loss: -0.9551 - multilabel_dice_coefficient: 0.9551 - val_loss: -0.9402 - val_multilabel_dice_coefficient: 0.9402
+Epoch 140/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9541 - multilabel_dice_coefficient: 0.9541  
+Epoch 00140: loss did not improve
+30/30 [==============================] - 169s 6s/step - loss: -0.9539 - multilabel_dice_coefficient: 0.9539 - val_loss: -0.9427 - val_multilabel_dice_coefficient: 0.9427
+Epoch 141/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9555 - multilabel_dice_coefficient: 0.9555  
+Epoch 00141: loss did not improve
+30/30 [==============================] - 169s 6s/step - loss: -0.9556 - multilabel_dice_coefficient: 0.9556 - val_loss: -0.9425 - val_multilabel_dice_coefficient: 0.9425
+Epoch 142/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9552 - multilabel_dice_coefficient: 0.9552  
+Epoch 00142: loss did not improve
+30/30 [==============================] - 167s 6s/step - loss: -0.9551 - multilabel_dice_coefficient: 0.9551 - val_loss: -0.9419 - val_multilabel_dice_coefficient: 0.9419
+Epoch 143/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9554 - multilabel_dice_coefficient: 0.9554  
+Epoch 00143: loss did not improve
+30/30 [==============================] - 169s 6s/step - loss: -0.9555 - multilabel_dice_coefficient: 0.9555 - val_loss: -0.9436 - val_multilabel_dice_coefficient: 0.9436
+Epoch 144/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9547 - multilabel_dice_coefficient: 0.9547  
+Epoch 00144: loss did not improve
+30/30 [==============================] - 169s 6s/step - loss: -0.9548 - multilabel_dice_coefficient: 0.9548 - val_loss: -0.9411 - val_multilabel_dice_coefficient: 0.9411
+Epoch 145/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9544 - multilabel_dice_coefficient: 0.9544  
+Epoch 00145: loss did not improve
+30/30 [==============================] - 168s 6s/step - loss: -0.9545 - multilabel_dice_coefficient: 0.9545 - val_loss: -0.9420 - val_multilabel_dice_coefficient: 0.9420
+Epoch 146/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9560 - multilabel_dice_coefficient: 0.9560  
+Epoch 00146: loss did not improve
+30/30 [==============================] - 168s 6s/step - loss: -0.9560 - multilabel_dice_coefficient: 0.9560 - val_loss: -0.9447 - val_multilabel_dice_coefficient: 0.9447
+Epoch 147/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9560 - multilabel_dice_coefficient: 0.9560  
+Epoch 00147: loss did not improve
+30/30 [==============================] - 173s 6s/step - loss: -0.9560 - multilabel_dice_coefficient: 0.9560 - val_loss: -0.9349 - val_multilabel_dice_coefficient: 0.9349
+Epoch 148/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9569 - multilabel_dice_coefficient: 0.9569  
+Epoch 00148: loss improved from -0.95632 to -0.95684, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 169s 6s/step - loss: -0.9568 - multilabel_dice_coefficient: 0.9568 - val_loss: -0.9423 - val_multilabel_dice_coefficient: 0.9423
+Epoch 149/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9562 - multilabel_dice_coefficient: 0.9562  
+Epoch 00149: loss did not improve
+30/30 [==============================] - 166s 6s/step - loss: -0.9561 - multilabel_dice_coefficient: 0.9561 - val_loss: -0.9451 - val_multilabel_dice_coefficient: 0.9451
+Epoch 150/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9535 - multilabel_dice_coefficient: 0.9535  
+Epoch 00150: loss did not improve
+30/30 [==============================] - 167s 6s/step - loss: -0.9535 - multilabel_dice_coefficient: 0.9535 - val_loss: -0.9430 - val_multilabel_dice_coefficient: 0.9430
+Epoch 151/200
+29/30 [============================>.] - ETA: 4s - loss: -0.9568 - multilabel_dice_coefficient: 0.9568  
+Epoch 00151: loss improved from -0.95684 to -0.95692, saving model to /Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Data/Ventilation/unetModel2DWeights.h5
+30/30 [==============================] - 168s 6s/step - loss: -0.9569 - multilabel_dice_coefficient: 0.9569 - val_loss: -0.9401 - val_multilabel_dice_coefficient: 0.9401
+Epoch 152/200

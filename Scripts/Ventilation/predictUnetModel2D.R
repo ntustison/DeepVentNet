@@ -31,20 +31,21 @@ unetModel %>% compile( loss = loss_multilabel_dice_coefficient_error,
   metrics = c( multilabel_dice_coefficient ) )
 
 ventilationImageFiles <- list.files( path = ventilationImageDirectory, 
-  pattern = "*N4.nii.gz", full.names = TRUE )
+  pattern = "*_resampled.nii.gz", full.names = TRUE )
 
 predictionImageFiles <- list()
 predictionSegmentationFiles <- list()
 
 for( i in 1:length( ventilationImageFiles ) )
   {
-  subjectId <- basename( ventilationImageFiles[i] )
-  subjectId <- sub( "N4.nii.gz", '', subjectId )
+  imageFile <- basename( ventilationImageFiles[i] )
+  maskFile <- sub( "3He_corrected", 'lungmask', imageFile )
+  subjectId <- sub( "lungmask_resampled.nii.gz", "", maskFile )
 
   image <- antsImageRead( ventilationImageFiles[i], dimension = 3 )
   imageSize <- dim( image )
   mask <- antsImageRead( paste0( dataDirectory, 
-    'Ventilation/Prediction/LungMasks/', subjectId, "Mask.nii.gz" ), dimension = 3 )
+    'Ventilation/Prediction/LungMasks/', maskFile ), dimension = 3 )
 
   numberOfSlices <- imageSize[direction]  
   originalSliceSize <- imageSize[-direction]
