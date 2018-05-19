@@ -1,2 +1,87 @@
 
 # RESULTS
+
+## Proton MRI lung segmentation
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{./Figures/unetModelAccuracyPlot.pdf}
+\caption{The Dice overlap coefficient for the left and right lungs (and their 
+combination) between the updated joint label fusion technique (left)
+and our deep learning approach (right).  Although slightly less accurate,
+the latter requires significantly less computation time.
+}
+\label{fig:accuracyProton}
+\end{figure}
+
+203 proton MRI with corresponding left/right lung segmentations were 
+used to build the 3-D  U-net model described in the previous section.  These 
+data were split into 80% "training" and 20% "validation" sets.  Batch size was
+8 images with 150 epochs with 16 steps per epoch.  The course of optimization 
+during model training is shown in Figure \ref{fig:accuracyProton}.
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{./Figures/diceProton.pdf}
+\caption{The Dice overlap coefficient for the left and right lungs (and their 
+combination) between the updated joint label fusion technique (left)
+and our deep learning approach (right).  Although slightly less accurate,
+the latter requires significantly less computation time.
+}
+\label{fig:diceProton}
+\end{figure}
+
+After constructing the model, we applied it to the evaluation data consisting
+of the same 62 proton MRI used in [@Tustison:2011aa].  We performed a direct 
+comparison with the joint label fusion (JLF) method of [@Tustison:2011aa] with
+an adopted modification that we currently use in our studies.  Instead of using
+the entire atlas set (which would require a large number of pairwise image 
+registrations), we align the center of the image to be segmented with 
+each atlas image and compute a neighborhood cross-correlation similarity metric 
+[@Avants:2011ab].  We then select the 10 atlas images that are most similar for
+use in the JLF scheme. The resulting performance numbers (in terms of Dice overlap)
+are similar to what we obtained previously and are given in Figure \ref{fig:diceProton} 
+along with the Dice overlap numbers from the CNN-based approach.  
+Accuracy for the latter was left lung: 0.87 $\pm$ 0.03, right lung:  0.88 $\pm$ 0.02, and
+whole lung: 0.88 $\pm$ 0.02.  The analagous JLF numbers were more accurate 
+(left lung: 0.95 $\pm$ 0.02, right lung: 0.96 $\pm$ 0.01, whole lung: 0.96 $\pm$ 0.01)
+although the processing time is significantly 
+greater---less than 1 second per subject for the proposed approach versus ~25 minutes per subject
+using JLF using 4 CPU threads running 8 parallel pairwise registrations per 
+evaluation image.
+
+## Ventilation MRI lung segmentation
+
+The U-net ventilation model was generated from 73 ventilation MRI.  The smaller
+data set size was a result of data pruning to ensure class balance.  
+
+
+
+
+Using both 3He and 1H image data, which were acquired simultaneously, a trained 
+radiologist (denoted ‘‘Radiologist 3’’ in Table 1 and Fig. 9) segmented the whole 
+lungs for each of 18 subjects (4 normals and 14 diagnosed subjects with cystic 
+fibrosis) using the ITK-SNAP image annotation tool (23). By simultaneously referring 
+to both coregistered images, in which the mouse cursor was linked between the two 
+image sets, manual segmentation was facilitated over using either modality alone. 
+This and two other radiologists, as well as the first author, manually segmented the 
+ventilation defects within the masked lung regions for all 18 subjects. Atropos was 
+also used to segment the ventilation defects using four classes where the lower two 
+classes represented the ventilation defect regions and the upper two classes 
+represented the normal ventilation regions.  Since there is no ground truth for these 
+data, a consensus labeling using the simultaneous truth and performance level 
+estimation (STAPLE) algorithm (24) was used as a probabilistic estimate of the 
+ground truth segmentation for each of the 18 subjects. The identification of the 
+defect and normally ventilated regions produced by each of the five readers (both 
+human and Atropos) for each of the 18 subjects resulted in 18 * 5 1⁄4 90 total 
+segmentations. Fusing several segmentations of the same object by different raters, 
+STAPLE iteratively estimates the performance level of each rater while simultaneously 
+producing a probabilistic estimate of the true segmentation. In this fashion, STAPLE 
+was used to produce 18 such proba- bilistic ground truth estimates, one for each subject. 
+Since a byproduct of STAPLE is a performance estima- tion of each rater, performance 
+comparison for each rater for each subject can be analyzed. Tabulating the sensitivity 
+and specificity values of each rater over all 18 subjects on a voxel-by-voxel basis 
+summarizes this comparison. Although not included with the STAPLE consensus estimation, 
+we calculated the K-means and Otsu voxel classifications (using four classes) for each 
+subject and also used the STAPLE probabilistic esti- mate of the ground truth to 
+calculate the sensitivity and specificity values for these methods.

@@ -1,30 +1,35 @@
 
 
 __Rationale and Objectives:__  We propose an automated segmentation pipeline
-based on deep learning for ventilation-based quantification which improves on 
-our previously reported methodology in terms of computational efficiency while maintaining
-accuracy and robustness.  The 
-large data requirements for the proposed framework is made possible by a novel 
-template-based data augmentation strategy.
+based on deep learning for proton lung MRI segmentation and ventilation-based 
+quantification which improves on our previously reported methodologies in 
+terms of computational efficiency while demonstrating accuracy and robustness.
+The large data requirement for the proposed framework is made possible by a 
+novel template-based data augmentation strategy.  Supporting this work is the 
+open-source _ANTsRNet_---a growing repository of well-known deep learning 
+architectures first introduced here.
 
-__Materials and Methods:__ A novel deep learning approach based on convolutional 
-neural network models (i.e., U-net) were 
-generated using a custom multilabel Dice metric loss function and a novel 
-template-based data augmentation strategy.  Development and processing utilized
-_ANTsRNet_---a growing open-source repository of well-known deep learning 
-architectures first introduced here which interfaces with the Advanced Normalization
-Tools (ANTs) package and the R statistical project.  Training (including template generation
-and data augmentation) employed XXX images.  Evaluation was performed on the
-remaining YYY images through comparison with a previously reported 
-automated segmentation algorithm based on Gaussian mixture modelling with Markov
-Random field (MRF) spatial priors.
+__Materials and Methods:__ Deep convolutional neural network (CNN) models 
+were constructed and trained using a custom multilabel Dice metric loss function 
+and a novel template-based data augmentation strategy.  Training (including 
+template generation and data augmentation) employed 205 proton MR images and 73 
+functional lung MRI.  Evaluation was performed using data sets of size 63 
+and 40 images, respectively.  
 
-__Results:__
+__Results:__ Accuracy for proton lung MRI segmentation (in terms
+of Dice overlap) was left lung: 0.87 $\pm$ 0.03, right lung:  0.88 $\pm$ 0.02, and
+whole lung: 0.88 $\pm$ 0.02.  Although less accurate than our previously
+reported joint label fusion (JLF) approach (left lung: 0.95 $\pm$ 0.02, 
+right lung: 0.96 $\pm$ 0.01, whole lung: 0.96 $\pm$ 0.01), processing time is 
+$<$ 1 second per subject for the proposed approach versus ~30 minutes per subject
+using JLF.  Accuracy for quantifying ventilation defects
+was $\ldots$.
 
-
-__Conclusions:__ The proposed deep learning framework yielded comparable results as 
-the MRF-based algorithm.  Such an approach reduces computational time without 
-sacrificing accuracy.  
+__Conclusions:__ The proposed framework yields comparable results as 
+previously reported automated segmentation techniques.  CNNs
+drastically reduce processing time after offline model construction and demonstrate
+significant future potential for facilitating quantitative analysis of functional lung
+MRI.  
 
 __Key Words:__  Advanced Normalization Tools, ANTsRNet, hyperpolarized gas imaging, 
 neural networks, U-net

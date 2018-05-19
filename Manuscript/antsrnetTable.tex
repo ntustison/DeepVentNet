@@ -4,7 +4,7 @@
 \centering
 \caption{Current ANTsRNet capabilities comprising architectures for applications in 
 image segmentation, image classification, and object localization.  Self-contained
-examples with data are also provided to denstrate usage for each of the architectures.
+examples with data are also provided to demonstrate usage for each of the architectures.
 Although the majority of neural network architectures are originally described
 for 2-D images, we generalized the work to 3-D implementations where possible.}
 \label{table:antsrnet}
@@ -12,61 +12,61 @@ for 2-D images, we generalized the work to 3-D implementations where possible.}
 \toprule
 \multicolumn{3}{c}{\textbf{ANTsRNet}}    \\        
 \midrule
-\multicolumn{3}{l}{\textbf{Image Segmentation}}
+\multicolumn{3}{l}{\textbf{Image segmentation}}
   \vspace{0.25cm} \\ \vspace{0.2cm} 
-  U-net \cite{Ronneberger:2015} & (2-D) & 
+  U-net [15] & (2-D) & 
     \begin{minipage}[t]{0.6\columnwidth}%
         Extends fully convolutional neural networks by 
         including an upsampling decoding path with skip connections 
         linking corresponding encoding/decoding layers. %
     \end{minipage} \\ \vspace{0.3cm} 
-  V-net \cite{Milletari:2016} & (3-D) &
+  V-net [44] & (3-D) &
     \begin{minipage}[t]{0.6\columnwidth}%
         3-D extension of U-net which incorporates a customized
         Dice loss function. %
     \end{minipage} \\
 \midrule
-\multicolumn{3}{l}{\textbf{Image Classification}} 
+\multicolumn{3}{l}{\textbf{Image classification}} 
   \vspace{0.25cm} \\ \vspace{0.2cm} 
-  AlexNet \cite{Krizhevsky:2012} & (2-D, 3-D) & 
+  AlexNet [32] & (2-D, 3-D) & 
     \begin{minipage}[t]{0.6\columnwidth}%
         Convolutional neural network that precipitated renewed
         interest in neural networks.
     \end{minipage} \\ \vspace{0.2cm} 
-  VGG16/VGG19 \cite{Simonyan:2014} & (2-D, 3-D) & 
+  VGG16/VGG19 [33] & (2-D, 3-D) & 
     \begin{minipage}[t]{0.6\columnwidth}%
         Also known as 'OxfordNet'.  VGG architectures are much 
         deeper than AlexNet.  Two popular styles are implemented. %
     \end{minipage} \\ \vspace{0.2cm} 
-  GoogLeNet \cite{Szegedy:2015} & (2-D) & 
+  GoogLeNet [34] & (2-D) & 
     \begin{minipage}[t]{0.6\columnwidth}%
         A 22-layer network formed from {\em inception blocks} meant
         to reduce the number of parameters relative to other architectures.
     \end{minipage} \\ \vspace{0.2cm} 
-  ResNet \cite{He:2015}  & (2-D, 3-D) & 
+  ResNet [46]  & (2-D, 3-D) & 
     \begin{minipage}[t]{0.6\columnwidth}%
         Characterized by specialized {\em residualized blocks} (and
         skip connections. %
     \end{minipage} \\ \vspace{0.2cm} 
-  ResNeXt \cite{Xie:2016} & (2-D, 3-D) &
+  ResNeXt [47] & (2-D, 3-D) &
     \begin{minipage}[t]{0.6\columnwidth}%
         A variant of ResNet distinguished by a hyper-parameter called 
-        {\em cardinality} definining the number of independent paths. %
+        {\em cardinality} defining the number of independent paths. %
     \end{minipage} \\ \vspace{0.3cm} 
-  DenseNet \cite{Huang:2016} & (2-D, 3-D) & 
+  DenseNet [48] & (2-D, 3-D) & 
     \begin{minipage}[t]{0.6\columnwidth}%
         Based on the observation that performance is typically enhanced 
         with shorter connections between the layers and the input.%
     \end{minipage} \\
 \midrule    
-\multicolumn{3}{l}{\textbf{Object Localization}} 
+\multicolumn{3}{l}{\textbf{Object localization}} 
   \vspace{0.25cm} \\ \vspace{0.2cm} 
-  SSD300/SSD512 \cite{Liu:2015} & (2-D, 3-D) & 
+  SSD300/SSD512 [49] & (2-D, 3-D) & 
     \begin{minipage}[t]{0.6\columnwidth}%
         The Multibox Single-Shot Detection (SSD) algorithm for
         determining bounding boxes around objects of interest. %
     \end{minipage} \\ \vspace{0.2cm} 
-  SSD7 \cite{ssd7} & (2-D, 3-D) & 
+  SSD7 [50] & (2-D, 3-D) & 
     \begin{minipage}[t]{0.6\columnwidth}%
         Lightweight SSD variant which increases speed by slightly sacrificing
         accuracy.  Training size requirements are smaller. %

@@ -1,6 +1,15 @@
 
 # DISCUSSION
 
+<!-- 
+
+Potential of deep learning over JLF:  JLF only operates on a voxelwise
+(not learned features like deep learning) so with deep learning we can
+learn something like the trachea which will confuse JLF.  Perhaps show
+a picture where JLF is in the trachea.
+
+-->
+
 Significant progress has been made from earlier quantification approaches
 in which human labelers manually identified areas of poor ventilation or 
 applied simple thresholding techniques.  More sophisticated automated and 
