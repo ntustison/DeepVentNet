@@ -6,12 +6,9 @@
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{./Figures/unetModelAccuracyPlot.pdf}
-\caption{The Dice overlap coefficient for the left and right lungs (and their 
-combination) between the updated joint label fusion technique (left)
-and our deep learning approach (right).  Although slightly less accurate,
-the latter requires significantly less computation time.
+\caption{
 }
-\label{fig:accuracyProton}
+\label{fig:trainingProton}
 \end{figure}
 
 203 proton MRI with corresponding left/right lung segmentations were 
@@ -52,11 +49,20 @@ evaluation image.
 
 ## Ventilation MRI lung segmentation
 
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{./Figures/unetModelVentilationAccuracyPlot.pdf}
+\caption{
+}
+\label{fig:trainingVentilation}
+\end{figure}
+
 The U-net ventilation model was generated from 73 ventilation MRI.  The smaller
 data set size was a result of data pruning to ensure class balance.  
 
 
 
+<!--
 
 Using both 3He and 1H image data, which were acquired simultaneously, a trained 
 radiologist (denoted ‘‘Radiologist 3’’ in Table 1 and Fig. 9) segmented the whole 
@@ -85,3 +91,5 @@ summarizes this comparison. Although not included with the STAPLE consensus esti
 we calculated the K-means and Otsu voxel classifications (using four classes) for each 
 subject and also used the STAPLE probabilistic esti- mate of the ground truth to 
 calculate the sensitivity and specificity values for these methods.
+
+-->

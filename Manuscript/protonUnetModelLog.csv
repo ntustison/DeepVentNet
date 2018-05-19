@@ -1,4 +1,4 @@
-Epoch,Training,Validation
+Epoch,Dice,Val_Dice
 1,0.5305,0.5087
 2,0.5372,0.5071
 3,0.5902,0.5018
