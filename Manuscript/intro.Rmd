@@ -51,12 +51,13 @@ the training process oftentimes necessitating ad hoc strategies for
 simulating additional data from available data---a process termed _data augmentation_ [@Taylor:2017aa].
 While common approaches to data augmentation include the application
 of randomized simulated linear (e.g., translation, rotation and affine) 
-or elastic transformations and intensity adjustments (e.g., brightness and contrast), we propose
-an approach tailored to commonly encountered medical imaging scenarios.
-In the proposed approach, an optimal shape-based template is constructed 
+or elastic transformations and intensity adjustments (e.g., brightness and contrast), 
+we advocate a tailored paradigm to commonly encountered medical imaging scenarios
+in which data is limited but is assumed to be characterized by a population-wide 
+spatial correspondence.  In the proposed approach, an optimal shape-based template is constructed 
 from a subset of the available data.   Subsequent pairwise image registration 
 between all training data and the resulting template permits a "pseudo-geodesic"
-transformation of each image to every other image thus potentially 
+transformation [@Tustison:2013ac] of each image to every other image thus potentially 
 converting a data set of size
 $N$ to an augmented data set of size $N^2$.  In this way, transformations are 
 constrainted to the shape space representing the population of interest.
@@ -64,16 +65,16 @@ constrainted to the shape space representing the population of interest.
 To enhance relevance to the research community, we showcase this work in 
 conjunction with the introduction of _ANTsRNet_---a growing open-source 
 repository of well-known deep learning architectures which interfaces with the 
-Advanced Normalization Tools (ANTs) package [@antsr] and its  R package
-(i.e., ANTsR) [@antsr].  This permits the public distribution of
+Advanced Normalization Tools (ANTs) package [@Avants:2011ab] and its R package,
+ANTsR [@antsr].  This permits the public distribution of
 all code, data, and models for external reproducibility which can be found on 
 the GitHub repository corresponding to this manuscript [@deepventnet].  This 
 allows other researchers to apply the developed models and software to their 
-data and/or use the models to initialize
-their own model development tailored to their studies. 
+data and/or use the models to initialize their own model development tailored 
+to specific studies. 
 
 In the work described below, we first provide the acquisition protocols for both
-the helium and ventilation images followed by a discussion of the analysis 
+the proton and ventilation MR images followed by a discussion of the analysis 
 methodologies for the proposed segmentation framework.  This is 
 contextualized with a brief overview of existing quantification methods (including
 that previously proposed by our group and used for the evaluative comparison).  We
