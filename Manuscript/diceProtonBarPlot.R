@@ -21,7 +21,7 @@ diceLong <- melt( dice, id.vars = c( "ID", "Pipeline" ), variable.name = "WhichL
 dicePlot <- ggplot( diceLong, aes( x = factor( WhichLung ), y = Dice, 
     fill = factor( WhichLung ) ) ) +
   facet_grid( .~Pipeline ) +
-  geom_jitter( position = position_jitter( width = 0.1, height = 0.01 ), aes( colour = factor( WhichLung ) ), size = 0.5 ) +
+  geom_jitter( position = position_jitter( width = 0.1, height = 0.0 ), aes( colour = factor( WhichLung ) ), size = 0.5 ) +
   geom_boxplot( alpha = 0.5, show.legend = TRUE, outlier.shape = NA ) +
   xlab( "Lung" ) + ylab( "Dice" ) + ylim( c( 0.7, 1.0 ) ) +
   theme( legend.position = "none" )
