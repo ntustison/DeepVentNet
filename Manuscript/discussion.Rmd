@@ -21,7 +21,7 @@ efficiency.  In this work, we provided a deep learning framework for
 segmentation of structural and functional lung MRI for quantification
 of ventilation.  This framework is based on the U-net architecture and
 implemented using the Keras API available through the R statistical project.
-It demonstrated 
+
 
 There are several limitations to the proposed framework. The most obvious
 is that it only leverages the full 3-D nature of the image data collected
