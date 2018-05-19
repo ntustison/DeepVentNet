@@ -22,8 +22,10 @@ whole lung: 0.88 $\pm$ 0.02.  Although less accurate than our previously
 reported joint label fusion (JLF) approach (left lung: 0.95 $\pm$ 0.02, 
 right lung: 0.96 $\pm$ 0.01, whole lung: 0.96 $\pm$ 0.01), processing time is 
 $<$ 1 second per subject for the proposed approach versus ~30 minutes per subject
-using JLF.  Accuracy for quantifying ventilation defects
-was $\ldots$.
+using JLF.  Accuracy for quantifying ventilation defects was determined based
+on a consensus labeling where average accuracy (Dice overlap of ventilation defect
+regions plus normal region) was 0.94 for the CNN method; 0.92 for our previously
+reported Atropos method; and 0.90, 0.92, and 0.94 for expert readers.
 
 __Conclusions:__ The proposed framework yields comparable results as 
 previously reported automated segmentation techniques.  CNNs

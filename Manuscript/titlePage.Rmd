@@ -7,8 +7,8 @@ $ $
 
 \LARGE
 
-{\bf Deep Convolutional Neural Networks with Template-Based Data Augmentation 
-for Functional Lung Imaging Quantification}
+{\bf Convolutional Neural Networks with Template-Based Data Augmentation 
+for Functional Lung Image Quantification}
 
 \vspace{2.0 cm}
 

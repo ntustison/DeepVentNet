@@ -3,6 +3,8 @@
 
 ## Proton MRI lung segmentation
 
+<!-- 
+
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{./Figures/unetModelAccuracyPlot.pdf}
@@ -11,11 +13,12 @@
 \label{fig:trainingProton}
 \end{figure}
 
+-->
+
 203 proton MRI with corresponding left/right lung segmentations were 
 used to build the 3-D  U-net model described in the previous section.  These 
 data were split into 80% "training" and 20% "validation" sets.  Batch size was
-8 images with 150 epochs with 16 steps per epoch.  The course of optimization 
-during model training is shown in Figure \ref{fig:accuracyProton}.
+8 images with 150 epochs with 16 steps per epoch. 
 
 \begin{figure}[!htb]
 \centering
@@ -49,6 +52,8 @@ evaluation image.
 
 ## Ventilation MRI lung segmentation
 
+<!-- 
+
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{./Figures/unetModelVentilationAccuracyPlot.pdf}
@@ -57,8 +62,50 @@ evaluation image.
 \label{fig:trainingVentilation}
 \end{figure}
 
+-->
+
 The U-net ventilation model was generated from 73 ventilation MRI.  The smaller
-data set size was a result of data pruning to ensure class balance.  
+data set size was a result of data pruning to ensure class balance.  Given the
+smaller data set size, the availability of lung masks, and the intuitive lack 
+of utility of morphological cues in ventilation-based segmentation, we used
+2-D modeling for ventilation-based segmentation.  The template-based data 
+augmentation scheme was also used here.  After transforming a randomly selected 
+3-D source ventilation image to the reference space, we randomly sampled slices
+in the coronal direction using a specified sampling rate ($=$ 0.5).  Once the
+model was complete, we performed prediction on the evaluation data slice-by-slice
+and then collated the slices for a single subject into probability volumetric 
+images.  We then converted these probability images into a single segmentation
+image which were then compared with the manual segmentation results and Atropos
+results from our previous work [@Tustison:2011aa] using the same data.  Note
+that the Otsu thresholding and K-means thresholding were omitted as they were 
+the poorest performers and, as mentioned previously, discard spatial information
+in contrast to both computational methods and the human readers.  
+
+In the absence of ground truth, the STAPLE algorithm [@Warfield:2004aa] was used 
+to create a consensus labeling.  The Dice overlap coefficient was used to quantify
+agreement between each of the segmentation raters and the consensus labeling as
+an indicator performance.  The results are shown in Figure \ref{fig:diceVentilation}.
+Mean values ( $\pm$ standard deviation) were as follows (total, normal lung, ventilation
+defect):  
+Reader 1: 0.89 $\pm$ 0.07, 0.91 $\pm$ 0.06, 0.6 $\pm$ 0.3;
+Reader 2: 0.92 $\pm$ 0.05, 0.94 $\pm$ 0.04, 0.57 $\pm$ 0.3;
+Reader 3: 0.94 $\pm$ 0.03, 0.96 $\pm$ 0.03, 0.63 $\pm$ 0.3; 
+Atropos:  0.92 $\pm$ 0.03, 0.94 $\pm$ 0.03, 0.71 $\pm$ 0.3; and
+U-net:    0.94 $\pm$ 0.03, 0.96 $\pm$ 0.03, 0.70 $\pm$ 0.3.
+Computational time for processing was slightly less than a minute per subject for
+Atropos, between 30--45 for the human readers, and less than a second for the 
+U-net model.  
+
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{./Figures/ventilationStaple.pdf}
+\caption{The Dice overlap coefficient for total, normal lung, and 
+ventilation defect regions for segmentation of the evaluation data
+set.  
+}
+\label{fig:diceVentilation}
+\end{figure}
 
 
 

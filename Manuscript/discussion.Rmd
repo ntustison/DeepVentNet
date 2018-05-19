@@ -24,18 +24,57 @@ implemented using the Keras API available through the R statistical project.
 It demonstrated 
 
 There are several limitations to the proposed framework. The most obvious
-is that it does not leverage the full 3-D nature of the image data collected.
-The trained models were based on 2-D coronal slices and therefore subsequent
+is that it only leverages the full 3-D nature of the image data collected
+for the proton segmentation. 
+The trained models for ventilation image segmentation were based on 2-D coronal 
+slices and therefore subsequent
 prediction is limited to those views.  Even though good results were achieved
 in this study, even better results might be achieved by training 3-D
-models.  However, even though the software is available for such model 
-generation (e.g., ANTsRNet), model optimization requires significant
-hardware resources which were not available for this study.  Also, evaluative
+models for the latter.  Also, evaluative
 comparison was made using manually-refined segmentations which is certainly
 useful but additional evaluations using various clinical measures would
 also be helpful in determining the relative utility of various segmentation approaches.
 For example, how does the performance of the various methods translate
 into utility as an imaging biomarker for lung function?
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{./Figures/0058ProtonProblemCases.pdf}
+\caption{Problematic case showing potential issues with the JLF approach (left)
+for proton lung segmentation where a difficult pairwise image registration 
+caused segmentation failure.  In contrast, by learning features directly,
+the U-net approach (right) avoids possible registration difficulties.
+}
+\label{fig:problemCaseProton}
+\end{figure}
+
+Despite these limitations of the proposed framework, there are also limitations 
+of previously reported methods.  For example, in addition to the significant 
+time requirements for JLF of lung images, shown in \ref{fig:problemCaseProton}
+is an example where difficult pairwise image registration scenarios can cause 
+algorithmic failures.  In contrast, the trained U-net model is capable of learning
+features which can potentially circumvent registration failures.  Similarly, 
+the online feature capabilities of deep learning can overcome some of the 
+drawbacks to more conventional segmentation approaches of ventilation lung images.
+A well-known artifact for these approaches are partial voluming effects which 
+can confound unsophisticated intensity-based segmentation approaches.  Although 
+spatial regularization
+(e.g., Markov random fields) can reduce some of these effects, these are based
+on relatively simplistic assumptions and it is possible that more complicated
+modeling can reduce these effects (see Figure \ref{fig:problemCaseVentilation}).
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{./Figures/UVa_He3_140_slice8.pdf}
+\caption{Ventilation segmentation comparison between a human reader
+and the two computational approaches.  Notice the effects of the partial
+voluming at the apex of the lungs which are labeled as ventilation 
+defect by the Atropos approach whereas U-net and the human reader 
+correctly label this region.
+}
+\label{fig:problemCaseVentilation}
+\end{figure}
+
 
 Future research will certainly look into these issues as potential improvements 
 to the existing framework.  As a surrogate for full 3-D models, we are looking into 
