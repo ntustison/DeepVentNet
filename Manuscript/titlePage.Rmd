@@ -17,7 +17,7 @@ for Functional Lung Image Quantification}
 Nicholas J. Tustison$^1$,
 Brian B. Avants$^2$,
 Zixuan Lin$^1$,
-Nick Cullen$^3$,
+Nicholas Cullen$^3$,
 Jaime F. Mata$^1$,
 Lucia Flors$^4$,
 James C. Gee$^3$,

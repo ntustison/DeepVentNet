@@ -18,7 +18,8 @@ These features have been shown to be particularly salient in a clinical context.
 For example, ventilation defect volume to total lung volume ratio has been shown 
 to outperform other image-based features in discriminating asthmatics vs. 
 non-asthmatics [@Tustison:2010aa].  Ventilation defects have also demonstrated 
-discriminative capabilities in chronic obstructive pulmonary disease (COPD) [@Kirby:2014aa].
+discriminative capabilities in chronic obstructive pulmonary disease (COPD) [@Kirby:2014aa]
+and asthma [@Altes:2016aa].
 These findings, along with related research, has motivated the development of multiple automated (and semi-automated) 
 segmentation algorithms which have been proposed in the literature (e.g., 
 [@Tustison:2011aa;@Kirby:2012aa;@He:2014aa;@Zha:2016aa;@Hughes:2018aa])
@@ -26,7 +27,7 @@ and are currently used in a variety of clinical research investigations
 (e.g., [@Trivedi:2017aa]).
 
 Despite the enormous methodological progress with existing quantification strategies, 
-recent developments in maching learning (specifically "deep learning" 
+recent developments in machine learning (specifically "deep learning" 
 [@LeCun:2015aa]) have generated new possibilities for quantification 
 with improved capabilities in terms of accuracy, robustness, and 
 computational efficiency.
@@ -60,7 +61,7 @@ between all training data and the resulting template permits a "pseudo-geodesic"
 transformation [@Tustison:2013ac] of each image to every other image thus potentially 
 converting a data set of size
 $N$ to an augmented data set of size $N^2$.  In this way, transformations are 
-constrainted to the shape space representing the population of interest.
+constrained to the shape space representing the population of interest.
 
 To enhance relevance to the research community, we showcase this work in 
 conjunction with the introduction of _ANTsRNet_---a growing open-source 

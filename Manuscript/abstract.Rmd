@@ -16,25 +16,24 @@ template generation and data augmentation) employed 205 proton MR images and 73
 functional lung MRI.  Evaluation was performed using data sets of size 63 
 and 40 images, respectively.  
 
-__Results:__ Accuracy for proton lung MRI segmentation (in terms
+__Results:__ Accuracy for CNN-based proton lung MRI segmentation (in terms
 of Dice overlap) was left lung: 0.87 $\pm$ 0.03, right lung:  0.88 $\pm$ 0.02, and
 whole lung: 0.88 $\pm$ 0.02.  Although less accurate than our previously
 reported joint label fusion (JLF) approach (left lung: 0.95 $\pm$ 0.02, 
 right lung: 0.96 $\pm$ 0.01, whole lung: 0.96 $\pm$ 0.01), processing time is 
 $<$ 1 second per subject for the proposed approach versus ~30 minutes per subject
 using JLF.  Accuracy for quantifying ventilation defects was determined based
-on a consensus labeling where average accuracy (Dice overlap of ventilation defect
+on a consensus labeling where average accuracy (Dice multilabel overlap of ventilation defect
 regions plus normal region) was 0.94 for the CNN method; 0.92 for our previously
-reported Atropos method; and 0.90, 0.92, and 0.94 for expert readers.
+reported method; and 0.90, 0.92, and 0.94 for expert readers.
 
-__Conclusions:__ The proposed framework yields comparable results as 
-previously reported automated segmentation techniques.  CNNs
-drastically reduce processing time after offline model construction and demonstrate
-significant future potential for facilitating quantitative analysis of functional lung
-MRI.  
+__Conclusions:__ The proposed framework yields accurate automated quantification in 
+near real time.  CNNs drastically reduce processing time after offline model construction 
+and demonstrate significant future potential for facilitating quantitative analysis of 
+functional lung MRI.  
 
 __Key Words:__  Advanced Normalization Tools, ANTsRNet, hyperpolarized gas imaging, 
-neural networks, U-net
+neural networks, proton lung MRI, U-net
 
 
 \clearpage

@@ -8,7 +8,7 @@
 ventilation imaging includes template-based data augmentation.  This offline training is computationally 
 intensive but is only performed once.   Subsequent individual subject preprocessing includes
 MR denoising and bias correction.  The proton mask determined from the proton U-net model 
-is included as a separate channel for ventilation image processing.
+is included as a separate channel (in deep learning software parlance) for ventilation image processing.
 }
 \label{fig:workflow}
 \end{figure}
@@ -26,7 +26,7 @@ segmentation,
 
 * open-source availability.
 
-An overview of the resulting framework is provided in Figure  \ref{fig:workflow}.
+An overview of the resulting framework is provided in Figure \ref{fig:workflow}.
 The most computationally intensive portion is the offline processing for model
 training for both structural and functional imaging.  However, once that is 
 complete, individual processing consists of a couple of preprocessing steps
@@ -35,16 +35,18 @@ followed by application of the models which has minimal computational requiremen
 ### Previous approaches from our group for lung and ventilation-based segmentation
 
 The automated ventilation-based segmentation, described in [@Tustison:2011aa], employs
-a Gaussian mixture model with a Markov random field (MRF) spatial prior which is optimized
-via the expectation-maximization algorithm.  The resulting software has been used in a number of 
+a Gaussian mixture model with a Markov random field (MRF) spatial prior optimized
+via the Expectation-Maximization algorithm.  The resulting software, called 
+Atropos, has been used in a number of 
 clinical studies (e.g., [@Altes:2016aa;@Altes:2017aa]).  Briefly, the intensity histogram profile
-of the ventilation image is modeled using Gaussian functions with optimizable means and 
-standard deviations designed to model the intensities of the individual ventilation classes.  At each iteration
+of the ventilation image is modeled using Gaussian functions with optimizable parameters 
+(i.e., mean, standard deviation, and normalization factor) designed to model the intensities 
+of the individual ventilation classes.  At each iteration
 the resulting estimated voxelwise labels are refined based an MRF spatial regularization.
 The parameters of the class-specific Gaussians are then re-estimated.
-This iterative process continues until convergence.  We also perform an outer iteration 
-with this segmentation approach with the application of N4 bias correction [@Tustison:2010ac].  Unlike other 
-segmentation methods which rely solely on intensity distributions thus discarding spatial information,
+This iterative process continues until convergence.  We augment this segmentation step 
+by iterating the results with application of N4 bias correction [@Tustison:2010ac].  Unlike other 
+methods which rely solely on intensity distributions which discards spatial information,
 (e.g., K-means variants [@Kirby:2012aa;@Zha:2016aa] and 
 histogram rescaling and thresholding [@He:2014aa]),  our technique employs
 both spatial and intensity information for probabilistic classification.
@@ -53,13 +55,14 @@ Because of our dual structural/functional acquisition protocol [@Qing:2015aa], w
 previously formulated a joint label fusion (JLF)-based framework [@wang2013] for segmenting
 the left and right lungs in proton MRI as well as estimating the lobar volumes 
 [@Tustison:2016aa].  This permits us to first identify the lung mask in the proton
-MRI which is readily transferred to the space of the corresponding ventilation MR
-image.  The JLF method relies on a set of atlases (proton MRI plus labeling) which is spatially 
+MRI.  This information is transferred to the space of the corresponding ventilation MR
+image via image registration.  The JLF method relies on a set of atlases (proton MRI 
+plus lung labels) which is spatially 
 normalized to an unlabeled image where a weighted consensus of the normalized images 
-and segmentations is used to determine each voxel label.  Although the method yields high quality 
+and labels is used to determine each voxel label.  Although the method yields high quality 
 results which are fully automated, one of the drawbacks is the time and computational 
 resources required to perform the image registration for each member of the atlas set 
-and the subsequent voxelwise label estimation.   
+and the subsequent voxelwise label consensus estimation.   
 
 Note that we have provided self-contained examples for both of these segmentation
 algorithms using ANTs tools:  lung and lobe estimation [@lungLobeEstimation] and
@@ -69,16 +72,6 @@ that adoption by other groups will be greatly facilitated by the proposed algori
 described below.
 
 ### Preprocessing
-
-Because of the low-frequency imaging artifacts introduced by confounds such as 
-radiofrequency coil inhomogeneity, we perform a retrospective bias 
-correction on both proton and ventilation images using the N4 algorithm [@tustison2010].
-These are included in our previously proposed ventilation [@Tustison:2011aa]
-and structural [@Tustison:2016aa] segmentation frameworks.  Since the initial 
-release of these pipelines we have also adopted an adaptive, patch-based
-denoising algorithm specific to MR [@Manjon:2010aa] which we have reimplemented 
-in the ANTs toolkit.  The effects of these data cleaning techniques on both 
-the proton images and ventilation images are shown in Figure \ref{fig:n4denoised}.
 
 \begin{figure}
 \centering
@@ -90,6 +83,15 @@ image in which the bias effects have been ameliorated.}
 \label{fig:n4denoised}
 \end{figure}
 
+Because of the low-frequency imaging artifacts introduced by confounds such as 
+radiofrequency coil inhomogeneity, we perform a retrospective bias 
+correction on both proton and ventilation images using the N4 algorithm [@tustison2010].
+These are included in our previously proposed ventilation [@Tustison:2011aa]
+and structural [@Tustison:2016aa] segmentation frameworks.  Since the initial 
+release of these pipelines we have also adopted an adaptive, patch-based
+denoising algorithm specific to MR [@Manjon:2010aa] which we have reimplemented 
+in the ANTs toolkit.  The effects of these data cleaning techniques on both 
+the proton images and ventilation images are shown in Figure \ref{fig:n4denoised}.
 
 ### U-net architecture for structural/functional lung segmentation
 
@@ -97,7 +99,9 @@ image in which the bias effects have been ameliorated.}
 \centering
 \includegraphics[width=\textwidth]{./Figures/Unet.png}
 \caption{The modified U-net architecture for both structural and functional 
-lung segmentation.  Network layers are represented as boxes with arrows 
+lung segmentation (although certain parameters, specifically the
+number of filters per convolution layer, are specific to the functional
+case).  Network layers are represented as boxes with arrows 
 designating connections between layers.  The main parameter value for each layer
 is provided above the corresponding box.  Each layer 
 of the descending (or ``encoding'') branch of the network is characterized
@@ -125,7 +129,7 @@ surpassed any approach that had been proposed previously and laid the groundwork
 future CNN-based architectures for image classification such as VGG [@Simonyan:2014] and
 GoogLeNet [@Szegedy:2015].  The recent successes of CNNs are historically rooted in the 
 pioneering work of LeCun et al. [@LeCun1998] and Fukushima [@Fukushima:1980aa] and others
-which drew inspiration from earlier work on the complex arrangment of cells within 
+which drew inspiration from earlier work on the complex arrangement of cells within 
 the feline visual cortex [@HUBEL:1962aa].  CNNs are characterized by common components (i.e.,
 convolution, pooling, and activation functions) which can be put together in various 
 arrangements to perform such tasks as image classification and voxelwise segmentation.
@@ -140,24 +144,22 @@ of its architecture.  Each series in both encoding and decoding branches is
 characterized by two convolutional layers sandwiching an optional dropout layer.  This 
 latter modification from the original is meant to provide additional regularization for 
 over-fitting prevention [@Srivastava2014].  Output consists of a segmentation probability
-image for each label from which a segmentation map can be inferred.  
+image for each label from which a segmentation map can be generated.  
 
 We used the U-net architecture to build separate models for segmenting both structural and functional lung 
 images.  For cases where dual acquisition provides both images, we use the structural 
 images to provide a mask for segmentation of the ventilation image.  We used an open-source
 implementation written by our group and provided with the ANTsRNet R package [@antsrnet] which
 is described in greater detail below.  We also implemented a multi-label dice coefficient
-loss function along with specific batch generators for generating batch image data on the
+loss function along with specific batch generators for generating augmented image data on the
 fly.  
 
 ### Template-based data augmentation
 
-In order to generate data cohorts of sufficient size necessary for deep learning
-techniques, we have designed a template-based data augmentation strategy.  The need
-for large training data sets is a well-known limitation associated with deep learning 
+The need for large training data sets is a well-known limitation of deep learning 
 algorithms.  Whereas the architectures developed for such tasks as the ImageNet 
-competition have access to millions of annotated images, such data access is not always
-available and such is typically the case in medical imaging.  In order to achieve
+competition have access to millions of annotated images for training, such data availability
+is atypical in medical imaging.  In order to achieve
 data set sizes necessary for learning functional models, various data augmentation 
 strategies have been employed [@Taylor:2017aa]. These include application of intensity 
 transformations, such as brightening and enhanced contrast.  They might also include 
@@ -165,18 +167,18 @@ spatial transformations such as arbitrary rotations, translations, and even simu
 elastic deformations.  Such transformations might not be ideal if they do not represent
 shape variation within the range within the population under study.
 
-We propose a template-based approach whereby image data sampled from the population
+We propose a template-based data augmentation approach whereby image data sampled from the population
 is used to construct a representative template that is optimal in terms of shape and/or
 intensity [@Avants:2010aa].  In addition to the representative template, this template-building 
 process yields the transformations to/from each individual image to the template space.
 This permits a propagation of the training data to the space of each individual image. In 
 the simplest case, the training data is used to construct the template and then each 
-individual training data is propagated to the space of every other individual training
-data.  In this way, a training data set of size $N$ can be expanded to a data set of 
+individual training image and corresponding labels are propagated to the space of every other 
+image.  In this way, a training data set of size $N$ can be expanded to a data set of 
 size $N^2$ (see Figure \ref{fig:augmentation}).  A slight variation to this would be to 
 build a template from $M$ data sets 
 (where $M > N$).  Transformations between the training data and the template are then
-be used to propagate the training data to the spaces of the individual members of the 
+used to propagate the training data to the spaces of the individual members of the 
 template-generating data for an augmented data set size of $M \times N$. 
 
 \begin{figure}
@@ -208,7 +210,7 @@ basic medical research.  ANTsRNet is built using the Keras neural network
 library (available through R) and is highly integrated with the ANTsR package, the R interface 
 of the ANTs toolkit.  Consistent with our other software offerings, ongoing development is 
 currently carried out on GitHub using a well-commented coding style, thorough documentation, 
-and self-contained working examples.  
+and self-contained working examples [@antsrnet].  
 
 It should be noted that various implementations of different deep learning 
 architectures exist and are largely available to the public.  However, we feel 
@@ -224,14 +226,15 @@ In addition, the R-based interface to the ANTs toolkit allows for preprocessing 
 augmentation strategies specific to medical imaging.  
 
 Several architectures have been implemented for both 2-D and 3-D images spanning the broad
-application areas of image classification, object detection, and image segmentation (cf. Table \ref{table:antsrnet}). 
+application areas of image classification, object detection, and image segmentation 
+(cf. Table \ref{table:antsrnet}). 
 It should be noted that most reporting in the literature has dealt exclusively with 2-D 
 implementations.  This is understandable due to memory and computational speed constraints
-limiting practical 3-D application on current hardware.  However, given the importance that
+limiting practical 3-D applications on current hardware.  However, given the importance that
 3-D data has for medical imaging and the rapid progress in hardware, we  feel it worth
 the investment in implementing corresponding 3-D architectures.  Each 
 architecture is accompanied by one or more self-contained examples for testing and illustrative
-purposes.  In addtion, we have made novel data augmentation strategies available to the user 
+purposes.  In addition, we have made novel data augmentation strategies available to the user 
 and illustrated them with Keras-specific batch generators.    
 
 \input{antsrnetTable.tex}
@@ -253,13 +256,13 @@ the batch generator.
 
 For the proton data we built a 3-D U-net model to take advantage of the characteristic
 3-D shape of the lungs.  This limited the possible batch size as our GPU (Titan Xp) is 
-limited to 12 GB although this can be revisited in the future with additional computtational
-resources.  In contrast, we built a 2-D U-net model for the ventilation images.
+limited to 12 GB although this can be revisited in the future with additional computational
+resources.  We built a 2-D U-net model for the ventilation images as the functional image
+segmentation does not take advantage of obvious anatomical factors.
 
 Image size was not identical across both image cohorts so we settled on a common resampled image size of 
-$128 \times 128 \times 64$ for the proton images and $128 \times 128$ for the ventilation images.  
-Resampling of each image (linear interpolation) and segmentation 
-(generic label interpolation) was handled internally by the batch generator 
+$128 \times 128 \times 64$ for the proton images and $128 \times 128$ for the ventilation images.
+Resampling of each image and segmentation was handled internally by the batch generator 
 after transformation to the reference image using ANTsR functions [@antsr].   Additionally, 
 during data augmentation for proton model optimization, a digital "coin flip" was used to
 randomly vary the intensity profile of the warped proton images between their original profiles and 
@@ -268,13 +271,15 @@ is the histogram matching algorithm of Nyul et al. [@Nyul:2000aa] implemented in
 Specific parameters for the U-net architecture for both models are as follows (3-D parameters are 
 included in parentheses):
 
-* Adam optimization:  learning rate = 0.00001
-* Number of epochs:  200
+* Adam optimization:  
+    * proton model learning rate = 0.00001
+    * ventilation model learning rate = 0.0001
+* Number of epochs:  150
 * Training/validation data split:  80/20
 * Convolution layers
     * kernel size:  $5 \times 5 (\times 5)$
     * activation: rectified linear units (ReLU) [@Nair2010]
-    * number of filters:  doubled at every layer starting with $N = 32$
+    * number of filters:  doubled at every layer starting with $N = 16$ (proton) and $N = 32$ (ventilation)
 * Dropout layers
     * rate: $0.2$
 * Max pooling layers
@@ -287,4 +292,4 @@ included in parentheses):
 
 Training took approximately 10 hours for both models.  After model construction, prediction 
 per image (after preprocessing) takes < 1 second per image.  Both model construction 
-and prediction utilized a Titan Xp GPU.  
+and prediction utilized a NVIDIA Titan Xp GPU.  
