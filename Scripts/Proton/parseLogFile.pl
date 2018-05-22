@@ -16,13 +16,16 @@ use File::Find;
 use File::Basename;
 use File::Path;
 
-my $logFile = '/Users/ntustison/Documents/Academic/InProgress/DeepVentNet/Scripts/Proton/protonUnetModelLog.txt';
+# my $baseDir = '/Users/ntustison/Documents/Academic/InProgress/DeepVentNet/';
+my $baseDir = '/Users/ntustison/Data/HeliumLungStudies/DeepVentNet/';
+
+my $logFile = "${baseDir}Scripts/Proton/protonUnetModelLog.txt";
 
 open( FILE, "<$logFile" );
 my @contents = <FILE>;
 close( FILE );
 
-my $csvFile = '/Users/ntustison/Documents/Academic/InProgress/DeepVentNet/Manuscript/protonUnetModelLog.csv';
+my $csvFile = "${baseDir}/Manuscript/protonUnetModelLog.csv";
 
 open( FILE2, ">$csvFile" );
 print FILE2 "Epoch,Dice,Val_Dice\n";

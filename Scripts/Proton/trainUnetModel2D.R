@@ -86,7 +86,7 @@ direction <- 3
 
 unetModel <- createUnetModel2D( c( resampledImageSize, channelSize ), 
   numberOfClassificationLabels = numberOfClassificationLabels, 
-  layers = 1:4, lowestResolution = 16, dropoutRate = 0.2,
+  numberOfLayers = 4, numberOfFiltersAtBaseLayer = 32, dropoutRate = 0.2,
   convolutionKernelSize = c( 5, 5 ), deconvolutionKernelSize = c( 5, 5 ) )
 
 # load_model_weights_hdf5( unetModel, 
