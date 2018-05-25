@@ -38,5 +38,5 @@ for( rater in levels( factor( dice$Rater ) ) )
 
   rMean <- mean( dice$Ventilation.Defect[which( dice$Rater == rater )])
   rSd <- sd( dice$Ventilation.Defect[which( dice$Rater == rater )])
-  cat( "Total:  ", rMean, ", ", rSd, "\n" )
+  cat( "Ventilation.Defect:  ", rMean, ", ", rSd, "\n" )
   }

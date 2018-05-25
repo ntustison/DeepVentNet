@@ -80,11 +80,11 @@ for( i in 1:length( protonImageFiles ) )
 # Create the Unet model
 #
 
-resampledImageSize <- c( 128, 128, 48 )
+resampledImageSize <- c( 64, 64, 48 )
 
 unetModel <- createUnetModel3D( c( resampledImageSize, channelSize ), 
   numberOfClassificationLabels = numberOfClassificationLabels, 
-  layers = 1:4, lowestResolution = 16, dropoutRate = 0.2,
+  numberOfLayers = 4, numberOfFiltersAtBaseLayer = 32, dropoutRate = 0.2,
   convolutionKernelSize = c( 5, 5, 5 ), deconvolutionKernelSize = c( 5, 5, 5 ) )
 
 unetModel %>% compile( loss = loss_multilabel_dice_coefficient_error,
@@ -96,7 +96,7 @@ unetModel %>% compile( loss = loss_multilabel_dice_coefficient_error,
 # Set up the training generator
 #
 
-batchSize <- 8L
+batchSize <- 32L
 
 # Split trainingData into "training" and "validation" componets for
 # training the model.
@@ -136,13 +136,13 @@ validationDataGenerator <- validationData$generate( batchSize = batchSize,
 #
 track <- unetModel$fit_generator( 
   generator = reticulate::py_iterator( trainingDataGenerator ), 
-  steps_per_epoch = ceiling( 0.8 * numberOfTrainingData  / batchSize ),
+  steps_per_epoch = ceiling( 5 * 0.8 * numberOfTrainingData  / batchSize ),
   epochs = 200,
   validation_data = reticulate::py_iterator( validationDataGenerator ),
-  validation_steps = ceiling( 0.2 * numberOfTrainingData  / batchSize ),
+  validation_steps = ceiling( 5 * 0.2 * numberOfTrainingData  / batchSize ),
   callbacks = list( 
     callback_model_checkpoint( paste0( dataDirectory, "Proton/unetModelWeights.h5" ), 
-      monitor = 'loss', save_best_only = TRUE, save_weights_only = TRUE,
+      monitor = 'val_loss', save_best_only = TRUE, save_weights_only = TRUE,
       verbose = 1, mode = 'auto', period = 1 ),
      callback_reduce_lr_on_plateau( monitor = 'val_loss', factor = 0.5,
        verbose = 1, patience = 10, mode = 'auto' )
