@@ -22,12 +22,12 @@ resampledImageSize <- c( 128, 128, 48 )
 
 unetModel <- createUnetModel3D( c( resampledImageSize, channelSize ), 
   numberOfClassificationLabels = numberOfClassificationLabels, 
-  numberOfLayers = 4, numberOfFiltersAtBaseLayer = 32, dropoutRate = 0.2,
+  numberOfLayers = 4, numberOfFiltersAtBaseLayer = 16, dropoutRate = 0.2,
   convolutionKernelSize = c( 5, 5, 5 ), deconvolutionKernelSize = c( 5, 5, 5 ) )
 load_model_weights_hdf5( unetModel, 
   filepath = paste0( dataDirectory, 'Proton/unetModelWeights.h5' ) )
 unetModel %>% compile( loss = loss_multilabel_dice_coefficient_error,
-  optimizer = optimizer_adam( lr = 0.0001 ),  
+  optimizer = optimizer_adam( lr = 0.000001 ),  
   metrics = c( multilabel_dice_coefficient ) )
 
 protonImageFiles <- list.files( path = protonImageDirectory, 

@@ -66,7 +66,7 @@ unetImageBatchGenerator <- R6::R6Class( "UnetImageBatchGenerator",
       },
 
     generate = function( batchSize = 32L, resampledImageSize = c( 64, 64, 64 ), 
-      doRandomHistogramMatching = TRUE )    
+      doRandomHistogramMatching = TRUE, referenceImage = NA )    
       {
       # shuffle the source data
       sampleIndices <- sample( length( self$imageList ) )
@@ -130,15 +130,23 @@ unetImageBatchGenerator <- R6::R6Class( "UnetImageBatchGenerator",
           {
           subjectBatchImages <- batchImages[[i]]  
 
-          referenceX <- antsImageRead( batchReferenceImages[[i]][1], dimension = 3 )
           referenceXfrm <- batchReferenceTransforms[[i]]
-
           sourceXfrm <- batchTransforms[[i]]
 
-          boolInvert <- c( TRUE, FALSE, FALSE, FALSE )
-          transforms <- c( referenceXfrm$invtransforms[1], 
-            referenceXfrm$invtransforms[2], sourceXfrm$fwdtransforms[1],
-            sourceXfrm$fwdtransforms[2] )
+          if( is.na( referenceImage ) )
+            {
+            referenceX <- antsImageRead( batchReferenceImages[[i]][1], dimension = 3 )
+            boolInvert <- c( TRUE, FALSE, FALSE, FALSE )
+            transforms <- c( referenceXfrm$invtransforms[1], 
+              referenceXfrm$invtransforms[2],
+              sourceXfrm$fwdtransforms[1], sourceXfrm$fwdtransforms[2] )
+            } else {
+            referenceX <- referenceImage
+            boolInvert <- c( FALSE, TRUE, FALSE, FALSE, FALSE )
+            transforms <- c( referenceXfrm$invtransforms[1], 
+              referenceXfrm$invtransforms[2], referenceXfrm$invtransforms[3], 
+              sourceXfrm$fwdtransforms[1], sourceXfrm$fwdtransforms[2] )
+            }  
 
           sourceY <- antsImageRead( batchSegmentations[[i]], dimension = 3 )
 
@@ -165,8 +173,6 @@ unetImageBatchGenerator <- R6::R6Class( "UnetImageBatchGenerator",
             doPerformHistogramMatching <- sample( c( TRUE, FALSE ), size = 1 )
             }
 
-          # cat( "Hist = ", doPerformHistogramMatching, "\n" );
-
           for( j in seq_len( channelSize ) )
             {  
             sourceX <- antsImageRead( subjectBatchImages[j], dimension = 3 )
@@ -179,7 +185,7 @@ unetImageBatchGenerator <- R6::R6Class( "UnetImageBatchGenerator",
               {
               warpedImageX <- histogramMatchImage( warpedImageX, 
                 antsImageRead( batchReferenceImages[[i]][j], dimension = 3 ),
-                numberOfHistogramBins = 64, numberOfMatchPoints = 16 )
+                numberOfHistogramBins = 32, numberOfMatchPoints = 8 )
               }
 
             if( any( dim( warpedImageX ) != resampledImageSize ) )
