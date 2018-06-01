@@ -3,7 +3,7 @@
 \begin{table}[!htb]
 \centering
 \caption{Current ANTsRNet capabilities comprising architectures for applications in 
-image segmentation, image classification, and object localization.  Self-contained
+image segmentation, image classification, object localization, and image super-resolution.  Self-contained
 examples with data are also provided to demonstrate usage for each of the architectures.
 Although the majority of neural network architectures are originally described
 for 2-D images, we generalized the work to 3-D implementations where possible.}
@@ -71,7 +71,14 @@ for 2-D images, we generalized the work to 3-D implementations where possible.}
         Lightweight SSD variant which increases speed by slightly sacrificing
         accuracy.  Training size requirements are smaller. %
   \end{minipage} \\
-\bottomrule
+\midrule    
+\multicolumn{3}{l}{\textbf{Image super-resolution}} 
+  \vspace{0.25cm} \\ \vspace{0.2cm} 
+  SRCNN/ESRCNN [51] & (2-D, 3-D) & 
+    \begin{minipage}[t]{0.6\columnwidth}%
+        Image super-resolution using CNNs. %
+    \end{minipage} \\ 
+  \bottomrule
 \end{tabular*}
 \end{table}
 

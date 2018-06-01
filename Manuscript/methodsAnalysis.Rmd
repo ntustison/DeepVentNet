@@ -241,7 +241,7 @@ and illustrated them with Keras-specific batch generators.
 
 ---
 nocite: |
-  @Ronneberger:2015, @Milletari:2016, @Krizhevsky:2012, @Simonyan:2014, @Szegedy:2015, @He:2015, @Xie:2016, @Huang:2016, @Liu:2015}
+  @Ronneberger:2015, @Milletari:2016, @Krizhevsky:2012, @Simonyan:2014, @Szegedy:2015, @He:2015, @Xie:2016, @Huang:2016, @Liu:2015, @Dong:2016aa}
 ...
 
 ### Processing specifics
