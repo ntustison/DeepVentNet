@@ -29,7 +29,7 @@ resampledImageSize <- dim( reorientTemplate )
 unetModel <- createUnetModel3D( c( resampledImageSize, channelSize ), 
   numberOfClassificationLabels = numberOfClassificationLabels, 
   numberOfLayers = 4, numberOfFiltersAtBaseLayer = 16, dropoutRate = 0.0,
-  convolutionKernelSize = c( 5, 5, 5 ), deconvolutionKernelSize = c( 5, 5, 5 ) )
+  convolutionKernelSize = c( 7, 7, 5 ), deconvolutionKernelSize = c( 7, 7, 5 ) )
 load_model_weights_hdf5( unetModel, 
   filepath = paste0( dataDirectory, 'Proton/unetModelWeights.h5' ) )
 unetModel %>% compile( loss = loss_multilabel_dice_coefficient_error,
