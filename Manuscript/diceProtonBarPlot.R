@@ -1,7 +1,8 @@
 library( ggplot2 )
 library( reshape2 )
 
-directory <- '/Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Manuscript/'
+# directory <- '/Users/ntustison/Data/HeliumLungStudies/DeepVentNet/Manuscript/'
+directory <- '/Users/ntustison/Documents/Academic/InProgress/DeepVentNet/Manuscript/'
 
 diceUnet <- read.csv( paste0( directory, "diceProton.csv" ) )
 diceUnet <- diceUnet[, c( 1, 5, 6, 7 )]
