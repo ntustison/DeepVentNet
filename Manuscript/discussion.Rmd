@@ -50,18 +50,14 @@ the U-net approach (right) avoids possible registration difficulties.
 
 Despite these limitations of the proposed framework, there are also limitations 
 of previously reported methods.  For example, in addition to the significant 
-time requirements for JLF of lung images, shown in \ref{fig:problemCaseProton}
+time requirements for JLF of lung images, shown in Figure \ref{fig:problemCaseProton}
 is an example where difficult pairwise image registration scenarios can cause 
 algorithmic failures.  In contrast, the trained U-net model is capable of learning
 features which can potentially circumvent registration failures.  Similarly, 
 the online feature capabilities of deep learning can overcome some of the 
 drawbacks to more conventional segmentation approaches of ventilation lung images.
-A well-known artifact for these approaches are partial voluming effects which 
-can confound unsophisticated intensity-based segmentation approaches.  Although 
-spatial regularization
-(e.g., Markov random fields) can reduce some of these effects, these are based
-on relatively simplistic assumptions and it is possible that more complicated
-modeling can reduce these effects (see Figure \ref{fig:problemCaseVentilation}).
+A well-known artifact for these approaches is partial voluming effects which 
+can confound certain intensity-based segmentation approaches (see Figure \ref{fig:problemCaseVentilation}).  
 
 \begin{figure}[!htb]
 \centering

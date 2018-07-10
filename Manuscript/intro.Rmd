@@ -20,7 +20,7 @@ to outperform other image-based features in discriminating asthmatics vs.
 non-asthmatics [@Tustison:2010aa].  Ventilation defects have also demonstrated 
 discriminative capabilities in chronic obstructive pulmonary disease (COPD) [@Kirby:2014aa]
 and asthma [@Altes:2016aa].
-These findings, along with related research, has motivated the development of multiple automated (and semi-automated) 
+These findings, along with related research, \textcolor{blue}{have} motivated the development of multiple automated (and semi-automated) 
 segmentation algorithms which have been proposed in the literature (e.g., 
 [@Tustison:2011aa;@Kirby:2012aa;@He:2014aa;@Zha:2016aa;@Hughes:2018aa])
 and are currently used in a variety of clinical research investigations 
@@ -47,7 +47,7 @@ corresponding ventilation images (i.e., masking regions of interest
 a la [@Tustison:2011aa;@Kirby:2012aa;@He:2014aa]).
 
 One of the practical constraints 
-to adopting deep learning techniques is the large data requirements for
+to adopting deep learning techniques is the large data requirement for
 the training process oftentimes necessitating ad hoc strategies for 
 simulating additional data from available data---a process termed _data augmentation_ [@Taylor:2017aa].
 While common approaches to data augmentation include the application

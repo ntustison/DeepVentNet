@@ -42,7 +42,7 @@ clinical studies (e.g., [@Altes:2016aa;@Altes:2017aa]).  Briefly, the intensity 
 of the ventilation image is modeled using Gaussian functions with optimizable parameters 
 (i.e., mean, standard deviation, and normalization factor) designed to model the intensities 
 of the individual ventilation classes.  At each iteration
-the resulting estimated voxelwise labels are refined based an MRF spatial regularization.
+the resulting estimated voxelwise labels are refined based on MRF spatial regularization.
 The parameters of the class-specific Gaussians are then re-estimated.
 This iterative process continues until convergence.  We augment this segmentation step 
 by iterating the results with application of N4 bias correction [@Tustison:2010ac].  Unlike other 
@@ -141,7 +141,7 @@ convolutional neural network (FCN) approach introduced by Long, Shelhamer, and D
 path where the corresponding encoding/decoding layers are linked via skip paths for
 enhanced feature detection.  The nomenclature reflects the descending/ascending aspect
 of its architecture.  Each series in both encoding and decoding branches is 
-characterized by two convolutional layers sandwiching an optional dropout layer.  This 
+characterized  \textcolor{blue}{by an optional dropout layer in between two convolutional layers}.  This 
 latter modification from the original is meant to provide additional regularization for 
 over-fitting prevention [@Srivastava2014].  Output consists of a segmentation probability
 image for each label from which a segmentation map can be generated.  
@@ -165,7 +165,7 @@ strategies have been employed [@Taylor:2017aa]. These include application of int
 transformations, such as brightening and enhanced contrast.  They might also include 
 spatial transformations such as arbitrary rotations, translations, and even simulated
 elastic deformations.  Such transformations might not be ideal if they do not represent
-shape variation within the range within the population under study.
+shape variation \textcolor{blue}{within the typical range exhibited by the} population under study.
 
 We propose a template-based data augmentation approach whereby image data sampled from the population
 is used to construct a representative template that is optimal in terms of shape and/or
@@ -203,7 +203,7 @@ research community which not only contains the software to perform the operation
 to structural and functional lung image segmentation but also performs a host of other 
 deep learning tasks wrapped in a thoroughly documented and well-written R package.
 The recent interest in deep learning techniques and the associated successes with respect to a 
-variety of applications has motivated adoption of such techniques.
+variety of applications \textcolor{blue}{have} motivated adoption of such techniques.
 Basic image operations such as classification, object identification, and 
 segmentation (as well as more focused techniques) have significant potential for facilitating 
 basic medical research.  ANTsRNet is built using the Keras neural network 
@@ -217,7 +217,7 @@ architectures exist and are largely available to the public.  However, we feel
 that ANTsRNet fills an unmet need.  Based on our own search, many publicly 
 available implementations, while functional, are not developed with large-scale distribution 
 and application as end goals.  There is little, if any, coding consistency between the 
-various implementations leading to non-standardized APIs and difficulties in code
+various implementations, leading to non-standardized APIs and difficulties in code
 navigation for debugging and/or didactic reasons.  In addition, the vast majority employ the
 Python language which is understandable given its widespread usage by data scientists.
 However, this work makes these powerful new developments available through a major platform 
@@ -251,7 +251,7 @@ with masks were used for the separate U-net model training.  These images were d
 bias corrected offline (as described above) and required < 1 minute for both steps per image 
 using single-threading although both preprocessing steps are multi-threading capable.
 An R script was used to read in the images and segmentations (available in
-our GitHub repo [@deepventnet]), create the model, designate model parameters, and initialize 
+our GitHub \textcolor{blue}{repository} [@deepventnet]), create the model, designate model parameters, and initialize 
 the batch generator.  
 
 For the proton data we built a 3-D U-net model to take advantage of the characteristic
