@@ -83,4 +83,9 @@ slice-by-slice processing is computationally efficient in the deep learning para
 we can process 3-D images along the three canonical axes and combined the results 
 for increased accuracy.  More broadly, it would be of potential interest to investigate
 the use of image classification techniques (e.g., VGG [@Simonyan:2014]) for classifying 
-lung disease phenotype directly from the images.
+lung disease phenotype directly from the images.  \textcolor{blue}{More immediate 
+benefits could result from augmenting the limited, single-site data set used
+in this work to include data contributed from other groups which could translate into
+more robust models.  Additionally, as the U-net architecture is application-agnostic,
+investigators can apply the contributions discussed in this work to their own data, 
+such as lung CT, to facilitate their own research.}  

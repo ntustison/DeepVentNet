@@ -42,8 +42,8 @@ each atlas image and compute a neighborhood cross-correlation similarity metric
 use in the JLF scheme. The resulting performance numbers (in terms of Dice overlap)
 are similar to what we obtained previously and are given in Figure \ref{fig:diceProton} 
 along with the Dice overlap numbers from the CNN-based approach.  
-Accuracy for the latter was left lung: 0.93 $\pm$ 0.03, right lung:  0.94 $\pm$ 0.02, and
-whole lung: 0.94 $\pm$ 0.02.  The analagous JLF numbers were slightly more accurate 
+\textcolor{blue}{Accuracy for the latter was left lung: 0.93 $\pm$ 0.03, right lung:  0.94 $\pm$ 0.02, and
+whole lung: 0.94 $\pm$ 0.02.}  The analagous JLF numbers were slightly more accurate 
 (left lung: 0.95 $\pm$ 0.02, right lung: 0.96 $\pm$ 0.01, whole lung: 0.96 $\pm$ 0.01)
 although the processing time is significantly 
 greater---less than 1 second per subject for the proposed approach versus ~25 minutes per subject

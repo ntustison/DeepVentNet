@@ -258,7 +258,8 @@ For the proton data we built a 3-D U-net model to take advantage of the characte
 3-D shape of the lungs.  This limited the possible batch size as our GPU (Titan Xp) is 
 limited to 12 GB although this can be revisited in the future with additional computational
 resources.  We built a 2-D U-net model for the ventilation images as the functional image
-segmentation does not take advantage of obvious anatomical factors.
+segmentation does not take advantage of obvious anatomical factors.  \textcolor{blue}{These
+data are publicly available for download at https://doi.org/10.6084/m9.figshare.4964915.v1.}
 
 Image size was not identical across both image cohorts so we settled on a common resampled image size of 
 $128 \times 128 \times 64$ for the proton images and $128 \times 128$ for the ventilation images.
