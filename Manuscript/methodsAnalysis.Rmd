@@ -45,10 +45,10 @@ of the individual ventilation classes.  At each iteration
 the resulting estimated voxelwise labels are refined based on MRF spatial regularization.
 The parameters of the class-specific Gaussians are then re-estimated.
 This iterative process continues until convergence.  We augment this segmentation step 
-by iterating the results with application of N4 bias correction [@Tustison:2010ac].  Unlike other 
-methods which rely solely on intensity distributions which discards spatial information,
-(e.g., K-means variants [@Kirby:2012aa;@Zha:2016aa] and 
-histogram rescaling and thresholding [@He:2014aa]),  our technique employs
+by iterating the results with application of N4 bias correction [@Tustison:2010ac].
+\textcolor{blue}{Unlike other methods that rely solely on intensity distributions, thereby 
+discarding spatial information} (e.g., K-means variants [@Kirby:2012aa;@Zha:2016aa] and 
+histogram rescaling and thresholding [@He:2014aa]), our technique employs
 both spatial and intensity information for probabilistic classification.
 
 Because of our dual structural/functional acquisition protocol [@Qing:2015aa], we also 
@@ -117,23 +117,6 @@ operation which yields the segmentation probability maps.
 \label{fig:unet}
 \end{figure}
 
-
-Deep learning, a term denoting neural network architectures with 
-multiple hidden layers, has seen recent renewed research development and application.  In the field of 
-image analysis and computer vision, deep learning with convolution neural networks (CNNs)
-has been particularly prominent in recent years due, in large part, to the annual ImageNet Large Scale Visual 
-Recognition Challenge [@Russakovsky:2015aa].
-Specifically, one of the participating groups in the 2012 ImageNet challenge was the earliest 
-adopter of CNNs.  The resulting architecture, colloquially known as "AlexNet" [@AlexNet],
-surpassed any approach that had been proposed previously and laid the groundwork for
-future CNN-based architectures for image classification such as VGG [@Simonyan:2014] and
-GoogLeNet [@Szegedy:2015].  The recent successes of CNNs are historically rooted in the 
-pioneering work of LeCun et al. [@LeCun1998] and Fukushima [@Fukushima:1980aa] and others
-which drew inspiration from earlier work on the complex arrangement of cells within 
-the feline visual cortex [@HUBEL:1962aa].  CNNs are characterized by common components (i.e.,
-convolution, pooling, and activation functions) which can be put together in various 
-arrangements to perform such tasks as image classification and voxelwise segmentation.
-
 The U-net architecture was introduced in [@Ronneberger:2015aa] which extended the fully 
 convolutional neural network (FCN) approach introduced by Long, Shelhamer, and Darrel 
 [@Shelhamer:2017aa].  U-net augments the "encoding path" (see left side of Figure 
@@ -171,11 +154,23 @@ We propose a template-based data augmentation approach whereby image data sample
 is used to construct a representative template that is optimal in terms of shape and/or
 intensity [@Avants:2010aa].  In addition to the representative template, this template-building 
 process yields the transformations to/from each individual image to the template space.
-This permits a propagation of the training data to the space of each individual image. In 
-the simplest case, the training data is used to construct the template and then each 
+\textcolor{blue}{
+This permits a propagation of individual training data to the space of every other
+training data as illustrated in Figure \ref{fig:augmentation}.  Specifically, the
+template building process produces an invertible, deformable mapping for each
+subject.  For the $k^{th}$ subject, $S_k$, and template, $T$, this mapping is 
+denoted as $\phi_k$ with inverse given by $\phi^{-1}_k$.  During model 
+training, each new augmentated data instance, $S_{new}$, is produced by randomly selecting a 
+source subject and target subject, and mapping $S_{source}$ to the space of $S_{target}$
+according to}
+\begin{align}
+  S_{new} = S_{source}\left( \phi^{-1}_{target} \left( \phi_{source} \right) \right).
+\end{align}
+\textcolor{blue}{Note that each $S$ comprises all channel images and corresponding segmentation images.}
+In the simplest case, the training data is used to construct the template and then each 
 individual training image and corresponding labels are propagated to the space of every other 
 image.  In this way, a training data set of size $N$ can be expanded to a data set of 
-size $N^2$ (see Figure \ref{fig:augmentation}).  A slight variation to this would be to 
+size $N^2$.  A slight variation to this would be to 
 build a template from $M$ data sets 
 (where $M > N$).  Transformations between the training data and the template are then
 used to propagate the training data to the spaces of the individual members of the 
@@ -184,17 +179,43 @@ template-generating data for an augmented data set size of $M \times N$.
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{./Figures/DataAugmentation.pdf}
-\caption{We introduce a novel data augmentation strategy for medical images using 
-ANTs-based template construction.  Shown here is proton lung segmentation example where 
-a template is created from the training data segmentation images where the 
-foreground designates the left and right lungs.  This avoids the lack of 
-internal correspondence while generating plausible global shape variations 
-when mapping between individual training data.  We used 60+ images to 
-create such a template permitting 60$^2$ = 3600 possible deformable shapes 
-which can be further augmented by more conventional strategies (e.g., brightness
-transformations, translations, etc.).}
+\caption{
+\textcolor{blue}{Template-based data augmentation for the proton (left) and
+ventilation (right) U-net model generation.  For both cases, a template is
+created, or selected, to generate the transforms
+to and from the template.  The 
+derived deformable, invertible transform for the $k^{th}$ subject, $S_k$, to the
+template, $T$, is   
+denoted by $\phi_k: S_k \leftrightsquigarrow T$.  These subject-specific mappings are 
+used during model training (but not the template itself).
+Data augmentation occurs by randomly choosing a reference
+subject and a target subject during batch processing.  In the illustration above, the sample mapping of 
+Subject 1 to the space of Subject 2, represented by the green curved arrow,  
+is defined as $\phi^{-1}_2\left( \phi_1 \right)$.}
+}
 \label{fig:augmentation}
 \end{figure}
+
+\textcolor{blue}{
+Since U-net model generation is completely separate for the proton and ventilation
+data, template-based data augmentation is also isolated between the two protocols.
+The proton template is created from the right/left segmentation images of the training data 
+denoted by the red/green labels which have voxel values of `1' and `2', respectively,
+in Figure \ref{fig:augmentation}.  The resulting 
+template located in the center of the left panel is an average of all the transformed
+label images.  This whole lung approach avoids the possible lack of internal correspondence while 
+generating plausible global shape variations when mapping between individual training data.
+We used 60 proton MR images thus permitting 60$^2$ = 3600 possible deformable shapes 
+which can be further augmented by more conventional strategies (e.g., brightness
+transformations, translations, etc.).
+In contrast, the ventilation template is
+created directly from the training ventilation images resulting in the grayscale 
+template in the center of the right panel of Figure \ref{fig:augmentation}.  An 
+alternative strategy for ventilation template creation could have employed relabeling the 
+ventilation masks to a single value and aligning the lung boundaries, somewhat similar to 
+the proton protocol.  This approach would be necessary for severe lung disease where major
+portions of the lung are absent in the ventilation image.    
+}
 
 ### ANTsRNet
 
@@ -204,14 +225,16 @@ to structural and functional lung image segmentation but also performs a host of
 deep learning tasks wrapped in a thoroughly documented and well-written R package.
 The recent interest in deep learning techniques and the associated successes with respect to a 
 variety of applications \textcolor{blue}{have} motivated adoption of such techniques.
-Basic image operations such as classification, object identification, and 
-segmentation (as well as more focused techniques) have significant potential for facilitating 
+Basic image operations such as classification, object identification, 
+segmentation, as well as more focused techniques, \textcolor{blue}{such as predictive image registration} [@Yang:2017aa],
+ have significant potential for facilitating 
 basic medical research.  ANTsRNet is built using the Keras neural network 
 library (available through R) and is highly integrated with the ANTsR package, the R interface 
 of the ANTs toolkit.  Consistent with our other software offerings, ongoing development is 
 currently carried out on GitHub using a well-commented coding style, thorough documentation, 
 and self-contained working examples [@antsrnet].  
 
+<!--
 It should be noted that various implementations of different deep learning 
 architectures exist and are largely available to the public.  However, we feel 
 that ANTsRNet fills an unmet need.  Based on our own search, many publicly 
@@ -224,6 +247,7 @@ However, this work makes these powerful new developments available through a maj
 heavily used by statisticians and data scientists.
 In addition, the R-based interface to the ANTs toolkit allows for preprocessing and data
 augmentation strategies specific to medical imaging.  
+-->
 
 Several architectures have been implemented for both 2-D and 3-D images spanning the broad
 application areas of image classification, object detection, and image segmentation 
@@ -257,9 +281,46 @@ the batch generator.
 For the proton data we built a 3-D U-net model to take advantage of the characteristic
 3-D shape of the lungs.  This limited the possible batch size as our GPU (Titan Xp) is 
 limited to 12 GB although this can be revisited in the future with additional computational
-resources.  We built a 2-D U-net model for the ventilation images as the functional image
-segmentation does not take advantage of obvious anatomical factors.  \textcolor{blue}{These
+resources.  \textcolor{blue}{Transforms derived from the template-building process described
+previously were passed to the batch generator where reference and source subjects were 
+randomly assigned.  During each iteration, these random pairings were used to create the
+augmented data according to Equation (1).  These
 data are publicly available for download at https://doi.org/10.6084/m9.figshare.4964915.v1.}
+
+\textcolor{blue}{
+The U-net ventilation model was generated from 73 ventilation MRI.  The smaller
+data set size was a result of data pruning to ensure class balance.  
+Even though the functional images are processed as 3-D volumes and a 3-D
+ventilation template is created for the template-based data augmentation, the generated 
+U-net model is 2-D.  This is due to lack of any discernible anatomical signatures available
+for learning.  This also makes model generation much faster.  The basic processing strategy
+is that any ventilation image to be segmented will be processed on a slice-by-slice basis
+where each slice is segmented using the 2-D model.
+For data augmentation, the full 3-D transforms are supplied to the 
+batch generator.  At each iteration, as set of generated 3-D augmented images 
+are created on the fly based on Equation (1) and then a subset of slices is 
+randomly selected for each image until the batch set is complete.  
+For this work we randomly sampled slices
+in the coronal direction using a specified sampling rate ($=$ 0.5).
+It should
+be noted that a whole lung mask is assumed to exist and supplied as an additional channel for 
+processing.  Prediction on the evaluation data is performed slice-by-slice
+and then collated into probability volumetric 
+images.}
+
+\textcolor{blue}{The 3-D U-net structural model and 2-D U-net functional model that were created,
+as described above and included with the GitHub repository, can then be used for future processing.
+Using these models, the basic deep learning workflow is as follows:
+\begin{itemize}
+  \item Assume simultaneous structural and functional image acquisition.
+  \item Generate left/right lung mask from the structural image using corresponding 3-D U-net structural model.
+  \item Convert left/right lung mask to a single label.
+  \item Process ventilation image slice-by-slice using the 2-D U-net functional model using the 
+        ventilation image and single label structural lung mask as input.
+\end{itemize}
+Note that this workflow is not absolutely necessary.  For example, one could use the 2-D functional
+model if one provides the input lung masks.
+}
 
 Image size was not identical across both image cohorts so we settled on a common resampled image size of 
 $128 \times 128 \times 64$ for the proton images and $128 \times 128$ for the ventilation images.

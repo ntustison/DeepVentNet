@@ -64,7 +64,8 @@ can confound certain intensity-based segmentation approaches (see Figure \ref{fi
 \includegraphics[width=\textwidth]{./Figures/UVa_He3_140_slice8.pdf}
 \caption{Ventilation segmentation comparison between a human reader
 and the two computational approaches.  Notice the effects of the partial
-voluming at the apex of the lungs which are labeled as ventilation 
+voluming at the apex of the lungs, \textcolor{blue}{indicated by the yellow arrow}, 
+which are labeled as ventilation 
 defect by the Atropos approach whereas U-net and the human reader 
 correctly label this region.
 }
@@ -84,4 +85,4 @@ benefits could result from augmenting the limited, single-site data set used
 in this work to include data contributed from other groups which could translate into
 more robust models.  Additionally, as the U-net architecture is application-agnostic,
 investigators can apply the contributions discussed in this work to their own data, 
-such as lung CT, to facilitate their own research.}  
+such as lung CT.}  

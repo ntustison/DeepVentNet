@@ -31,6 +31,21 @@ recent developments in machine learning (specifically "deep learning"
 [@LeCun:2015aa]) have generated new possibilities for quantification 
 with improved capabilities in terms of accuracy, robustness, and 
 computational efficiency.
+Deep learning, a term denoting neural network architectures with 
+multiple hidden layers, has seen recent renewed research development and application.  In the field of 
+image analysis and computer vision, deep learning with convolution neural networks (CNNs)
+has been particularly prominent in recent years due, in large part, to the annual ImageNet Large Scale Visual 
+Recognition Challenge [@Russakovsky:2015aa].
+Specifically, one of the participating groups in the 2012 ImageNet challenge was the earliest 
+adopter of CNNs.  The resulting architecture, colloquially known as "AlexNet" [@AlexNet],
+surpassed any approach that had been proposed previously and laid the groundwork for
+future CNN-based architectures for image classification such as VGG [@Simonyan:2014] and
+GoogLeNet [@Szegedy:2015].  The recent successes of CNNs are historically rooted in the 
+pioneering work of LeCun et al. [@LeCun1998] and Fukushima [@Fukushima:1980aa] and others
+which drew inspiration from earlier work on the complex arrangement of cells within 
+the feline visual cortex [@HUBEL:1962aa].  CNNs are characterized by common components (i.e.,
+convolution, pooling, and activation functions) which can be put together in various 
+arrangements to perform such tasks as image classification and voxelwise segmentation.
 The outgrowth of research, in conjunction with advances
 in computational hardware, has resulted in significant developments 
 in various image research areas including classification, segmentation,
@@ -42,9 +57,9 @@ segmentation framework, based on the U-net architecture [@Ronneberger:2015aa],
 for functional lung imaging using hyperpolarized gas.  As part of this framework
 we include a deep learning analog to earlier work from our group targeting
 segmentation of proton lung MRI [@Tustison:2016aa].  This is motivated by 
-common use case scenarios in which proton images are used for quantifying 
-corresponding ventilation images (i.e., masking regions of interest 
-a la [@Tustison:2011aa;@Kirby:2012aa;@He:2014aa]).
+common use case scenarios in which \textcolor{blue}{proton images are used to identify regions of 
+interest in corresponding ventilation images} [@Tustison:2011aa;@Kirby:2012aa;@He:2014aa], 
+\textcolor{blue}{which typically contain no discernible boundaries for anatomic structures.}
 
 One of the practical constraints 
 to adopting deep learning techniques is the large data requirement for

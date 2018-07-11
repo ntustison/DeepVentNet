@@ -3,23 +3,6 @@
 
 ## Proton MRI lung segmentation
 
-<!-- 
-
-\begin{figure}[!htb]
-\centering
-\includegraphics[width=\textwidth]{./Figures/unetModelAccuracyPlot.pdf}
-\caption{
-}
-\label{fig:trainingProton}
-\end{figure}
-
--->
-
-203 proton MRI with corresponding left/right lung segmentations were 
-used to build the 3-D  U-net model described in the previous section.  These 
-data were split into 80% "training" and 20% "validation" sets.  Batch size was
-8 images with 150 epochs with 16 steps per epoch. 
-
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{./Figures/diceProton.pdf}
@@ -52,31 +35,10 @@ evaluation image.
 
 ## Ventilation MRI lung segmentation
 
-<!-- 
-
-\begin{figure}[!htb]
-\centering
-\includegraphics[width=\textwidth]{./Figures/unetModelVentilationAccuracyPlot.pdf}
-\caption{
-}
-\label{fig:trainingVentilation}
-\end{figure}
-
--->
-
-The U-net ventilation model was generated from 73 ventilation MRI.  The smaller
-data set size was a result of data pruning to ensure class balance.  Given the
-smaller data set size, the availability of lung masks, and the intuitive lack 
-of utility of morphological cues in ventilation-based segmentation, we used
-2-D modeling for ventilation-based segmentation.  The template-based data 
-augmentation scheme was also used here.  After transforming a randomly selected 
-3-D source ventilation image to the reference space, we randomly sampled slices
-in the coronal direction using a specified sampling rate ($=$ 0.5).  Once the
-model was complete, we performed prediction on the evaluation data slice-by-slice
-and then collated the slices for a single subject into probability volumetric 
-images.  We then converted these probability images into a single segmentation
+We applied the deep learning approach described in the previous section to 
+the evaluation data used in [@Tustison:2011aa].   The resulting probability iamges were converted into a single segmentation
 image which were then compared with the manual segmentation results and Atropos
-results from our previous work [@Tustison:2011aa] using the same data.  Note
+results from our previous work [@Tustison:2011aa].  Note
 that the Otsu thresholding and K-means thresholding were omitted as they were 
 the poorest performers and, as mentioned previously, discard spatial information
 in contrast to both computational methods and the human readers.  
