@@ -14,7 +14,24 @@ the latter requires significantly less computation time.
 \label{fig:diceProton}
 \end{figure}
 
-After constructing the model, we applied it to the evaluation data consisting
+After constructing the U-net structural model using template-based
+data augmentation\footnote{\textcolor{blue}{
+Although the need for data augmentation techniques is well-established within the
+deep learning research community, we performed a smaller 2-D experiment to 
+illustrate the potential gain using template-based data augmentation.  Training
+data consisted of 50 coronal proton lung MRI with 
+lung segmentations.  Data and scripts are available in the companion repository to
+the ANTsRNet package, called ANTsRNetExamples, which contains examples for
+available architectures.  
+Accuracy, in terms of Dice overlap, achieved with augmentation was
+left lung: 0.94 $\pm$ 0.02, 
+right lung:  0.92 $\pm$ 0.04, and
+whole lung: 0.93 $\pm$ 0.03.
+Accuracy achieved without augmentation was
+left lung: 0.88 $\pm$ 0.13, 
+right lung:  0.83 $\pm$ 0.21, and
+whole lung: 0.86 $\pm$ 0.16.}
+}, we applied it to the evaluation data consisting
 of the same 62 proton MRI used in [@Tustison:2011aa].  We performed a direct 
 comparison with the joint label fusion (JLF) method of [@Tustison:2011aa] with
 an adopted modification that we currently use in our studies.  Instead of using
@@ -32,6 +49,7 @@ although the processing time is significantly
 greater---less than 1 second per subject for the proposed approach versus ~25 minutes per subject
 using JLF using 4 CPU threads running 8 parallel pairwise registrations per 
 evaluation image.
+
 
 ## Ventilation MRI lung segmentation
 
