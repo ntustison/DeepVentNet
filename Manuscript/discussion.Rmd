@@ -64,7 +64,7 @@ can confound certain intensity-based segmentation approaches (see Figure \ref{fi
 \includegraphics[width=\textwidth]{./Figures/UVa_He3_140_slice8.pdf}
 \caption{Ventilation segmentation comparison between a human reader
 and the two computational approaches.  Notice the effects of the partial
-voluming at the apex of the lungs, \textcolor{blue}{indicated by the yellow arrow}, 
+voluming at the apex of the lungs, \textcolor{black}{indicated by the yellow arrow}, 
 which are labeled as ventilation 
 defect by the Atropos approach whereas U-net and the human reader 
 correctly label this region.
@@ -80,7 +80,7 @@ slice-by-slice processing is computationally efficient in the deep learning para
 we can process 3-D images along the three canonical axes and combined the results 
 for increased accuracy.  More broadly, it would be of potential interest to investigate
 the use of image classification techniques (e.g., VGG [@Simonyan:2014]) for classifying 
-lung disease phenotype directly from the images.  \textcolor{blue}{More immediate 
+lung disease phenotype directly from the images.  \textcolor{black}{More immediate 
 benefits could result from augmenting the limited, single-site data set used
 in this work to include data contributed from other groups which could translate into
 more robust models.  Additionally, as the U-net architecture is application-agnostic,

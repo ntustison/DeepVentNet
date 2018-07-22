@@ -46,7 +46,7 @@ the resulting estimated voxelwise labels are refined based on MRF spatial regula
 The parameters of the class-specific Gaussians are then re-estimated.
 This iterative process continues until convergence.  We augment this segmentation step 
 by iterating the results with application of N4 bias correction [@Tustison:2010ac].
-\textcolor{blue}{Unlike other methods that rely solely on intensity distributions, thereby 
+\textcolor{black}{Unlike other methods that rely solely on intensity distributions, thereby 
 discarding spatial information} (e.g., K-means variants [@Kirby:2012aa;@Zha:2016aa] and 
 histogram rescaling and thresholding [@He:2014aa]), our technique employs
 both spatial and intensity information for probabilistic classification.
@@ -124,7 +124,7 @@ convolutional neural network (FCN) approach introduced by Long, Shelhamer, and D
 path where the corresponding encoding/decoding layers are linked via skip paths for
 enhanced feature detection.  The nomenclature reflects the descending/ascending aspect
 of its architecture.  Each series in both encoding and decoding branches is 
-characterized  \textcolor{blue}{by an optional dropout layer in between two convolutional layers}.  This 
+characterized  \textcolor{black}{by an optional dropout layer in between two convolutional layers}.  This 
 latter modification from the original is meant to provide additional regularization for 
 over-fitting prevention [@Srivastava2014].  Output consists of a segmentation probability
 image for each label from which a segmentation map can be generated.  
@@ -148,13 +148,13 @@ strategies have been employed [@Taylor:2017aa]. These include application of int
 transformations, such as brightening and enhanced contrast.  They might also include 
 spatial transformations such as arbitrary rotations, translations, and even simulated
 elastic deformations.  Such transformations might not be ideal if they do not represent
-shape variation \textcolor{blue}{within the typical range exhibited by the} population under study.
+shape variation \textcolor{black}{within the typical range exhibited by the} population under study.
 
 We propose a template-based data augmentation approach whereby image data sampled from the population
 is used to construct a representative template that is optimal in terms of shape and/or
 intensity [@Avants:2010aa].  In addition to the representative template, this template-building 
 process yields the transformations to/from each individual image to the template space.
-\textcolor{blue}{
+\textcolor{black}{
 This permits a propagation of individual training data to the space of every other
 training data as illustrated in Figure \ref{fig:augmentation}.  Specifically, the
 template building process produces an invertible, deformable mapping for each
@@ -166,7 +166,7 @@ according to}
 \begin{align}
   S_{new} = S_{source}\left( \phi^{-1}_{target} \left( \phi_{source} \right) \right).
 \end{align}
-\textcolor{blue}{Note that each $S$ comprises all channel images and corresponding segmentation images.}
+\textcolor{black}{Note that each $S$ comprises all channel images and corresponding segmentation images.}
 In the simplest case, the training data is used to construct the template and then each 
 individual training image and corresponding labels are propagated to the space of every other 
 image.  In this way, a training data set of size $N$ can be expanded to a data set of 
@@ -180,7 +180,7 @@ template-generating data for an augmented data set size of $M \times N$.
 \centering
 \includegraphics[width=\textwidth]{./Figures/DataAugmentation.pdf}
 \caption{
-\textcolor{blue}{Template-based data augmentation for the proton (left) and
+\textcolor{black}{Template-based data augmentation for the proton (left) and
 ventilation (right) U-net model generation.  For both cases, a template is
 created, or selected, to generate the transforms
 to and from the template.  The 
@@ -196,7 +196,7 @@ is defined as $\phi^{-1}_2\left( \phi_1 \right)$.}
 \label{fig:augmentation}
 \end{figure}
 
-\textcolor{blue}{
+\textcolor{black}{
 Since U-net model generation is completely separate for the proton and ventilation
 data, template-based data augmentation is also isolated between the two protocols.
 The proton template is created from the right/left segmentation images of the training data 
@@ -224,9 +224,9 @@ research community which not only contains the software to perform the operation
 to structural and functional lung image segmentation but also performs a host of other 
 deep learning tasks wrapped in a thoroughly documented and well-written R package.
 The recent interest in deep learning techniques and the associated successes with respect to a 
-variety of applications \textcolor{blue}{have} motivated adoption of such techniques.
+variety of applications \textcolor{black}{have} motivated adoption of such techniques.
 Basic image operations such as classification, object identification, 
-segmentation, as well as more focused techniques, \textcolor{blue}{such as predictive image registration} [@Yang:2017aa],
+segmentation, as well as more focused techniques, \textcolor{black}{such as predictive image registration} [@Yang:2017aa],
  have significant potential for facilitating 
 basic medical research.  ANTsRNet is built using the Keras neural network 
 library (available through R) and is highly integrated with the ANTsR package, the R interface 
@@ -275,19 +275,19 @@ with masks were used for the separate U-net model training.  These images were d
 bias corrected offline (as described above) and required < 1 minute for both steps per image 
 using single-threading although both preprocessing steps are multi-threading capable.
 An R script was used to read in the images and segmentations (available in
-our GitHub \textcolor{blue}{repository} [@deepventnet]), create the model, designate model parameters, and initialize 
+our GitHub \textcolor{black}{repository} [@deepventnet]), create the model, designate model parameters, and initialize 
 the batch generator.  
 
 For the proton data we built a 3-D U-net model to take advantage of the characteristic
 3-D shape of the lungs.  This limited the possible batch size as our GPU (Titan Xp) is 
 limited to 12 GB although this can be revisited in the future with additional computational
-resources.  \textcolor{blue}{Transforms derived from the template-building process described
+resources.  \textcolor{black}{Transforms derived from the template-building process described
 previously were passed to the batch generator where reference and source subjects were 
 randomly assigned.  During each iteration, these random pairings were used to create the
 augmented data according to Equation (1).  These
 data are publicly available for download at https://doi.org/10.6084/m9.figshare.4964915.v1.}
 
-\textcolor{blue}{
+\textcolor{black}{
 The U-net ventilation model was generated from 73 ventilation MRI.  The smaller
 data set size was a result of data pruning to ensure class balance.  
 Even though the functional images are processed as 3-D volumes and a 3-D
@@ -308,7 +308,7 @@ processing.  Prediction on the evaluation data is performed slice-by-slice
 and then collated into probability volumetric 
 images.}
 
-\textcolor{blue}{The 3-D U-net structural model and 2-D U-net functional model that were created,
+\textcolor{black}{The 3-D U-net structural model and 2-D U-net functional model that were created,
 as described above and included with the GitHub repository, can then be used for future processing.
 Using these models, the basic deep learning workflow is as follows:
 \begin{itemize}

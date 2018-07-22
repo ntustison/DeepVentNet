@@ -20,7 +20,7 @@ to outperform other image-based features in discriminating asthmatics vs.
 non-asthmatics [@Tustison:2010aa].  Ventilation defects have also demonstrated 
 discriminative capabilities in chronic obstructive pulmonary disease (COPD) [@Kirby:2014aa]
 and asthma [@Altes:2016aa].
-These findings, along with related research, \textcolor{blue}{have} motivated the development of multiple automated (and semi-automated) 
+These findings, along with related research, \textcolor{black}{have} motivated the development of multiple automated (and semi-automated) 
 segmentation algorithms which have been proposed in the literature (e.g., 
 [@Tustison:2011aa;@Kirby:2012aa;@He:2014aa;@Zha:2016aa;@Hughes:2018aa])
 and are currently used in a variety of clinical research investigations 
@@ -57,9 +57,9 @@ segmentation framework, based on the U-net architecture [@Ronneberger:2015aa],
 for functional lung imaging using hyperpolarized gas.  As part of this framework
 we include a deep learning analog to earlier work from our group targeting
 segmentation of proton lung MRI [@Tustison:2016aa].  This is motivated by 
-common use case scenarios in which \textcolor{blue}{proton images are used to identify regions of 
+common use case scenarios in which \textcolor{black}{proton images are used to identify regions of 
 interest in corresponding ventilation images} [@Tustison:2011aa;@Kirby:2012aa;@He:2014aa], 
-\textcolor{blue}{which typically contain no discernible boundaries for anatomic structures.}
+\textcolor{black}{which typically contain no discernible boundaries for anatomic structures.}
 
 One of the practical constraints 
 to adopting deep learning techniques is the large data requirement for

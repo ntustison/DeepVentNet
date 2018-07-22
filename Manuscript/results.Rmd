@@ -15,7 +15,7 @@ the latter requires significantly less computation time.
 \end{figure}
 
 After constructing the U-net structural model using template-based
-data augmentation\footnote{\textcolor{blue}{
+data augmentation\footnote{\textcolor{black}{
 Although the need for data augmentation techniques is well-established within the
 deep learning research community, we performed a smaller 2-D experiment to 
 illustrate the potential gain using template-based data augmentation.  Training
@@ -42,7 +42,7 @@ each atlas image and compute a neighborhood cross-correlation similarity metric
 use in the JLF scheme. The resulting performance numbers (in terms of Dice overlap)
 are similar to what we obtained previously and are given in Figure \ref{fig:diceProton} 
 along with the Dice overlap numbers from the CNN-based approach.  
-\textcolor{blue}{Accuracy for the latter was left lung: 0.93 $\pm$ 0.03, right lung:  0.94 $\pm$ 0.02, and
+\textcolor{black}{Accuracy for the latter was left lung: 0.93 $\pm$ 0.03, right lung:  0.94 $\pm$ 0.02, and
 whole lung: 0.94 $\pm$ 0.02.}  The analagous JLF numbers were slightly more accurate 
 (left lung: 0.95 $\pm$ 0.02, right lung: 0.96 $\pm$ 0.01, whole lung: 0.96 $\pm$ 0.01)
 although the processing time is significantly 
