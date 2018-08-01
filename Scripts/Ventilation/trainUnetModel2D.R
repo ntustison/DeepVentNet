@@ -47,19 +47,19 @@ for( i in 1:length( trainingVentilationFiles ) )
     }
 
   xfrmPrefix <- paste0( dataDirectory, 
-    'Ventilation/Training/Template/', subjectId, "Ventilation_" )
+    'Ventilation/Training/Template/T_', subjectId, "Mask" )
 
   fwdtransforms <- c()
-  fwdtransforms[1] <- paste0( xfrmPrefix, '1Warp.nii.gz' )
-  fwdtransforms[2] <- paste0( xfrmPrefix, '0GenericAffine.mat' )
+  fwdtransforms[1] <- paste0( xfrmPrefix, i-1, 'Warp.nii.gz' )
+  fwdtransforms[2] <- paste0( xfrmPrefix, i-1, 'Affine.txt' )
   invtransforms <- c()
-  invtransforms[1] <- paste0( xfrmPrefix, '0GenericAffine.mat' )
-  invtransforms[2] <- paste0( xfrmPrefix, '1InverseWarp.nii.gz' )
+  invtransforms[1] <- paste0( xfrmPrefix, i-1, 'Affine.txt' )
+  invtransforms[2] <- paste0( xfrmPrefix, i-1, 'InverseWarp.nii.gz' )
 
   if( !file.exists( fwdtransforms[1] ) || !file.exists( fwdtransforms[2] ) ||
       !file.exists( invtransforms[1] ) || !file.exists( invtransforms[2] ) )
     {
-    stop( "Transform file does not exist.\n" )
+    stop( "Transform ", paste0( xfrmPrefix, i-1 ), " file does not exist.\n" )
     }
 
   trainingTransforms[[i]] <- list( 
@@ -75,9 +75,9 @@ resampledImageSize <- c( 128, 128 )
 direction <- 3
 
 unetModel <- createUnetModel2D( c( resampledImageSize, channelSize ), 
-  numberOfClassificationLabels = numberOfClassificationLabels, 
-  layers = 1:4, lowestResolution = 32, dropoutRate = 0.2,
-  convolutionKernelSize = c( 5, 5 ), deconvolutionKernelSize = c( 5, 5 ) )
+  convolutionKernelSize = c( 5, 5 ), deconvolutionKernelSize = c( 5, 5 ),
+  numberOfClassificationLabels = numberOfClassificationLabels, dropoutRate = 0.2,
+  numberOfLayers = 4, numberOfFiltersAtBaseLayer = 32 )
 
 # load_model_weights_hdf5( unetModel, 
 #   filepath = paste0( dataDirectory, 'Ventilation/Models/unetModel2DWeights.h5' ) )

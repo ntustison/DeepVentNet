@@ -20,10 +20,11 @@ channelSize <- length( imageMods )
 resampledSliceSize <- c( 128, 128 )
 direction <- 3
 
-unetModel <- createUnetModel2D( c( resampledImageSize, channelSize ), 
-  numberOfClassificationLabels = numberOfClassificationLabels, 
-  layers = 1:4, lowestResolution = 32, dropoutRate = 0.2,
-  convolutionKernelSize = c( 5, 5 ), deconvolutionKernelSize = c( 5, 5 ) )
+unetModel <- createUnetModel2D( c( resampledSliceSize, channelSize ), 
+  convolutionKernelSize = c( 5, 5 ), deconvolutionKernelSize = c( 5, 5 ),
+  numberOfClassificationLabels = numberOfClassificationLabels, dropoutRate = 0.2,
+  numberOfLayers = 4, numberOfFiltersAtBaseLayer = 32 )
+
 load_model_weights_hdf5( unetModel, 
   filepath = paste0( dataDirectory, 'Ventilation/unetModel2DWeights.h5' ) )
 unetModel %>% compile( loss = loss_multilabel_dice_coefficient_error,
@@ -31,7 +32,7 @@ unetModel %>% compile( loss = loss_multilabel_dice_coefficient_error,
   metrics = c( multilabel_dice_coefficient ) )
 
 ventilationImageFiles <- list.files( path = ventilationImageDirectory, 
-  pattern = "*N4Corrected.nii.gz", full.names = TRUE )
+  pattern = "U*N4Corrected.nii.gz", full.names = TRUE, recursive = FALSE )
 
 predictionImageFiles <- list()
 predictionSegmentationFiles <- list()
