@@ -11,7 +11,7 @@ for the proposed approach.
 
 Hyperpolarized MR image acquisition was performed under an Institutional Review
 Board (IRB)-approved protocol with written informed consent obtained from each 
-subject. In addition, all imaging studies \textcolor{blue}{were} performed under Food and Drug 
+subject. In addition, all imaging studies \textcolor{black}{were} performed under Food and Drug 
 Administration (FDA)-approved physician’s Investigational New Drug applications 
 for hyperpolarized gas (either helium-3 or xenon-129). MRI data were acquired 
 on a 1.5 T whole-body MRI scanner (Siemens Sonata, Siemens Medical Solutions, 
