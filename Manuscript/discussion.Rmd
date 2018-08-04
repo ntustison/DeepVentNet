@@ -48,6 +48,17 @@ the U-net approach (right) avoids possible registration difficulties.
 \label{fig:problemCaseProton}
 \end{figure}
 
+\textcolor{blue}{
+The template-based data augmentation strategy follows the generic observation 
+in} [@Wong:2016aa] \textcolor{blue}{where constrained augmentation to plausible
+data instances enhances performance over generic data augmentation.  Although
+we find the presented framework to be generally 
+useful for model training, further enhancements could increase utility.  A template-based
+approach for {\em continuous} sampling of the population shape distribution could provide
+a potentially unlimited source of data for training.  Also, further evaluation needs
+to be conducted to determine the performance bounds of these augmentation strategies
+(not just template-based) for a variety of medical imaging applications.}
+
 Despite these limitations of the proposed framework, there are also limitations 
 of previously reported methods.  For example, in addition to the significant 
 time requirements for JLF of lung images, shown in Figure \ref{fig:problemCaseProton}

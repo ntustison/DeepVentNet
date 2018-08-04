@@ -20,7 +20,7 @@ to outperform other image-based features in discriminating asthmatics vs.
 non-asthmatics [@Tustison:2010aa].  Ventilation defects have also demonstrated 
 discriminative capabilities in chronic obstructive pulmonary disease (COPD) [@Kirby:2014aa]
 and asthma [@Altes:2016aa].
-These findings, along with related research, \textcolor{black}{have} motivated the development of multiple automated (and semi-automated) 
+These findings, along with related research, \textcolor{black}{have} motivated the development of multiple automated and semi-automated
 segmentation algorithms which have been proposed in the literature (e.g., 
 [@Tustison:2011aa;@Kirby:2012aa;@He:2014aa;@Zha:2016aa;@Hughes:2018aa])
 and are currently used in a variety of clinical research investigations 
@@ -37,7 +37,7 @@ image analysis and computer vision, deep learning with convolution neural networ
 has been particularly prominent in recent years due, in large part, to the annual ImageNet Large Scale Visual 
 Recognition Challenge [@Russakovsky:2015aa].
 Specifically, one of the participating groups in the 2012 ImageNet challenge was the earliest 
-adopter of CNNs.  The resulting architecture, colloquially known as "AlexNet" [@AlexNet],
+adopter of CNNs.  The resulting architecture, colloquially known as "AlexNet" [@Krizhevsky:2012],
 surpassed any approach that had been proposed previously and laid the groundwork for
 future CNN-based architectures for image classification such as VGG [@Simonyan:2014] and
 GoogLeNet [@Szegedy:2015].  The recent successes of CNNs are historically rooted in the 

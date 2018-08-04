@@ -14,13 +14,13 @@ for 2-D images, we generalized the work to 3-D implementations where possible.}
 \midrule
 \multicolumn{3}{l}{\textbf{Image segmentation}}
   \vspace{0.25cm} \\ \vspace{0.2cm} 
-  U-net [15] & (2-D) & 
+  U-net [23] & (2-D) &  % Olaf Ronneberger and Philipp Fischer and Thomas Brox
     \begin{minipage}[t]{0.6\columnwidth}%
         Extends fully convolutional neural networks by 
         including an upsampling decoding path with skip connections 
         linking corresponding encoding/decoding layers. %
     \end{minipage} \\ \vspace{0.3cm} 
-  V-net [45] & (3-D) &
+  V-net [49] & (3-D) &  % Sebastien C. Wong and Adam Gatt and Victor Stamatescu and Mark D. McDonnell
     \begin{minipage}[t]{0.6\columnwidth}%
         3-D extension of U-net which incorporates a customized
         Dice loss function. %
@@ -28,32 +28,32 @@ for 2-D images, we generalized the work to 3-D implementations where possible.}
 \midrule
 \multicolumn{3}{l}{\textbf{Image classification}} 
   \vspace{0.25cm} \\ \vspace{0.2cm} 
-  AlexNet [32] & (2-D, 3-D) & 
+  AlexNet [16] & (2-D, 3-D) & % Krizhevsky, Alex and Sutskever, Ilya and Hinton, Geoffrey E.
     \begin{minipage}[t]{0.6\columnwidth}%
         Convolutional neural network that precipitated renewed
         interest in neural networks.
     \end{minipage} \\ \vspace{0.2cm} 
-  VGG16/VGG19 [33] & (2-D, 3-D) & 
+  VGG16/VGG19 [17] & (2-D, 3-D) &    % Karen Simonyan and Andrew Zisserman
     \begin{minipage}[t]{0.6\columnwidth}%
         Also known as 'OxfordNet'.  VGG architectures are much 
         deeper than AlexNet.  Two popular styles are implemented. %
     \end{minipage} \\ \vspace{0.2cm} 
-  GoogLeNet [34] & (2-D) & 
+  GoogLeNet [18] & (2-D) & %  Christian Szegedy and Vincent Vanhoucke and Sergey Ioffe and Jonathon Shlens and Zbigniew Wojna
     \begin{minipage}[t]{0.6\columnwidth}%
         A 22-layer network formed from {\em inception blocks} meant
         to reduce the number of parameters relative to other architectures.
     \end{minipage} \\ \vspace{0.2cm} 
-  ResNet [46]  & (2-D, 3-D) & 
+  ResNet [50]  & (2-D, 3-D) &    % Kaiming He and Xiangyu Zhang and Shaoqing Ren and Jian Sun
     \begin{minipage}[t]{0.6\columnwidth}%
         Characterized by specialized {\em residualized blocks} (and
         skip connections. %
     \end{minipage} \\ \vspace{0.2cm} 
-  ResNeXt [48] & (2-D, 3-D) &
+  ResNeXt [51] & (2-D, 3-D) &  % Saining Xie and Ross B. Girshick and Piotr Doll{\'{a}}r and Zhuowen Tu and Kaiming He
     \begin{minipage}[t]{0.6\columnwidth}%
         A variant of ResNet distinguished by a hyper-parameter called 
         {\em cardinality} defining the number of independent paths. %
     \end{minipage} \\ \vspace{0.3cm} 
-  DenseNet [49] & (2-D, 3-D) & 
+  DenseNet [52] & (2-D, 3-D) & % Gao Huang and Zhuang Liu and Kilian Q. Weinberger
     \begin{minipage}[t]{0.6\columnwidth}%
         Based on the observation that performance is typically enhanced 
         with shorter connections between the layers and the input.%
@@ -61,12 +61,12 @@ for 2-D images, we generalized the work to 3-D implementations where possible.}
 \midrule    
 \multicolumn{3}{l}{\textbf{Object localization}} 
   \vspace{0.25cm} \\ \vspace{0.2cm} 
-  SSD300/SSD512 [50] & (2-D, 3-D) & 
+  SSD300/SSD512 [53] & (2-D, 3-D) & % 
     \begin{minipage}[t]{0.6\columnwidth}%
         The Multibox Single-Shot Detection (SSD) algorithm for
         determining bounding boxes around objects of interest. %
     \end{minipage} \\ \vspace{0.2cm} 
-  SSD7 & (2-D, 3-D) & 
+  SSD7 [54] & (2-D, 3-D) & 
     \begin{minipage}[t]{0.6\columnwidth}%
         Lightweight SSD variant which increases speed by slightly sacrificing
         accuracy.  Training size requirements are smaller. %
@@ -74,7 +74,7 @@ for 2-D images, we generalized the work to 3-D implementations where possible.}
 \midrule    
 \multicolumn{3}{l}{\textbf{Image super-resolution}} 
   \vspace{0.25cm} \\ \vspace{0.2cm} 
-  SRCNN/ESRCNN [51] & (2-D, 3-D) & 
+  SRCNN/ESRCNN [55] & (2-D, 3-D) & %
     \begin{minipage}[t]{0.6\columnwidth}%
         Image super-resolution using CNNs. %
     \end{minipage} \\ 

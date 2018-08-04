@@ -15,22 +15,28 @@ the latter requires significantly less computation time.
 \end{figure}
 
 After constructing the U-net structural model using template-based
-data augmentation\footnote{\textcolor{black}{
+data augmentation\footnote{
 Although the need for data augmentation techniques is well-established within the
 deep learning research community, we performed a smaller 2-D experiment to 
-illustrate the potential gain using template-based data augmentation.  Training
+illustrate the potential gain using template-based data augmentation over 
+\textcolor{blue}{augmentation and augmentation using randomly generated deformable transforms.}
+Training
 data consisted of 50 coronal proton lung MRI with 
 lung segmentations.  Data and scripts are available in the companion repository to
 the ANTsRNet package, called ANTsRNetExamples, which contains examples for
 available architectures.  
-Accuracy, in terms of Dice overlap, achieved with augmentation was
+Accuracy, in terms of Dice overlap, achieved with template-based augmentation was
 left lung: 0.94 $\pm$ 0.02, 
 right lung:  0.92 $\pm$ 0.04, and
 whole lung: 0.93 $\pm$ 0.03.
 Accuracy achieved without augmentation was
 left lung: 0.88 $\pm$ 0.13, 
 right lung:  0.83 $\pm$ 0.21, and
-whole lung: 0.86 $\pm$ 0.16.}
+whole lung: 0.86 $\pm$ 0.16.
+\textcolor{blue}{Accuracy achieved with random deformation augmentation was
+left lung: 0.94 $\pm$ 0.03, 
+right lung:  0.90 $\pm$ 0.06, and
+whole lung: 0.92 $\pm$ 0.04.}
 }, we applied it to the evaluation data consisting
 of the same 62 proton MRI used in [@Tustison:2011aa].  We performed a direct 
 comparison with the joint label fusion (JLF) method of [@Tustison:2011aa] with
@@ -41,7 +47,7 @@ each atlas image and compute a neighborhood cross-correlation similarity metric
 [@Avants:2011ab].  We then select the 10 atlas images that are most similar for
 use in the JLF scheme. The resulting performance numbers (in terms of Dice overlap)
 are similar to what we obtained previously and are given in Figure \ref{fig:diceProton} 
-along with the Dice overlap numbers from the CNN-based approach.  
+along with the Dice overlap numbers from the CNN-based approach.
 \textcolor{black}{Accuracy for the latter was left lung: 0.93 $\pm$ 0.03, right lung:  0.94 $\pm$ 0.02, and
 whole lung: 0.94 $\pm$ 0.02.}  The analagous JLF numbers were slightly more accurate 
 (left lung: 0.95 $\pm$ 0.02, right lung: 0.96 $\pm$ 0.01, whole lung: 0.96 $\pm$ 0.01)
@@ -54,7 +60,7 @@ evaluation image.
 ## Ventilation MRI lung segmentation
 
 We applied the deep learning approach described in the previous section to 
-the evaluation data used in [@Tustison:2011aa].   The resulting probability iamges were converted into a single segmentation
+the evaluation data used in [@Tustison:2011aa].   The resulting probability images were converted into a single segmentation
 image which were then compared with the manual segmentation results and Atropos
 results from our previous work [@Tustison:2011aa].  Note
 that the Otsu thresholding and K-means thresholding were omitted as they were 
@@ -65,8 +71,8 @@ In the absence of ground truth, the STAPLE algorithm [@Warfield:2004aa] was used
 to create a consensus labeling.  The Dice overlap coefficient was used to quantify
 agreement between each of the segmentation raters and the consensus labeling as
 an indicator performance.  The results are shown in Figure \ref{fig:diceVentilation}.
-Mean values ( $\pm$ standard deviation) were as follows (total, normal lung, ventilation
-defect):  
+Mean values ($\pm$ standard deviation) were as follows (total, normal lung, ventilation
+defect):
 Reader 1: 0.89 $\pm$ 0.07, 0.91 $\pm$ 0.06, 0.6 $\pm$ 0.3;
 Reader 2: 0.92 $\pm$ 0.05, 0.94 $\pm$ 0.04, 0.57 $\pm$ 0.3;
 Reader 3: 0.94 $\pm$ 0.03, 0.96 $\pm$ 0.03, 0.63 $\pm$ 0.3; 
