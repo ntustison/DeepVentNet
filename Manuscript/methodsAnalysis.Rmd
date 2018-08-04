@@ -287,12 +287,18 @@ data set size was a result of data pruning to ensure class balance.
 Even though the functional images are processed as 3-D volumes and a 3-D
 ventilation template is created for the template-based data augmentation, the generated 
 U-net model is 2-D.
-This is due to lack of any discernible anatomical signatures available
-for learning \textcolor{blue}{
-especially for functional images obtained from Protocol 2 which have a slice thickness of 15 mm.
-This also makes model generation and prediction much faster.  Previous 
-work from members of our group} [@Cullen:2018aa] \textcolor{blue}{has shown that 2-D CNNs 
-can achieve comparable performance as their 3-D analogs in certain problem domains.}
+\textcolor{blue}{Limiting functional modeling to 2-D was motivated by a couple considerations.  
+In addition to decreased
+training and prediction time for 2-D models over 3-D models, previous 
+work} [@Cullen:2018aa] \textcolor{blue}{has shown that 2-D CNNs 
+can achieve comparable performance as their 3-D analogs in certain problem domains.
+We find 2-D to be sufficient for functional lung imaging as current state-of-the-art methods
+listed in the Introduction (which are capable of outperforming human raters), 
+lack sophisticated shape priors (including 3-D shape modeling).  More practically,
+though, Protocol 2 acquisition has low through-plane resolution (15 mm slice thickness)
+and 2-D modeling permits compatibility across both sets of data.
+}
+
 The basic processing strategy
 is that any ventilation image to be segmented will be processed on a slice-by-slice basis
 where each slice is segmented using the 2-D model.
